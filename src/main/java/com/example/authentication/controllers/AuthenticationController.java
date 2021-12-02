@@ -35,7 +35,8 @@ public class AuthenticationController {
     public Object getToken(@RequestBody SignInDto signInRequest) {
         try {
         final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signInRequest.getUsername(), signInRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(signInRequest.getUsername(),
+                        (signInRequest.getPassword()))
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -56,7 +57,6 @@ public class AuthenticationController {
     @GetMapping(value = "/test", produces = {"application/json"})
     @ResponseBody
     public Object test() {
-
         try{
             ArrayList<String> strings = new ArrayList<>();
             strings.add("1");

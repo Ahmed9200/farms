@@ -15,11 +15,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Bean
-    private PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Autowired
     RestTemplate restTemplate;
 
