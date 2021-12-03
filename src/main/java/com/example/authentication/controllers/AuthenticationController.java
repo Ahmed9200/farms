@@ -30,7 +30,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
 
-    @GetMapping(value = "/getToken", produces = {"application/json"})
+    @PostMapping(value = "/getToken", produces = {"application/json"})
     @ResponseBody
     public Object getToken(@RequestBody SignInDto signInRequest) {
         try {
