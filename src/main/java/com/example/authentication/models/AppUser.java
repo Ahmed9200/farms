@@ -6,6 +6,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class AppUser implements UserDetails{
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 
     private String id;
     private String username;

@@ -34,6 +34,8 @@ public class AuthenticationController {
     @ResponseBody
     public Object getToken(@RequestBody SignInDto signInRequest) {
         try {
+            System.err.println(signInRequest.getUsername());
+            System.err.println(signInRequest.getPassword());
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInRequest.getUsername(),
                         (signInRequest.getPassword()))
@@ -46,6 +48,7 @@ public class AuthenticationController {
         String token = tokenService.generateUserToken(userDetails);
             return new JwtResponse(token,tokenService.getClaims(token).getExpiration());
         } catch (Exception e) {
+            e.printStackTrace();
             Map<Object,Object> res = new HashMap<>();
             res.put("error","authentication faild !! username or password is wrong");
             return res;
