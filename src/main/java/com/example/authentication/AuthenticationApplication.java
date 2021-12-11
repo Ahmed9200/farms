@@ -28,21 +28,21 @@ public class AuthenticationApplication {
         return new RestTemplate(messageConverters);
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-
-                registry.addMapping("/getToken").allowedOrigins("*");
-                registry.addMapping("/isTokenValid/{token}").allowedOrigins("*");
-
-                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*").allowedHeaders("*");
-                registry.addMapping("/**").allowedOrigins("*");
-                registry.addMapping("/**");
-            }
-        };
-    }
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurerAdapter() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//
+//                registry.addMapping("/getToken").allowedOrigins("*");
+//                registry.addMapping("/isTokenValid/{token}").allowedOrigins("*");
+//
+//                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*").allowedHeaders("*");
+//                registry.addMapping("/**").allowedOrigins("*");
+//                registry.addMapping("/**");
+//            }
+//        };
+//    }
 
 
 }

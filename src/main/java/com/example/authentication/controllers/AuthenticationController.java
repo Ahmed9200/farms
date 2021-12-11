@@ -34,6 +34,7 @@ public class AuthenticationController {
     @ResponseBody
     public Object getToken(@RequestBody SignInDto signInRequest) {
         try {
+            signInRequest.setUsername(signInRequest.getUsername().toLowerCase());
             System.err.println(signInRequest.getUsername());
             System.err.println(signInRequest.getPassword());
         final Authentication authentication = authenticationManager.authenticate(
