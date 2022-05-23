@@ -1,5 +1,6 @@
 package com.example.authentication.controllers;
 
+import com.example.authentication.models.AppUser;
 import com.example.authentication.models.JwtResponse;
 import com.example.authentication.models.SignInDto;
 import com.example.authentication.services.TokenService;
@@ -35,8 +36,6 @@ public class AuthenticationController {
     public Object getToken(@RequestBody SignInDto signInRequest) {
         try {
             signInRequest.setUsername(signInRequest.getUsername().toLowerCase());
-            System.err.println(signInRequest.getUsername());
-            System.err.println(signInRequest.getPassword());
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInRequest.getUsername(),
                         (signInRequest.getPassword()))
@@ -44,7 +43,7 @@ public class AuthenticationController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = userService.loadUserByUsername(signInRequest.getUsername());
+        AppUser userDetails = (AppUser) userService.loadUserByUsername(signInRequest.getUsername());
 
         String token = tokenService.generateUserToken(userDetails);
             return new JwtResponse(token,tokenService.getClaims(token).getExpiration());

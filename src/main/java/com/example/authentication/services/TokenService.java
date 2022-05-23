@@ -1,5 +1,6 @@
 package com.example.authentication.services;
 
+import com.example.authentication.models.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,9 +26,11 @@ public class TokenService {
     @Value("${auth.secret}")
     private String TOKEN_SECRET;
 
-    public String generateUserToken(UserDetails userDetails){
+    public String generateUserToken(AppUser userDetails){
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIMS_SUBJECT, userDetails.getUsername());
+        claims.put("userId",userDetails.getId());
+        claims.put("role",userDetails.getRole());
         claims.put(CLAIMS_CREATED, new Date());
 
         return Jwts.builder()

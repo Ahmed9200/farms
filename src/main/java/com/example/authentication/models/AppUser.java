@@ -16,8 +16,9 @@ public class AppUser implements UserDetails{
                 '}';
     }
 
-    private String id;
+    private int id;
     private String username;
+    private String role;
     private String displayName;
     private String password;
 
@@ -37,6 +38,10 @@ public class AppUser implements UserDetails{
     public String getUsername() {
         return username;
     }
+
+    public int getId(){return id;};
+
+    public String getRole(){return role;}
 
     @Override
     public boolean isAccountNonExpired() {
