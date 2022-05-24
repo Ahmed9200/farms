@@ -24,7 +24,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         AppUser user = findByUsername(username);
-        System.err.println("app user :"+user.toString());
         return user;
     }
 

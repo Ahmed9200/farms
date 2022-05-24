@@ -82,8 +82,7 @@ public class AuthenticationController {
     @ResponseBody
     public Object isTokenValid(@PathVariable("token") String token) {
         Map<Object,Object> res = new HashMap<>();
-        res.put("isValid",tokenService.isTokenValid(token));
-        res.put("token",token);
+        res=tokenService.isTokenValid(token);
         try{
             res.put("expirationDate",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                     .format(tokenService.getClaims(token).getExpiration()));

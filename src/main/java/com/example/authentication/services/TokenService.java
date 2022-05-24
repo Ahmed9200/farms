@@ -77,21 +77,34 @@ public class TokenService {
         return claims;
     }
 
-    public UserDetails getUserDetailsFromToken(String token){
+    public AppUser getUserDetailsFromToken(String token){
         try{
             String username = getUserNameFromToken(token);
-            return userService.loadUserByUsername(username);
+            return (AppUser) userService.loadUserByUsername(username);
         }catch (Exception e){
             return null;
         }
     }
 
-    public boolean isTokenValid(String token) {
+    public Map<Object,Object> isTokenValid(String token) {
+        Map<Object,Object> res = new HashMap<>();
         try {
             String username = getUserNameFromToken(token);
-            return (username.equals(getUserDetailsFromToken(token).getUsername()) && !isTokenExpired(token));
+            AppUser user = getUserDetailsFromToken(token);
+            res.put("isValid",(username.equals(user.getUsername())
+                    && !isTokenExpired(token)));
+            res.put("userId",user.getId());
+            res.put("role",user.getRole());
+            res.put("userIsAdmin",user.getRole().equals("10"));
+            res.put("token",token);
+            return res;
         }catch (Exception e){
-            return false;
+            res.put("isValid",false);
+            res.put("userId","0");
+            res.put("role","0");
+            res.put("userIsAdmin",false);
+            res.put("token",token);
+            return res;
         }
     }
 }
