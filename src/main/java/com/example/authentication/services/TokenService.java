@@ -104,6 +104,7 @@ public class TokenService {
             res.put("role","0");
             res.put("userIsAdmin",false);
             res.put("token",token);
+
             return res;
         }
     }
