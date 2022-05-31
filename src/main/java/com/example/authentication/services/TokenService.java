@@ -95,7 +95,7 @@ public class TokenService {
                     && !isTokenExpired(token)));
             res.put("userId",user.getId());
             res.put("role",user.getRole());
-            res.put("userIsAdmin",user.getRole().equals("10"));
+            res.put("userIsAdmin",user.getRole().equals("100"));
             res.put("token",token);
             return res;
         }catch (Exception e){
