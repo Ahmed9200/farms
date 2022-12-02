@@ -1,5 +1,6 @@
 package com.example.authentication.configuration;
 
+import com.example.authentication.DamhaApplication;
 import com.example.authentication.services.TokenService;
 import com.example.authentication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,7 @@ import java.io.IOException;
 @Component
 public class AuthFilter extends OncePerRequestFilter {
 
-    @Value("${auth.header}")
-    private String TOKEN_HEADER;
+    private String TOKEN_HEADER = "Authorization";
 
     @Autowired
     private UserService userService;

@@ -1,11 +1,11 @@
 package com.example.authentication.services;
 
+import com.example.authentication.DamhaApplication;
 import com.example.authentication.models.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +20,15 @@ public class TokenService {
     private final String CLAIMS_SUBJECT = "sub";
     private final String CLAIMS_CREATED = "created";
 
-    @Value("${auth.expiration}")
-    private Long TOKEN_VALIDITY = 604800L;
+    private Long TOKEN_VALIDITY = 604800L ;
 
-    @Value("${auth.secret}")
-    private String TOKEN_SECRET;
+    private String TOKEN_SECRET = "secret123";
 
     public String generateUserToken(AppUser userDetails){
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIMS_SUBJECT, userDetails.getUsername());
         claims.put("userId",userDetails.getId());
-        claims.put("role",userDetails.getRole());
+        claims.put("role",userDetails.getPhone());
         claims.put(CLAIMS_CREATED, new Date());
 
         return Jwts.builder()
@@ -94,15 +92,13 @@ public class TokenService {
             res.put("isValid",(username.equals(user.getUsername())
                     && !isTokenExpired(token)));
             res.put("userId",user.getId());
-            res.put("role",user.getRole());
-            res.put("userIsAdmin",user.getRole().equals("100"));
+            res.put("phone",user.getPhone());
             res.put("token",token);
             return res;
         }catch (Exception e){
             res.put("isValid",false);
             res.put("userId","0");
-            res.put("role","0");
-            res.put("userIsAdmin",false);
+            res.put("phone","");
             res.put("token",token);
 
             return res;

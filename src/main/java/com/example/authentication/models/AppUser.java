@@ -1,25 +1,25 @@
 package com.example.authentication.models;
 
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Setter
 public class AppUser implements UserDetails{
     @Override
     public String toString() {
         return "AppUser{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
-                ", displayName='" + displayName + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
 
     private int id;
     private String username;
-    private String role;
-    private String displayName;
+    private String phone;
     private String password;
 
     public AppUser() {}
@@ -41,7 +41,7 @@ public class AppUser implements UserDetails{
 
     public int getId(){return id;};
 
-    public String getRole(){return role;}
+    public String getPhone(){return phone;}
 
     @Override
     public boolean isAccountNonExpired() {

@@ -1,0 +1,27 @@
+server:
+  port: 8888
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/damha?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&autoReconnect=true
+    username: root
+    password: krm@root
+    tomcat:
+      test-on-borrow: true
+      validation-query: SELECT 1
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+#  security:
+#    user:
+#      password: password
+#security:
+#  oauth2:
+#    resource:
+#      filter-order: 3

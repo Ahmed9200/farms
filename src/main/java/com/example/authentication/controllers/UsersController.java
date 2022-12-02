@@ -1,8 +1,8 @@
 package com.example.authentication.controllers;
 
 import com.example.authentication.models.AppUser;
-import com.example.authentication.models.JwtResponse;
-import com.example.authentication.models.SignInDto;
+import com.example.authentication.responses.userResponses.JwtResponse;
+import com.example.authentication.requests.userRequests.UserSignInDto;
 import com.example.authentication.services.TokenService;
 import com.example.authentication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +10,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class AuthenticationController {
+public class UsersController {
 
     @Autowired
     private TokenService tokenService;
@@ -31,28 +29,30 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
 
-    @PostMapping(value = "/getToken", produces = {"application/json"})
+
+    @PostMapping(value = "/users/login", produces = {"application/json"})
     @ResponseBody
-    public Object getToken(@RequestBody SignInDto signInRequest) {
+    public Object login(@RequestBody UserSignInDto signInRequest) {
+        Map<Object,Object> res = new HashMap<>();
         try {
-            signInRequest.setUsername(signInRequest.getUsername().toLowerCase());
         final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signInRequest.getUsername(),
+                new UsernamePasswordAuthenticationToken(signInRequest.getPhone(),
                         (signInRequest.getPassword()))
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        AppUser userDetails = (AppUser) userService.loadUserByUsername(signInRequest.getUsername());
-
+        AppUser userDetails = (AppUser) userService.loadUserByUsername(signInRequest.getPhone());
         String token = tokenService.generateUserToken(userDetails);
-            return new JwtResponse(token,tokenService.getClaims(token).getExpiration());
+        res.put("token",new JwtResponse(token,tokenService.getClaims(token).getExpiration()));
+        res.put("user",userService.findUserByPhone(userDetails.getPhone()));
+
         } catch (Exception e) {
             e.printStackTrace();
-            Map<Object,Object> res = new HashMap<>();
             res.put("error","authentication faild !! username or password is wrong");
-            return res;
+
         }
+        return res;
     }
 
 
@@ -75,19 +75,5 @@ public class AuthenticationController {
             return e.getMessage();
         }
 
-    }
-
-
-    @GetMapping(value = "/isTokenValid/{token}", produces = {"application/json"})
-    @ResponseBody
-    public Object isTokenValid(@PathVariable("token") String token) {
-        Map<Object,Object> res = new HashMap<>();
-        res=tokenService.isTokenValid(token);
-        try{
-            res.put("expirationDate",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                    .format(tokenService.getClaims(token).getExpiration()));
-        }catch (Exception e){
-        }
-        return res;
     }
 }
