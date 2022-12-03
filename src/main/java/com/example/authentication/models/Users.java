@@ -9,6 +9,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @ToString
@@ -23,10 +25,10 @@ public class Users {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", length = 50, nullable = false, unique = true)
+    @Column(name = "name", length = 50, nullable = true, unique = true)
     private String name;
 
-    @Column(name = "emain", length = 350, unique = true)
+    @Column(name = "email", length = 350, unique = true , nullable = true)
     private String email;
 
     @Column(name = "username", length = 50, nullable = false, unique = true)
@@ -35,8 +37,8 @@ public class Users {
     @Column(name = "password", length = 50, nullable = false)
     private String password;
 
-    @Column(name = "date_of_join")
-    private String dateOfJoin;
+    @Column(name = "date_of_join" , nullable = false)
+    private Date dateOfJoin;
 
 
     @Column(name = "phone", length = 50 , unique = true , nullable = false)
@@ -52,5 +54,27 @@ public class Users {
     @Column(name = "account_status", length = 50, nullable = true)
     private String accountStatus = "active";
 
+
+    public Users (String phone , String password){
+        this.username=phone;
+        this.phone=phone;
+        this.name= phone;
+        this.password=password;
+        this.dateOfJoin=new Date();
+        this.accountStatus="active";
+    }
+
+    public Map<Object,Object> lightUser(Users u){
+        Map<Object,Object> res = new HashMap<>();
+        res.put("id" , u.getId());
+        res.put("name",u.getName());
+        res.put("email",u.getEmail());
+        res.put("accountStatus",u.getAccountStatus());
+        res.put("phone",u.getPhone());
+        res.put("additionalPhone",u.getAdditionalPhone());
+        res.put("photo",u.getPhoto());
+        res.put("dateOfJoin",u.getDateOfJoin());
+        return res;
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.example.authentication.responses.userResponses;
+package com.example.authentication.responses;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

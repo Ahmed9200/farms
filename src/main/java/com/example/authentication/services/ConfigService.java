@@ -1,17 +1,10 @@
 package com.example.authentication.services;
 
 import com.example.authentication.DamhaApplication;
-import com.example.authentication.models.AppUser;
-import com.example.authentication.repositories.ConfigRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.example.authentication.repositories.configRepo.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

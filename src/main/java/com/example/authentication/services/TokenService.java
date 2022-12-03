@@ -94,14 +94,16 @@ public class TokenService {
             res.put("userId",user.getId());
             res.put("phone",user.getPhone());
             res.put("token",token);
-            return res;
+
         }catch (Exception e){
+            e.printStackTrace();
+
             res.put("isValid",false);
             res.put("userId","0");
             res.put("phone","");
             res.put("token",token);
-
-            return res;
         }
+
+        return res;
     }
 }
