@@ -48,7 +48,7 @@ public class ComplaintsService {
             complain = complaintsRepository.save(complain);
 
             //add complain object to result map
-            res.put("complain",complain);
+            res.put("complaint",complain);
 
             //add success status to response map
             res.put("status","success");
@@ -76,7 +76,7 @@ public class ComplaintsService {
             updateLastChangeDateOfComplain(complainMessage.getComplainId());
 
             //add user object to result map
-            res.put("complainMessage",complainMessage);
+            res.put("complaintMessage",complainMessage);
 
             //add success status to response map
             res.put("status","success");
@@ -104,7 +104,7 @@ public class ComplaintsService {
             updateLastChangeDateOfComplain(complainResponse.getComplainId());
 
             //add response object to result map
-            res.put("complainResponse",complainResponse);
+            res.put("complaintResponse",complainResponse);
 
             //add success status to response map
             res.put("status","success");
