@@ -37,7 +37,7 @@ public class Complaints {
     @Column(name = "last_update_date" , nullable = true)
     private String lastUpdateDate;
 
-    @Column(name = "close_date" , nullable = false)
+    @Column(name = "close_date" , nullable = true)
     private String closeDate;
 
     @Column(name = "status", length = 50, nullable = true)

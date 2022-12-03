@@ -165,8 +165,8 @@ public class ComplaintsController {
 
 
 
-    @PostMapping(value = "/updateComplaintsStatusToClose/{complainId}")
-    public Object updateComplaintsStatusToClose(@PathVariable("complainId")int complainId,
+    @PostMapping(value = "/updateComplaintsStatusToClose/{complaintId}")
+    public Object updateComplaintsStatusToClose(@PathVariable("complaintId")int complaintId,
                                                 @RequestHeader("Authorization") String token) {
 
         Map<Object, Object> errorMsg = new HashMap<>();
@@ -182,7 +182,7 @@ public class ComplaintsController {
 
             return errorMsg;
         }
-        return complaintsService.updateStatusToClose(complainId);
+        return complaintsService.updateStatusToClose(complaintId);
     }
 
 

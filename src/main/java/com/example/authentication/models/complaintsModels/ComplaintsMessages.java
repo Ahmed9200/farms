@@ -26,15 +26,15 @@ public class ComplaintsMessages {
     private Integer complainId;
 
     @Lob
-    @Column(name = "complain")
-    private String complain;
+    @Column(name = "complaint")
+    private String complaint;
 
 
     @Column(name = "created_date" , nullable = false)
     private String createdDate;
 
-    public ComplaintsMessages (int complainId , String complain){
-        this.complain = complain;
+    public ComplaintsMessages (int complainId , String complaint){
+        this.complaint = complaint;
         this.complainId = complainId;
         this.createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
