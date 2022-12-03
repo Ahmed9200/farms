@@ -1,5 +1,6 @@
 package com.example.authentication.services;
 
+import com.example.authentication.DamhaApplication;
 import com.example.authentication.models.AppUser;
 import com.example.authentication.models.Users;
 import com.example.authentication.models.complaintsModels.Complaints;
@@ -15,6 +16,7 @@ import com.example.authentication.requests.complaintsRequests.AddComplainRespons
 import com.example.authentication.requests.complaintsRequests.FilterComplaintsByemailLikeRequest;
 import com.example.authentication.requests.userRequests.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -156,10 +158,6 @@ public class ComplaintsService {
     }
 
 
-
-
-
-
     public Object updateStatusToClose(int complainId){
         Map<Object,Object> res = new HashMap<>();
         try{
@@ -239,7 +237,7 @@ public class ComplaintsService {
         try{
 
             //getting all complaints filter by email like then add them to result map
-            Object users = complaintsRepository.getAllComplainsByEmailLikeCount(
+            Object users = complaintsRepository.getAllComplainsByEmailLike(
                     request.getLimit(),
                     request.getOffset(),
                     "%"+request.getEmail()+"%"

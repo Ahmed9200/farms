@@ -37,6 +37,7 @@ ConfigRepository configRepository;
     public boolean reloadConfigs(){
         try {
             DamhaApplication.CONSTANTS_MAP = loadConfigurations();
+            System.err.println(DamhaApplication.CONSTANTS_MAP);
             return true;
         }catch (Exception e){
             e.printStackTrace();

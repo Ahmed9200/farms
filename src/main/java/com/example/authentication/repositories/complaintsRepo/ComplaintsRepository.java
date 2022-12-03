@@ -20,7 +20,7 @@ public interface ComplaintsRepository extends JpaRepository<Complaints, Integer>
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Complaints SET status = 'close' WHERE id=?1 ", nativeQuery = true)
+    @Query(value = "UPDATE Complaints SET status = 'close' , close_date = current_timestamp WHERE id=?1 ", nativeQuery = true)
     void updateStatusToClose(int complainId);
 
 
@@ -55,16 +55,15 @@ public interface ComplaintsRepository extends JpaRepository<Complaints, Integer>
 
 
     @Query(value = "SELECT distinct c.*  " +
-            " FROM Complaints c order by c.last_update_date asc " +
+            " FROM Complaints c  " +
             "where c.email like ?3" +
-            " limit ?1 offset ?2  ", nativeQuery = true)
+            " order by c.last_update_date asc limit ?1 offset ?2  ", nativeQuery = true)
     List<Map<Object,Object>> getAllComplainsByEmailLike(int limit,int offset , String email);
 
     @Query(value = "SELECT count(distinct c.id) " +
             " FROM Complaints c " +
-            " order by c.last_update_date asc " +
             "where c.email like ?3 " +
-            " limit ?1 offset ?2  ", nativeQuery = true)
+            " order by c.last_update_date asc limit ?1 offset ?2  ", nativeQuery = true)
     long getAllComplainsByEmailLikeCount(int limit,int offset , String email);
 
 
