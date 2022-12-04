@@ -86,7 +86,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
     List<Map<Object,Object>> getAllUsersAsc(int limit,int offset , Object status);
 
     @Query(value = "SELECT count(distinct users.id) " +
-            " FROM users where and account_status in (?3) " +
+            " FROM users where account_status in (?3) " +
             " order by date_of_join desc and account_status in (?3) limit ?1 offset ?2  ", nativeQuery = true)
     long getAllUsersAscCount(int limit,int offset , Object status);
 
