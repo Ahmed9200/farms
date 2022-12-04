@@ -87,7 +87,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
     @Query(value = "SELECT count(distinct users.id) " +
             " FROM users where account_status in (?3) " +
-            " order by date_of_join desc and account_status in (?3) limit ?1 offset ?2  ", nativeQuery = true)
+            " order by date_of_join desc  limit ?1 offset ?2  ", nativeQuery = true)
     long getAllUsersAscCount(int limit,int offset , Object status);
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
