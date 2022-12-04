@@ -81,7 +81,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
             ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
-            " FROM users u where and account_status in (?3) order by date_of_join asc " +
+            " FROM users u where account_status in (?3) order by date_of_join asc " +
             " limit ?1 offset ?2  ", nativeQuery = true)
     List<Map<Object,Object>> getAllUsersAsc(int limit,int offset , Object status);
 
