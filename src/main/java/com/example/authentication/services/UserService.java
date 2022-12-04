@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class UserService implements UserDetailsService {
         AppUser appUser = new AppUser();
         try{
             System.err.println(username);
-            Users users =  usersRepository.findByUsername(username);
+            Users users =  usersRepository.findByUsernameAndAccountStatus(username,"active");
             System.err.println(users);
             appUser.setUsername(users.getUsername());
             appUser.setPassword(users.getPassword());
@@ -48,8 +49,9 @@ public class UserService implements UserDetailsService {
     }
 
     public Users findUserByPhone(String phone){
-        return usersRepository.findByPhone(phone);
+        return usersRepository.findByPhoneAndAccountStatus(phone,"active");
     }
+
 
 
     public Object findByPhone(String phone){
@@ -59,6 +61,26 @@ public class UserService implements UserDetailsService {
             //getting user data and transfer it for light user and return it to response map
             Users u = usersRepository.findByPhone(phone);
             res.put("user",u.lightUser(u));
+
+            // adding status success if every thing goes well
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+
+            // adding status error with error cause if any error occur
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+    public Object getUserPhoto(int userId){
+        Map<Object,Object> res = new HashMap<>();
+        try {
+
+            //getting user data and transfer it for light user and return it to response map
+            String userPhoto = usersRepository.userPhoto(userId);
+            res.put("photo",userPhoto);
 
             // adding status success if every thing goes well
             res.put("status","success");
@@ -91,6 +113,8 @@ public class UserService implements UserDetailsService {
         }
         return res;
     }
+
+
 
     private String encryption(String passwordToHash) {
         //String passwordToHash = "password";
@@ -315,6 +339,8 @@ public class UserService implements UserDetailsService {
 
 
 
+
+
     public Object deleteAccount(int userId){
         Map<Object,Object> res = new HashMap<>();
         try{
@@ -385,6 +411,10 @@ public class UserService implements UserDetailsService {
 
 
 
+
+
+
+
     public Object getLatestJoiningUsersCount(){
         Map<Object,Object> res = new HashMap<>();
         try{
@@ -407,16 +437,26 @@ public class UserService implements UserDetailsService {
         Map<Object,Object> res = new HashMap<>();
         try{
 
+            Object status = null;
+
+            if (request.getStatus().equals("all")){
+                ArrayList<String> list = new ArrayList<>();
+                list.add("active");
+                list.add("stop");
+                list.add("delete");
+                status = list;
+            }else status = request.getStatus();
+
             Date sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(request.getStartDate()+" 00:00:01");
             Date eDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(request.getEndDate()+" 12:59:59");
             //getting all users in this range then add them to result map
             Object users = usersRepository.filterUsersByDate(request.getLimit(), request.getOffset(),
-                   sDate,eDate);
+                   sDate,eDate , status);
             res.put("users",users);
 
             //getting count of all users that between this range of date
             long count = usersRepository.filterUsersByDateCount(Integer.MAX_VALUE,0,
-                   sDate,eDate);
+                   sDate,eDate , status);
 
             //add the result to result map
             res.put("count",count);
@@ -451,13 +491,21 @@ public class UserService implements UserDetailsService {
     public Object getAllUsersByPagination(LimitAndOffsetRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
+            Object status = null;
+            if (request.getStatus().equals("all")){
+                ArrayList<String> list = new ArrayList<>();
+                list.add("active");
+                list.add("stop");
+                list.add("delete");
+                status = list;
+            }else status = request.getStatus();
 
             //getting all users then add them to result map
-            Object users = usersRepository.getAllUsersAsc(request.getLimit(), request.getOffset());
+            Object users = usersRepository.getAllUsersAsc(request.getLimit(), request.getOffset() , status);
             res.put("users",users);
 
             //getting count of all users
-            long count = usersRepository.count();
+            long count = usersRepository.getAllUsersAscCount(Integer.MAX_VALUE, 0 , status);
 
             //add the result to result map
             res.put("count",count);
@@ -478,11 +526,21 @@ public class UserService implements UserDetailsService {
         Map<Object,Object> res = new HashMap<>();
         try{
 
+            Object status = null;
+            if (request.getStatus().equals("all")){
+                ArrayList<String> list = new ArrayList<>();
+                list.add("active");
+                list.add("stop");
+                list.add("delete");
+                status = list;
+            }else status = request.getStatus();
+
             //getting all users filter by name like then add them to result map
-            Object users = usersRepository.filterUsersByNameLike(
+            Object users = usersRepository.filterUsersByNameLikeAndStatusIn(
                     request.getLimit(),
                     request.getOffset(),
-                    "%"+request.getName()+"%"
+                    "%"+request.getName()+"%",
+                    status
             );
 
             res.put("users",users);
@@ -491,7 +549,8 @@ public class UserService implements UserDetailsService {
             long count = usersRepository.filterUsersByNameLikeCount(
                     Integer.MAX_VALUE,
                     0,
-                    "%"+request.getName()+"%"
+                    "%"+request.getName()+"%",
+                    status
             );
 
             //add the result to result map

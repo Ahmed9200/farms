@@ -11,4 +11,5 @@ public class FilterUsersByNameLikeRequest {
 
     private String name;
 
+    private String status = "all";
 }

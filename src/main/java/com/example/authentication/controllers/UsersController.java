@@ -296,6 +296,11 @@ public class UsersController {
     }
 
 
+    @GetMapping(value = "/userPhoto/{userId}")
+    public Object userPhoto(@PathVariable("userId") int userId) {
+        return userService.getUserPhoto(userId);
+    }
+
 
 
 

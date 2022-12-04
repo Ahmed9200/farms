@@ -13,15 +13,15 @@ import java.util.Map;
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Integer> {
 
-    Users findByUsernameAndPassword(String username, String PW);
+
+    Users findByPhoneAndAccountStatus(String phone,String accountStatus);
     Users findByPhone(String phone);
-    Users findByUsername(String username);
+    Users findByUsernameAndAccountStatus(String username,String accountStatus);
     Users findById(int id);
-    List<Users> findAllByIdIn(List<Integer> ids);
 
-    @Query(value = "SELECT *  FROM users  WHERE phone like ?1 and password like ?2 ", nativeQuery = true)
-    Map<Object, Object> login(String phone, String PW);
 
+    @Query(value = "SELECT u.photo  FROM users u  WHERE u.id=?1 ;", nativeQuery = true)
+    String userPhoto(int userId);
 
 
     @Modifying
@@ -61,41 +61,40 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE users SET account_status = 'delete' , username= concat('001_',phone) , phone = concat('001_',phone) " +
+    @Query(value = "UPDATE users SET account_status = 'delete' " +
             " WHERE id=?1 ", nativeQuery = true)
     void deleteAccount(int userId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE users SET account_status = 'stop' , username= concat('002_',phone) , phone = concat('002_',phone) " +
+    @Query(value = "UPDATE users SET account_status = 'stop' " +
             " WHERE id=?1 ", nativeQuery = true)
     void stopAccount(int userId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE users SET account_status = 'active' , username=SUBSTRING(phone , 5,length(phone)) " +
-            ", phone = SUBSTRING(phone , 5,length (phone)) " +
+    @Query(value = "UPDATE users SET account_status = 'active' " +
             " WHERE id=?1 ", nativeQuery = true)
     void activeAccount(int userId);
 
 
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
-            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin' , u.photo " +
-            " FROM users u order by date_of_join asc " +
+            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
+            " FROM users u where and account_status in (?3) order by date_of_join asc " +
             " limit ?1 offset ?2  ", nativeQuery = true)
-    List<Map<Object,Object>> getAllUsersAsc(int limit,int offset);
+    List<Map<Object,Object>> getAllUsersAsc(int limit,int offset , Object status);
 
     @Query(value = "SELECT count(distinct users.id) " +
-            " FROM users " +
-            " order by date_of_join asc limit ?1 offset ?2  ", nativeQuery = true)
-    long getAllUsersAscCount(int limit,int offset);
+            " FROM users where and account_status in (?3) " +
+            " order by date_of_join desc and account_status in (?3) limit ?1 offset ?2  ", nativeQuery = true)
+    long getAllUsersAscCount(int limit,int offset , Object status);
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
-            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin' , u.photo " +
+            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
             " FROM users u " +
-            " WHERE (?3 is null or date_of_join >= ?3) limit ?1 offset ?2  ", nativeQuery = true)
-    List<Map<Object,Object>> latestJoinedUsers(int limit,int offset , Object date);
+            " WHERE (?3 is null or date_of_join >= ?3)  and account_status in (?4) limit ?1 offset ?2  ", nativeQuery = true)
+    List<Map<Object,Object>> latestJoinedUsers(int limit,int offset , Object date , Object status);
 
     @Query(value = "SELECT count(distinct users.id) " +
             " FROM users " +
@@ -103,26 +102,26 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
     long latestJoinedUsersCount(int limit,int offset , Object date);
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
-            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin' , u.photo " +
+            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
             " FROM users u " +
-            " WHERE date_of_join between  ?3 and ?4  limit ?1 offset ?2  ", nativeQuery = true)
-    List<Map<Object,Object>> filterUsersByDate(int limit,int offset , Object sDate , Object eDate);
+            " WHERE date_of_join between  ?3 and ?4 and account_status in (?5)  limit ?1 offset ?2  ", nativeQuery = true)
+    List<Map<Object,Object>> filterUsersByDate(int limit,int offset , Object sDate , Object eDate , Object status);
 
     @Query(value = "SELECT count(distinct users.id) " +
             " FROM users " +
-            " WHERE date_of_join between  ?3 and ?4 limit ?1 offset ?2  ", nativeQuery = true)
-    long filterUsersByDateCount(int limit,int offset , Object sDate , Object eDate);
+            " WHERE date_of_join between  ?3 and ?4  and account_status in (?5) limit ?1 offset ?2  ", nativeQuery = true)
+    long filterUsersByDateCount(int limit,int offset , Object sDate , Object eDate , Object status);
 
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
-            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin' , u.photo " +
+            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin' " +
             " FROM users u " +
-            " WHERE name like  ?3   limit ?1 offset ?2  ", nativeQuery = true)
-    List<Map<Object,Object>> filterUsersByNameLike(int limit,int offset , String name );
+            " WHERE name like  ?3 and account_status in (?4)   limit ?1 offset ?2  ", nativeQuery = true)
+    List<Map<Object,Object>> filterUsersByNameLikeAndStatusIn(int limit,int offset , String name , Object status);
 
     @Query(value = "SELECT count(distinct users.id) " +
             " FROM users " +
-            " WHERE name like  ?3  limit ?1 offset ?2  ", nativeQuery = true)
-    long filterUsersByNameLikeCount(int limit,int offset , String name );
+            " WHERE name like  ?3 and account_status in (?4)  limit ?1 offset ?2  ", nativeQuery = true)
+    long filterUsersByNameLikeCount(int limit,int offset , String name , Object status);
 
 }
