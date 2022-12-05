@@ -97,7 +97,11 @@ public class ComplaintsService {
         try{
 
             //create complain response object to add data to it
-            ComplaintsResponses complainResponse = new ComplaintsResponses(request.getComplainId(), request.getResponse() );
+            ComplaintsResponses complainResponse = new ComplaintsResponses(
+                    request.getComplaintMessageId(),
+                    request.getComplainId(),
+                    request.getResponse()
+            );
 
             //save response complianed data in database
             complainResponse = complaintsResponsesRepository.save(complainResponse);
@@ -155,6 +159,27 @@ public class ComplaintsService {
             res.put("error",e.getMessage());
         }
         return res;
+    }
+
+
+
+    @Scheduled(fixedDelay = 24 *60 * 60 * 1000, initialDelay = 1500*60)
+    public void closeComplaintsScheduler(){
+        try{
+            System.err.println(" working scheduler successfully !");
+            //update status of complain to close
+            int x  =0;
+            try{
+                x = Integer.parseInt(DamhaApplication.CONSTANTS_MAP.get("TIME_FOR_CLOSE_COMPLAINTS"));
+            }catch (Exception e){
+                x= 3;
+            }
+
+            complaintsRepository.updateAllComplaintsToCloseIfExceedTheTimeX(x);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

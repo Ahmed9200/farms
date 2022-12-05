@@ -6,4 +6,5 @@ import lombok.Data;
 public class AddComplainResponsesRequest {
     private String response;
     private int complainId;
+    private int complaintMessageId;
 }

@@ -30,6 +30,12 @@ ConfigRepository configRepository;
             System.err.println("there is some configs are missing please check it out !!");
         }
 
+        // putting the important configs if there not exist in first of project load constants
+
+        if (!hashmap.containsKey("TIME_FOR_CLOSE_COMPLAINTS"))
+            hashmap.put("TIME_FOR_CLOSE_COMPLAINTS","3");
+
+
         return hashmap;
     }
 

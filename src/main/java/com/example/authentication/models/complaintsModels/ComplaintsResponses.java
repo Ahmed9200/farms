@@ -25,6 +25,11 @@ public class ComplaintsResponses {
     @Column(name = "complain_id")
     private Integer complainId;
 
+
+    @Column(name = "complaint_message_id")
+    private Integer complaintMessageId;
+
+
     @Lob
     @Column(name = "response")
     private String response;
@@ -35,7 +40,8 @@ public class ComplaintsResponses {
 
 
 
-    public ComplaintsResponses (int complainId , String response){
+    public ComplaintsResponses (int complaintMessageId ,int complainId , String response){
+        this.complaintMessageId = complaintMessageId;
         this.response = response;
         this.complainId = complainId;
         this.createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

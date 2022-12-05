@@ -30,6 +30,13 @@ public interface ComplaintsRepository extends JpaRepository<Complaints, Integer>
     void updateComplainLastUpdateDateByComplainId(int complainId);
 
 
+    @Modifying
+    @Transactional
+    @Query(value = "update complaints c set c.status = 'close' " +
+            "where  date(current_timestamp) >= (c.last_update_date + interval ?1 day); ", nativeQuery = true)
+    void updateAllComplaintsToCloseIfExceedTheTimeX(int x);
+
+
     @Query(value = "SELECT distinct c.*  " +
             " FROM Complaints c order by c.created_date asc " +
             " limit ?1 offset ?2  ", nativeQuery = true)
