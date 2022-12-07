@@ -1,22 +1,10 @@
 package com.example.authentication.controllers;
 
-import com.example.authentication.models.AppUser;
-import com.example.authentication.models.Users;
 import com.example.authentication.requests.LimitAndOffsetRequest;
-import com.example.authentication.requests.complaintsRequests.AddComplainMessagesRequest;
-import com.example.authentication.requests.complaintsRequests.AddComplainRequest;
-import com.example.authentication.requests.complaintsRequests.AddComplainResponsesRequest;
-import com.example.authentication.requests.complaintsRequests.FilterComplaintsByemailLikeRequest;
-import com.example.authentication.requests.userRequests.*;
-import com.example.authentication.responses.JwtResponse;
+import com.example.authentication.requests.complaintsRequests.*;
 import com.example.authentication.services.ComplaintsService;
 import com.example.authentication.services.TokenService;
-import com.example.authentication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -149,16 +137,21 @@ public class ComplaintsController {
 
 
 
-    @GetMapping(value = "/ComplaintsMessages/{complaintId}")
-    public Object ComplaintsMessages(@PathVariable("complaintId") int complaintId) {
-        return complaintsService.getAllComplaintsMessages(complaintId);
+    @PostMapping(value = "/ComplaintsMessages")
+    public Object ComplaintsMessages(@RequestBody ComplaintsRequestPagination req) {
+        return complaintsService.getAllComplaintsMessages(req);
     }
 
-    @GetMapping(value = "/complaintResponses/{complaintId}")
-    public Object complaintResponses(@PathVariable("complaintId") int complaintId) {
-        return complaintsService.getAllComplaintsResponses(complaintId);
+    @PostMapping(value = "/complaintResponsesByCompliantId")
+    public Object complaintResponsesByCompliantId(@RequestBody ComplaintsRequestPagination req) {
+        return complaintsService.getAllComplaintsResponsesByComplainIdOnly(req);
     }
 
+
+    @PostMapping(value = "/complaintResponses")
+    public Object complaintResponses(@RequestBody ComplaintsRequestPagination req) {
+        return complaintsService.getAllComplaintsResponses(req);
+    }
 
 
 

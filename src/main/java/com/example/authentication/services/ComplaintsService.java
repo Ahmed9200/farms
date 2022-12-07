@@ -13,6 +13,7 @@ import com.example.authentication.repositories.usersRepo.UsersRepository;
 import com.example.authentication.requests.LimitAndOffsetRequest;
 import com.example.authentication.requests.complaintsRequests.AddComplainMessagesRequest;
 import com.example.authentication.requests.complaintsRequests.AddComplainResponsesRequest;
+import com.example.authentication.requests.complaintsRequests.ComplaintsRequestPagination;
 import com.example.authentication.requests.complaintsRequests.FilterComplaintsByemailLikeRequest;
 import com.example.authentication.requests.userRequests.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,11 +128,15 @@ public class ComplaintsService {
 
 
 
-    public Object getAllComplaintsMessages(int complainId){
+    public Object getAllComplaintsMessages(ComplaintsRequestPagination req){
         Map<Object,Object> res = new HashMap<>();
         try{
 
-            res.put("complainMessages",complaintsMessagesRepository.findAllByComplainId(complainId));
+            res.put("complainMessages",complaintsMessagesRepository.findAllByComplaintIdWithPagination(
+                    req.getComplaintId(),
+                    req.getLimit(),
+                    req.getOffset()
+            ));
 
             //if any thing goes well add status to success
             res.put("status","success");
@@ -144,11 +149,37 @@ public class ComplaintsService {
         return res;
     }
 
-    public Object getAllComplaintsResponses(int complainId){
+    public Object getAllComplaintsResponsesByComplainIdOnly(ComplaintsRequestPagination req){
         Map<Object,Object> res = new HashMap<>();
         try{
 
-            res.put("complainResponses",complaintsResponsesRepository.findAllByComplainId(complainId));
+            res.put("complainResponses",complaintsResponsesRepository.findAllByComplaintIdWithPagination(
+                    req.getComplaintId(),
+                    req.getLimit(),
+                    req.getOffset()
+            ));
+
+            //if any thing goes well add status to success
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+    public Object getAllComplaintsResponses(ComplaintsRequestPagination req){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            res.put("complainResponses",complaintsResponsesRepository.findAllByComplaintIdAndComplaintMessageIdWithPagination(
+                    req.getComplaintId(),
+                    req.getComplaintMessageId(),
+                    req.getLimit(),
+                    req.getOffset()
+                    ));
 
             //if any thing goes well add status to success
             res.put("status","success");

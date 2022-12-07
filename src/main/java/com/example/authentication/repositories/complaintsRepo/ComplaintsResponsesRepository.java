@@ -12,6 +12,20 @@ import java.util.List;
 public interface ComplaintsResponsesRepository extends JpaRepository<ComplaintsResponses, Integer> {
 
     List<ComplaintsResponses> findAllByComplainId(int complainId);
+    List<ComplaintsResponses> findAllByComplainIdAndComplaintMessageId(int cId , int cMId);
+
+
+
+    @Query(value = "SELECT * from complaints_responses where complain_id =?1  " +
+            " limit ?2 offset ?3  ", nativeQuery = true)
+    List<ComplaintsResponses> findAllByComplaintIdWithPagination(int cId  , int limit,int offset);
+
+
+    @Query(value = "SELECT * from complaints_responses where complain_id =?1 and complaint_message_id = ?2   " +
+            " limit ?3 offset ?4  ", nativeQuery = true)
+    List<ComplaintsResponses> findAllByComplaintIdAndComplaintMessageIdWithPagination(int cId , int cmId , int limit,int offset);
+
+
 
     @Query(value = "SELECT distinct c.*  " +
             " FROM complaints_responses c order by c.created_date asc " +
