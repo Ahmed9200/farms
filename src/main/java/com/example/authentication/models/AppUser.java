@@ -20,6 +20,7 @@ public class AppUser implements UserDetails{
     private int id;
     private String username;
     private String phone;
+    private String email;
     private String password;
 
     public AppUser() {}
@@ -42,6 +43,8 @@ public class AppUser implements UserDetails{
     public int getId(){return id;};
 
     public String getPhone(){return phone;}
+
+    public String getEmail(){return email;}
 
     @Override
     public boolean isAccountNonExpired() {

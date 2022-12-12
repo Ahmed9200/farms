@@ -1,10 +1,13 @@
 package com.example.authentication.services;
 
-import com.example.authentication.controllers.AdminUsersController;
+import com.example.authentication.models.AdminUsers;
 import com.example.authentication.models.AppUser;
 import com.example.authentication.models.Users;
-import com.example.authentication.repositories.usersRepo.UsersRepository;
+import com.example.authentication.repositories.usersRepo.AdminsUsersRepository;
 import com.example.authentication.requests.LimitAndOffsetRequest;
+import com.example.authentication.requests.adminRequests.AdminUserRegisterRequest;
+import com.example.authentication.requests.adminRequests.FilterAdminUsersByEmailLikeRequest;
+import com.example.authentication.requests.adminRequests.UpdateAdminUserPasswordRequest;
 import com.example.authentication.requests.userRequests.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,74 +23,47 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class UserService implements UserDetailsService {
+public class AdminUserService {
 
     @Autowired
-    UsersRepository usersRepository;
+    AdminsUsersRepository adminsUsersRepository;
 
-    @Autowired AdminUserService adminUserService;
-
-    @Override
     public UserDetails loadUserByUsername(String username) {
-        if (AdminUsersController.ADMIN_USER.equals("admin")){
-            return adminUserService.loadUserByUsername(username);
-        }else{
-            return findByUsername(username);
-        }
-
+        return findByUsername(username);
     }
 
-    private AppUser findByUsername(String username){
+    private AppUser findByUsername(String email){
         AppUser appUser = new AppUser();
         try{
-            Users  users =  usersRepository.findByUsernameAndAccountStatus(username,"active");
-
+            AdminUsers users =  adminsUsersRepository.findByEmailAndAccountStatus(email,"active");
+            System.err.println(users);
             appUser.setUsername(users.getUsername());
             appUser.setPassword(users.getPassword());
-            appUser.setPhone(users.getPhone());
+            appUser.setPhone(users.getEmail());
+            appUser.setEmail(users.getEmail());
             appUser.setId(users.getId());
             return appUser;
 
         }catch (Exception e){
-            System.err.println("error in getting user by user name ");
+            System.err.println("error in getting admin by email ");
             e.printStackTrace();
             return null;
         }
     }
 
-    public Users findUserByPhone(String phone){
-        return usersRepository.findByPhoneAndAccountStatus(phone,"active");
+    public AdminUsers findUserByEmail(String email){
+        return adminsUsersRepository.findByEmailAndAccountStatus(email,"active");
     }
 
 
 
-    public Object findByPhone(String phone){
+    public Object findByEmail(String email){
         Map<Object,Object> res = new HashMap<>();
         try {
 
             //getting user data and transfer it for light user and return it to response map
-            Users u = usersRepository.findByPhone(phone);
-            res.put("user",u.lightUser(u));
-
-            // adding status success if every thing goes well
-            res.put("status","success");
-        }catch (Exception e){
-            e.printStackTrace();
-
-            // adding status error with error cause if any error occur
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-    public Object getUserPhoto(int userId){
-        Map<Object,Object> res = new HashMap<>();
-        try {
-
-            //getting user data and transfer it for light user and return it to response map
-            String userPhoto = usersRepository.userPhoto(userId);
-            res.put("photo",userPhoto);
+            AdminUsers u = adminsUsersRepository.findByEmail(email);
+            res.put("user",u.lightAdminUser(u));
 
             // adding status success if every thing goes well
             res.put("status","success");
@@ -106,8 +82,8 @@ public class UserService implements UserDetailsService {
         try {
 
             //getting user data and transfer it for light user and return it to response map
-            Users u = usersRepository.findById(userId);
-            res.put("user",u.lightUser(u));
+            AdminUsers u = adminsUsersRepository.findById(userId);
+            res.put("user",u.lightAdminUser(u));
 
             // adding status success if every thing goes well
             res.put("status","success");
@@ -148,7 +124,7 @@ public class UserService implements UserDetailsService {
     } // funcation
 
 
-    public Map<Object, Object> register(UserRegisterRequest request){
+    public Map<Object, Object> register(AdminUserRegisterRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
 
@@ -157,13 +133,13 @@ public class UserService implements UserDetailsService {
             password = encryption(password);
 
             //create user object to add data to it
-            Users user = new Users(request.getPhone(), password);
+            AdminUsers user = new AdminUsers(request.getEmail(), password);
 
             //save user data in database
-            user = usersRepository.save(user);
+            user = adminsUsersRepository.save(user);
 
             //add user object to result map
-            res.put("user",user.lightUser(user));
+            res.put("user",user.lightAdminUser(user));
 
             //add success status to response map
             res.put("status","success");
@@ -178,15 +154,12 @@ public class UserService implements UserDetailsService {
     }
 
 
-
-
-
-    public Object updatePhone(UpdateUserPhoneRequest request){
+    public Object updateEmailStatus(String userId){
         Map<Object,Object> res = new HashMap<>();
         try{
 
-            //update phone by new one and update username with the new phone
-            usersRepository.updatePhone(request.getPhone(), request.getUserId());
+            //update email by the new email
+            adminsUsersRepository.updateEmailStatus("active", userId);
 
             //add if updated successfully add update status with true
             res.put("updateStatus",true);
@@ -203,78 +176,13 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public Object updateAdditionalPhone(UpdateUserAdditionalPhoneRequest request){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //update additional phone by new one with the new phone
-            usersRepository.updateAdditionalPhone(request.getAdditionalPhone(), request.getUserId());
-
-            //add if updated successfully add update status with true
-            res.put("updateStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("updateStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-    public Object updatePhoto(UpdateUserPhotoRequest request){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //update photo by the new photo
-            usersRepository.updatePhoto(request.getPhoto(), request.getUserId());
-
-            //add if updated successfully add update status with true
-            res.put("updateStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("updateStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-    public Object updateName(UpdateUserNameRequest request){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //update name by the new name
-            usersRepository.updateName(request.getName(), request.getUserId());
-
-            //add if updated successfully add update status with true
-            res.put("updateStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("updateStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
 
     public Object updateEmail(UpdateUserEmailRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
 
             //update email by the new email
-            usersRepository.updateEmail(request.getEmail(), request.getUserId());
+            adminsUsersRepository.updateEmail(request.getEmail(), request.getUserId());
 
             //add if updated successfully add update status with true
             res.put("updateStatus",true);
@@ -300,7 +208,7 @@ public class UserService implements UserDetailsService {
             password= encryption(password);
 
             //update encrypted password by the new password  by user id
-            usersRepository.updateUserPasswordById(request.getUserId(), password);
+            adminsUsersRepository.updateUserPasswordById(request.getUserId(), password);
 
             //add if updated successfully add update status with true
             res.put("updateStatus",true);
@@ -317,7 +225,7 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public Object updatePasswordByPhone(UpdateUserPasswordRequest request){
+    public Object updatePasswordByEmail(UpdateAdminUserPasswordRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
 
@@ -326,7 +234,7 @@ public class UserService implements UserDetailsService {
             password= encryption(password);
 
             //update encrypted password by the new password  by user phone
-            usersRepository.updateUserPasswordByUsername(request.getPhone(), password);
+            adminsUsersRepository.updateUserPasswordByEmail(request.getEmail(), password);
 
             //add if updated successfully add update status with true
             res.put("updateStatus",true);
@@ -353,7 +261,7 @@ public class UserService implements UserDetailsService {
         try{
 
             //delete account by adding for his phone affix 001_ before the number
-            usersRepository.deleteAccount(userId);
+            adminsUsersRepository.deleteAccount(userId);
 
             //add if deleted successfully add delete status with true
             res.put("deleteStatus",true);
@@ -376,7 +284,7 @@ public class UserService implements UserDetailsService {
 
             System.err.println( userId);
             //delete account by adding for his phone affix 002_ before the number
-            usersRepository.stopAccount(userId);
+            adminsUsersRepository.stopAccount(userId);
 
             //add if stopped successfully add stop status with true
             res.put("stopStatus",true);
@@ -398,7 +306,7 @@ public class UserService implements UserDetailsService {
         try{
 
             //delete account by removing for his phone affix 002_ before the number
-            usersRepository.activeAccount(userId);
+            adminsUsersRepository.activeAccount(userId);
 
             //add if active successfully add active status with true
             res.put("activeStatus",true);
@@ -422,12 +330,12 @@ public class UserService implements UserDetailsService {
 
 
 
-    public Object getLatestJoiningUsersCount(){
+    public Object getLatestJoiningAdminUsersCount(){
         Map<Object,Object> res = new HashMap<>();
         try{
             //getting count of users that added today
 
-            res.put("count",usersRepository.latestJoinedUsersCount(Integer.MAX_VALUE,0,
+            res.put("count", adminsUsersRepository.latestJoinedAdminUsersCount(Integer.MAX_VALUE,0,
                     new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
             //if success add the status of response to success
             res.put("status","success");
@@ -440,7 +348,7 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public Object filterUsersByDateBetweenWithPagination(FilterUsersByDateRequest request){
+    public Object filterAdminUsersByDateBetweenWithPagination(FilterUsersByDateRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
 
@@ -457,12 +365,12 @@ public class UserService implements UserDetailsService {
             Date sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(request.getStartDate()+" 00:00:01");
             Date eDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(request.getEndDate()+" 12:59:59");
             //getting all users in this range then add them to result map
-            Object users = usersRepository.filterUsersByDate(request.getLimit(), request.getOffset(),
+            Object users = adminsUsersRepository.filterAdminUsersByDate(request.getLimit(), request.getOffset(),
                    sDate,eDate , status);
             res.put("users",users);
 
             //getting count of all users that between this range of date
-            long count = usersRepository.filterUsersByDateCount(Integer.MAX_VALUE,0,
+            long count = adminsUsersRepository.filterAdminUsersByDateCount(Integer.MAX_VALUE,0,
                    sDate,eDate , status);
 
             //add the result to result map
@@ -479,11 +387,11 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public Object getAllUsersCount(){
+    public Object getAllAdminUsersCount(){
         Map<Object,Object> res = new HashMap<>();
         try{
             //getting count of all users
-            res.put("count",usersRepository.count());
+            res.put("count", adminsUsersRepository.count());
             //if success add the status of response to success
             res.put("status","success");
         }catch (Exception e){
@@ -495,7 +403,7 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public Object getAllUsersByPagination(LimitAndOffsetRequest request){
+    public Object getAllAdminUsersByPagination(LimitAndOffsetRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
             Object status = null;
@@ -508,11 +416,11 @@ public class UserService implements UserDetailsService {
             }else status = request.getStatus();
 
             //getting all users then add them to result map
-            Object users = usersRepository.getAllUsersAsc(request.getLimit(), request.getOffset() , status);
+            Object users = adminsUsersRepository.getAllAdminUsersAsc(request.getLimit(), request.getOffset() , status);
             res.put("users",users);
 
             //getting count of all users
-            long count = usersRepository.getAllUsersAscCount(Integer.MAX_VALUE, 0 , status);
+            long count = adminsUsersRepository.getAllAdminUsersAscCount(Integer.MAX_VALUE, 0 , status);
 
             //add the result to result map
             res.put("count",count);
@@ -529,7 +437,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public Object getAllUsersFilteredByNameLikeByPagination(FilterUsersByNameLikeRequest request){
+    public Object getAllAdminUsersFilteredByEmailLikeByPagination(FilterAdminUsersByEmailLikeRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
 
@@ -543,20 +451,20 @@ public class UserService implements UserDetailsService {
             }else status = request.getStatus();
 
             //getting all users filter by name like then add them to result map
-            Object users = usersRepository.filterUsersByNameLikeAndStatusIn(
+            Object users = adminsUsersRepository.filterAdminUsersByEmailLikeAndStatusIn(
                     request.getLimit(),
                     request.getOffset(),
-                    "%"+request.getName()+"%",
+                    "%"+request.getEmail()+"%",
                     status
             );
 
             res.put("users",users);
 
             //getting count of all users returned when filter by name like
-            long count = usersRepository.filterUsersByNameLikeCount(
+            long count = adminsUsersRepository.filterAdminUsersByEmailLikeCount(
                     Integer.MAX_VALUE,
                     0,
-                    "%"+request.getName()+"%",
+                    "%"+request.getEmail()+"%",
                     status
             );
 
