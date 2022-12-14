@@ -40,6 +40,12 @@ public interface AdminsUsersRepository extends JpaRepository<AdminUsers, Integer
 
     @Modifying
     @Transactional
+    @Query(value = "UPDATE admins SET role = ?1 WHERE id=?2 ", nativeQuery = true)
+    void updateRole(String role, int userId);
+
+
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE admins SET password = ?2 WHERE id=?1 ", nativeQuery = true)
     void updateUserPasswordById(int userId, String password);
 

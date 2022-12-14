@@ -7,6 +7,7 @@ import com.example.authentication.repositories.usersRepo.AdminsUsersRepository;
 import com.example.authentication.requests.LimitAndOffsetRequest;
 import com.example.authentication.requests.adminRequests.AdminUserRegisterRequest;
 import com.example.authentication.requests.adminRequests.FilterAdminUsersByEmailLikeRequest;
+import com.example.authentication.requests.adminRequests.UpdateAdminRoleRequest;
 import com.example.authentication.requests.adminRequests.UpdateAdminUserPasswordRequest;
 import com.example.authentication.requests.userRequests.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,6 +184,28 @@ public class AdminUserService {
 
             //update email by the new email
             adminsUsersRepository.updateEmail(request.getEmail(), request.getUserId());
+
+            //add if updated successfully add update status with true
+            res.put("updateStatus",true);
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("updateStatus",false);
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+    public Object updateRole(UpdateAdminRoleRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //update email by the new email
+            adminsUsersRepository.updateRole(request.getRole(), request.getUserId());
 
             //add if updated successfully add update status with true
             res.put("updateStatus",true);

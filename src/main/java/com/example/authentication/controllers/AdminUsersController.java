@@ -4,10 +4,7 @@ import com.example.authentication.models.AdminUsers;
 import com.example.authentication.models.AppUser;
 import com.example.authentication.models.Users;
 import com.example.authentication.requests.LimitAndOffsetRequest;
-import com.example.authentication.requests.adminRequests.AdminUserRegisterRequest;
-import com.example.authentication.requests.adminRequests.AdminUserSignInDto;
-import com.example.authentication.requests.adminRequests.FilterAdminUsersByEmailLikeRequest;
-import com.example.authentication.requests.adminRequests.UpdateAdminUserPasswordRequest;
+import com.example.authentication.requests.adminRequests.*;
 import com.example.authentication.requests.userRequests.*;
 import com.example.authentication.responses.JwtResponse;
 import com.example.authentication.services.AdminUserService;
@@ -175,6 +172,28 @@ public class AdminUsersController {
         }
         return userService.updateEmail(request);
     }
+
+
+    @PostMapping(value = "/updateRole")
+    public Object updateRole(@RequestBody UpdateAdminRoleRequest request,
+                                    @RequestHeader("Authorization") String token) {
+
+        Map<Object, Object> errorMsg = new HashMap<>();
+
+        //getting token result with this data from the token front sent
+        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
+
+        //check if token valid
+        if (((boolean)tokenRes.get("isValid")==false)) {
+            //if token not valid make error user not authorized and status with error
+            errorMsg.put("status","error");
+            errorMsg.put("error", "USER NOT Authorized , token not valid");
+
+            return errorMsg;
+        }
+        return userService.updateRole(request);
+    }
+
 
 
 
