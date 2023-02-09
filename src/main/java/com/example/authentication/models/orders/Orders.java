@@ -1,5 +1,6 @@
 package com.example.authentication.models.orders;
 
+import com.example.authentication.requests.ordersRequests.AddOrderRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class Orders {
     private String carModel;
 
     @Column(name = "owner_id", nullable = false)
-    private String ownerId;
+    private int ownerId;
 
     @Column(name = "location_lat")
     private String locationLat;
@@ -55,4 +56,15 @@ public class Orders {
     private String description;
 
 
+    public Orders(AddOrderRequest request) {
+        this.carModel = request.getCarModel();
+        this.carType = request.getCarType();
+        this.orderType = request.getOrderType();
+        this.ownerId = request.getOwnerId();
+        this.creationDate = new Date();
+        this.locationLat = request.getLocationLat();
+        this.locationLng = request.getLocationLng();
+        this.orderCurrentStatus = "send-order";
+        this.description = request.getDescription();
+    }
 }

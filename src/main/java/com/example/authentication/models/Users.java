@@ -47,7 +47,8 @@ public class Users {
     @Column(name = "additional_phone", length = 45, nullable = true)
     private String additionalPhone; // new
 
-    @Column(name = "photo", length = 50, nullable = true)
+    @Lob
+    @Column(name = "photo")
     private String photo;
 
 

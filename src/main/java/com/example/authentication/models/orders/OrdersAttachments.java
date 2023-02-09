@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @ToString
@@ -24,17 +25,20 @@ public class OrdersAttachments {
     private int orderId;
 
     @Column(name = "added_by")
-    private String addedBy; // owner id , or da3ma admin
+    private int addedBy; // owner id , or da3ma admin
 
     @Column(name = "order_attachment")
     private String orderAttachment;
 
     @Column(name = "date")
-    private String date;
-
-    @Lob
-    @Column(name = "description")
-    private String description;
+    private Date date;
 
 
+    public OrdersAttachments(String orderAttachment,  int ownerId, int orderId) {
+        this.addedBy = ownerId;
+        this.orderAttachment = orderAttachment;
+        this.orderId = orderId;
+        this.date = new Date();
+
+    }
 }

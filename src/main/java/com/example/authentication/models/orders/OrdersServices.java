@@ -1,11 +1,13 @@
 package com.example.authentication.models.orders;
 
+import com.example.authentication.requests.ordersRequests.AddOrderRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @ToString
@@ -24,7 +26,7 @@ public class OrdersServices {
     private int orderId;
 
     @Column(name = "added_by")
-    private String addedBy; // owner id , or da3ma admin
+    private int addedBy; // owner id , or da3ma admin
 
     @Column(name = "order_service")
     private String orderService;
@@ -33,11 +35,17 @@ public class OrdersServices {
     private String orderServicePrice;
 
     @Column(name = "date")
-    private String date;
-
-    @Lob
-    @Column(name = "description")
-    private String description;
+    private Date date;
 
 
+    public OrdersServices(String orderService ,String orderServicePrice, int orderId , int ownerId) {
+        this.orderId = orderId;
+        this.addedBy = ownerId;
+        this.date = new Date();
+        this.orderService = orderService;
+        this.orderServicePrice = orderServicePrice;
+
+
+
+    }
 }

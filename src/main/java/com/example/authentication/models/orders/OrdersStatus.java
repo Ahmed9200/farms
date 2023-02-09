@@ -28,11 +28,12 @@ public class OrdersStatus {
     private String orderStatus;
 
     @Column(name = "date")
-    private String date;
-
-    @Lob
-    @Column(name = "description")
-    private String description;
+    private Date date;
 
 
+    public OrdersStatus(String orderStatus, int orderId) {
+        this.orderStatus = orderStatus;
+        this.orderId = orderId;
+        this.date = new Date();
+    }
 }

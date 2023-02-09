@@ -420,8 +420,6 @@ public class UserService implements UserDetailsService {
 
 
 
-
-
     public Object getLatestJoiningUsersCount(){
         Map<Object,Object> res = new HashMap<>();
         try{
