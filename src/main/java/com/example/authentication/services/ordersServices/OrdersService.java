@@ -5,10 +5,7 @@ import com.example.authentication.models.Users;
 import com.example.authentication.models.orders.Orders;
 import com.example.authentication.repositories.configRepo.ConfigRepository;
 import com.example.authentication.repositories.ordersRepo.OrdersRepository;
-import com.example.authentication.requests.ordersRequests.AddOrderAttachmentsRequest;
-import com.example.authentication.requests.ordersRequests.AddOrderRequest;
-import com.example.authentication.requests.ordersRequests.AddServicesRequest;
-import com.example.authentication.requests.ordersRequests.AddStatusRequest;
+import com.example.authentication.requests.ordersRequests.*;
 import com.example.authentication.requests.userRequests.UserRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,6 +95,25 @@ StatusService statusService;
         return res;
     }
 
+    public Map<Object, Object> updateOrder(EditOrderRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //first save order main data
+            Orders order = ordersRepository.findById(request.getOrderId()).get();
+            order.setData(request,order);
+            order = ordersRepository.save(order);
+
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error");
+        }
+        return res;
+    }
 
 
 

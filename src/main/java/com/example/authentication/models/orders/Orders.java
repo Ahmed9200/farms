@@ -1,6 +1,7 @@
 package com.example.authentication.models.orders;
 
 import com.example.authentication.requests.ordersRequests.AddOrderRequest;
+import com.example.authentication.requests.ordersRequests.EditOrderRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -66,5 +67,18 @@ public class Orders {
         this.locationLng = request.getLocationLng();
         this.orderCurrentStatus = "send-order";
         this.description = request.getDescription();
+    }
+
+    public void setData(EditOrderRequest request , Orders order) {
+        this.id = request.getOrderId();
+        this.carModel = request.getCarModel();
+        this.carType = request.getCarType();
+        this.locationLat = request.getLocationLat();
+        this.locationLng = request.getLocationLng();
+        this.description = request.getDescription();
+        this.orderCurrentStatus = order.getOrderCurrentStatus();
+        this.creationDate = order.getCreationDate();
+        this.scanDate=order.getScanDate();
+
     }
 }

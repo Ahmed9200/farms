@@ -2,10 +2,7 @@ package com.example.authentication.controllers;
 
 import com.example.authentication.requests.LimitAndOffsetRequest;
 import com.example.authentication.requests.complaintsRequests.*;
-import com.example.authentication.requests.ordersRequests.AddOrderAttachmentsRequest;
-import com.example.authentication.requests.ordersRequests.AddOrderRequest;
-import com.example.authentication.requests.ordersRequests.AddServicesRequest;
-import com.example.authentication.requests.ordersRequests.AddStatusRequest;
+import com.example.authentication.requests.ordersRequests.*;
 import com.example.authentication.services.ComplaintsService;
 import com.example.authentication.services.TokenService;
 import com.example.authentication.services.ordersServices.AttachmentService;
@@ -182,6 +179,41 @@ public class OrdersController {
     }
 
 
+
+
+    @PostMapping(value = "/updateOrder", produces = {"application/json"})
+    @ResponseBody
+    public Object updateOrder(@RequestBody EditOrderRequest request ,
+                           @RequestHeader("Authorization") String token) {
+        Map<Object,Object> res = new HashMap<>();
+        Map<Object, Object> errorMsg = new HashMap<>();
+
+        //getting token result with this data from the token front sent
+        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
+
+        //check if token valid
+        if (((boolean)tokenRes.get("isValid")==false)) {
+            //if token not valid make error user not authorized and status with error
+            errorMsg.put("status","error");
+            errorMsg.put("error", "USER NOT Authorized , token not valid");
+
+            return errorMsg;
+        }
+
+        try {
+
+            res = ordersService.updateOrder(request);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //if any error happen add status and error reason.
+
+            res.put("status","error");
+        }
+
+        return res;
+    }
 
 
 
