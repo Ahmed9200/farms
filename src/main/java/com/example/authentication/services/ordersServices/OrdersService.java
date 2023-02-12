@@ -157,6 +157,24 @@ StatusService statusService;
     }
 
 
+    public Map<Object, Object> deleteOrderById(int id){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //update status
+            ordersRepository.deleteById(id);
+
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error");
+        }
+        return res;
+    }
+
     public Object findAllOrdersPagination(LimitAndOffsetRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
