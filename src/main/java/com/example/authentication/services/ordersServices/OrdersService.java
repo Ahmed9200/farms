@@ -161,8 +161,14 @@ StatusService statusService;
         Map<Object,Object> res = new HashMap<>();
         try{
 
-            //update status
+            //delete order data
             ordersRepository.deleteById(id);
+
+            //delete all attachments of order
+            attachmentService.deleteAttachmentsByOrderId(id);
+
+            //delete all services of order
+            servicesService.deleteServicesByOrderId(id);
 
             //add success status to response map
             res.put("status","success");
