@@ -13,7 +13,7 @@ public interface OrdersAttachmentsRepository extends JpaRepository<OrdersAttachm
 
     @Modifying
     @Transactional
-    @Query(value = "delete * from orders_attachments  " +
+    @Query(value = "delete from orders_attachments  " +
             " WHERE order_id=?1 ", nativeQuery = true)
     void deleteAllByOrderId(int orderId);
 

@@ -48,6 +48,24 @@ OrdersServicesRepository servicesRepository;
 
 
 
+    public Map<Object, Object> deleteServicesByOrderId(int id){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //update status
+            servicesRepository.deleteAllByOrderId(id);
+
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error");
+        }
+        return res;
+    }
+
 
 
 }

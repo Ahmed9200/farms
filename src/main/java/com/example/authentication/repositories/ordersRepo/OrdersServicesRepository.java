@@ -13,7 +13,7 @@ public interface OrdersServicesRepository extends JpaRepository<OrdersServices, 
 
     @Modifying
     @Transactional
-    @Query(value = "delete * from orders_services  " +
+    @Query(value = "delete from orders_services  " +
             " WHERE order_id=?1 ", nativeQuery = true)
     void deleteAllByOrderId(int orderId);
 

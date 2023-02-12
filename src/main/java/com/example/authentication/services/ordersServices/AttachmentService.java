@@ -49,6 +49,25 @@ OrdersAttachmentsRepository attachmentsRepository;
 
 
 
+    public Map<Object, Object> deleteAttachmentsByOrderId(int id){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //update status
+            attachmentsRepository.deleteAllByOrderId(id);
+
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error");
+        }
+        return res;
+    }
+
+
 
 
 }
