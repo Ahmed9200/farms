@@ -5,11 +5,15 @@ import com.example.authentication.models.Users;
 import com.example.authentication.models.orders.Orders;
 import com.example.authentication.repositories.configRepo.ConfigRepository;
 import com.example.authentication.repositories.ordersRepo.OrdersRepository;
+import com.example.authentication.requests.LimitAndOffsetRequest;
+import com.example.authentication.requests.complaintsRequests.ComplaintsRequestPagination;
 import com.example.authentication.requests.ordersRequests.*;
 import com.example.authentication.requests.userRequests.UserRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,5 +121,156 @@ StatusService statusService;
 
 
 
+    public Object findAllOrdersPagination(LimitAndOffsetRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            List<Orders> orders = ordersRepository.findAllOrders(request.getLimit(), request.getOffset());
+            long total = ordersRepository.count();
+
+            res.put("orders",orders);
+            res.put("total",total);
+
+            //if any thing goes well add status to success
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+
+
+    public Object findAllOrdersByCreationDatePagination(DateRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            List<Orders> orders = ordersRepository.filterOrdersByCreationDate(
+                    request.getLimit(),
+                    request.getOffset(),
+                    request.getStartDate(),
+                    request.getEndDate()
+            );
+
+            long total = ordersRepository.filterOrdersByCreationDateCount(
+                    request.getLimit(),
+                    request.getOffset(),
+                    request.getStartDate(),
+                    request.getEndDate()
+            );
+
+            res.put("orders",orders);
+            res.put("total",total);
+
+            //if any thing goes well add status to success
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+
+    public Object findAllOrdersByScanDatePagination(DateRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            List<Orders> orders = ordersRepository.filterOrdersByScanDate(
+                    request.getLimit(),
+                    request.getOffset(),
+                    request.getStartDate(),
+                    request.getEndDate()
+            );
+
+            long total = ordersRepository.filterOrdersByScanDateCount(
+                    request.getLimit(),
+                    request.getOffset(),
+                    request.getStartDate(),
+                    request.getEndDate()
+            );
+
+            res.put("orders",orders);
+            res.put("total",total);
+
+            //if any thing goes well add status to success
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+    public Object findAllOrdersByTypePagination(TypeRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            List<Orders> orders = ordersRepository.filterOrdersByType(
+                    request.getLimit(),
+                    request.getOffset(),
+                    request.getType()
+            );
+
+            long total = ordersRepository.filterOrdersByTypeCount(
+                    request.getLimit(),
+                    request.getOffset(),
+                    request.getType()
+            );
+
+            res.put("orders",orders);
+            res.put("total",total);
+
+            //if any thing goes well add status to success
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+
+    public Object findAllNewOrdersPagination(LimitAndOffsetRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            Date d = new Date();
+            List<Orders> orders = ordersRepository.filterOrdersByCreationDate(
+                    request.getLimit(),
+                    request.getOffset(),
+                    new SimpleDateFormat("yyyy-MM-HH").format(d),
+                    new SimpleDateFormat("yyyy-MM-HH").format(d)
+            );
+
+            long total = ordersRepository.filterOrdersByCreationDateCount(
+                    request.getLimit(),
+                    request.getOffset(),
+                    new SimpleDateFormat("yyyy-MM-HH").format(d),
+                    new SimpleDateFormat("yyyy-MM-HH").format(d)
+            );
+
+            res.put("orders",orders);
+            res.put("total",total);
+
+            //if any thing goes well add status to success
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
 
 }

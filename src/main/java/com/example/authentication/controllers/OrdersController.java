@@ -219,27 +219,35 @@ public class OrdersController {
 
 
 
-//    @PostMapping(value = "/ComplaintsMessages")
-//    public Object ComplaintsMessages(@RequestBody ComplaintsRequestPagination req) {
-//        return complaintsService.getAllComplaintsMessages(req);
-//    }
-//
-//    @PostMapping(value = "/complaintResponsesByCompliantId")
-//    public Object complaintResponsesByCompliantId(@RequestBody ComplaintsRequestPagination req) {
-//        return complaintsService.getAllComplaintsResponsesByComplainIdOnly(req);
-//    }
-//
-//
-//    @PostMapping(value = "/complaintResponses")
-//    public Object complaintResponses(@RequestBody ComplaintsRequestPagination req) {
-//        return complaintsService.getAllComplaintsResponses(req);
-//    }
-//
-//
-//
-//
-//
-//
+    @PostMapping(value = "/orders")
+    public Object orders(@RequestBody LimitAndOffsetRequest req) {
+        return ordersService.findAllOrdersPagination(req);
+    }
+
+    @PostMapping(value = "/ordersByCreationDate")
+    public Object ordersByCreationDate(@RequestBody DateRequest req) {
+        return ordersService.findAllOrdersByCreationDatePagination(req);
+    }
+
+
+    @PostMapping(value = "/ordersByScanDate")
+    public Object ordersByScanDate(@RequestBody DateRequest req) {
+        return ordersService.findAllOrdersByScanDatePagination(req);
+    }
+
+
+    @PostMapping(value = "/ordersByType")
+    public Object ordersByType(@RequestBody TypeRequest req) {
+        return ordersService.findAllOrdersByTypePagination(req);
+    }
+
+
+    @PostMapping(value = "/newOrders")
+    public Object newOrders(@RequestBody LimitAndOffsetRequest req) {
+        return ordersService.findAllNewOrdersPagination(req);
+    }
+
+
 //    @PostMapping(value = "/updateComplaintsStatusToClose/{complaintId}")
 //    public Object updateComplaintsStatusToClose(@PathVariable("complaintId")int complaintId,
 //                                                @RequestHeader("Authorization") String token) {
@@ -259,28 +267,7 @@ public class OrdersController {
 //        }
 //        return complaintsService.updateStatusToClose(complaintId);
 //    }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//    @PostMapping(value = "/filterComplaintByEmailLike")
-//    public Object filterComplaintByEmailLike(@RequestBody FilterComplaintsByemailLikeRequest request) {
-//
-//        return complaintsService.getAllUsersFilteredByUserEmailByPagination(request);
-//    }
-//
-//
-//    @PostMapping(value = "/allComplaints")
-//    public Object allComplaints(@RequestBody LimitAndOffsetRequest request) {
-//
-//        return complaintsService.getAllComplaintsByCreatedDateByPagination(request);
-//    }
-//
+
 
 
 }
