@@ -119,6 +119,42 @@ StatusService statusService;
         return res;
     }
 
+    public Map<Object, Object> updateScanDate(UpdateScanDateRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //update scan date
+            ordersRepository.updateScanDate(request.getOrderId(), request.getScanDate());
+
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error");
+        }
+        return res;
+    }
+
+
+    public Map<Object, Object> updateCurrentStatus(String status , int orderId){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //update status
+            ordersRepository.updateCurrentStatus(orderId, status);
+
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error");
+        }
+        return res;
+    }
 
 
     public Object findAllOrdersPagination(LimitAndOffsetRequest request){

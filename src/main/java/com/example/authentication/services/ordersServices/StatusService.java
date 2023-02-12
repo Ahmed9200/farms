@@ -20,6 +20,9 @@ public class StatusService {
 @Autowired
 OrdersStatusRepository statusRepository;
 
+@Autowired
+OrdersRepository ordersRepository;
+
 
 
 
@@ -29,7 +32,9 @@ OrdersStatusRepository statusRepository;
 
                 OrdersStatus status = new OrdersStatus(request.getStatus(), request.getOrderId());
                 statusRepository.save(status);
+                // update current status of order
 
+            ordersRepository.updateCurrentStatus(request.getOrderId(), request.getStatus());
 
             //add success status to response map
             res.put("status","success");

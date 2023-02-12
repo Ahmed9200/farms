@@ -216,6 +216,40 @@ public class OrdersController {
     }
 
 
+    @PostMapping(value = "/updateScanDateOfOrder", produces = {"application/json"})
+    @ResponseBody
+    public Object updateScanDateOfOrder(@RequestBody UpdateScanDateRequest request ,
+                              @RequestHeader("Authorization") String token) {
+        Map<Object,Object> res = new HashMap<>();
+        Map<Object, Object> errorMsg = new HashMap<>();
+
+        //getting token result with this data from the token front sent
+        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
+
+        //check if token valid
+        if (((boolean)tokenRes.get("isValid")==false)) {
+            //if token not valid make error user not authorized and status with error
+            errorMsg.put("status","error");
+            errorMsg.put("error", "USER NOT Authorized , token not valid");
+
+            return errorMsg;
+        }
+
+        try {
+
+            res = ordersService.updateScanDate(request);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //if any error happen add status and error reason.
+
+            res.put("status","error");
+        }
+
+        return res;
+    }
+
 
 
 

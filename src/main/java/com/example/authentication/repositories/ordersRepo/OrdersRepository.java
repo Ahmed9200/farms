@@ -2,8 +2,10 @@ package com.example.authentication.repositories.ordersRepo;
 
 import com.example.authentication.models.orders.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,20 @@ import java.util.Map;
 public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
 
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE orders SET order_current_status = ?2 " +
+            " WHERE id=?1 ", nativeQuery = true)
+    void updateCurrentStatus(int orderId , String status);
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE orders SET scan_date = ?2 " +
+            " WHERE id=?1 ", nativeQuery = true)
+    void updateScanDate(int orderId , String scanDate);
 
 
 
