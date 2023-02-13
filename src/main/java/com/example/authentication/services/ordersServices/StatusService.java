@@ -48,5 +48,21 @@ OrdersRepository ordersRepository;
     }
 
 
+    public Object orderTimeline(int id) {
+        Map<Object,Object> res = new HashMap<>();
+        try{
 
+            List<OrdersStatus> timeline = statusRepository.orderTimeLine(id);
+
+            //add success status to response map
+            res.put("status","success");
+            res.put("timeline",timeline);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error");
+        }
+        return res;
+    }
 }

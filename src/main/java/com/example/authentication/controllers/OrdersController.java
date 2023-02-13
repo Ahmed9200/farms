@@ -388,26 +388,10 @@ public class OrdersController {
         return ordersService.findAllNewOrdersPagination(req);
     }
 
-
-//    @PostMapping(value = "/updateComplaintsStatusToClose/{complaintId}")
-//    public Object updateComplaintsStatusToClose(@PathVariable("complaintId")int complaintId,
-//                                                @RequestHeader("Authorization") String token) {
-//
-//        Map<Object, Object> errorMsg = new HashMap<>();
-//
-//        //getting token result with this data from the token front sent
-//        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
-//
-//        //check if token valid
-//        if (((boolean)tokenRes.get("isValid")==false)) {
-//            //if token not valid make error user not authorized and status with error
-//            errorMsg.put("status","error");
-//            errorMsg.put("error", "USER NOT Authorized , token not valid");
-//
-//            return errorMsg;
-//        }
-//        return complaintsService.updateStatusToClose(complaintId);
-//    }
+    @GetMapping(value = "/orderTimeline/{id}")
+    public Object orderTimeline(@PathVariable("id") int id) {
+        return statusService.orderTimeline(id);
+    }
 
 
 

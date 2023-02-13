@@ -44,8 +44,8 @@ public interface ComplaintsRepository extends JpaRepository<Complaints, Integer>
 
     @Query(value = "SELECT count(distinct c.id) " +
             " FROM Complaints c " +
-            " order by c.created_date asc limit ?1 offset ?2  ", nativeQuery = true)
-    long getAllComplainsByCreatedAscAscCount(int limit,int offset);
+            " order by c.created_date asc  ", nativeQuery = true)
+    long getAllComplainsByCreatedAscAscCount();
 
 
 
