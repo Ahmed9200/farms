@@ -5,10 +5,7 @@ import com.example.authentication.requests.complaintsRequests.*;
 import com.example.authentication.requests.ordersRequests.*;
 import com.example.authentication.services.ComplaintsService;
 import com.example.authentication.services.TokenService;
-import com.example.authentication.services.ordersServices.AttachmentService;
-import com.example.authentication.services.ordersServices.OrdersService;
-import com.example.authentication.services.ordersServices.ServicesService;
-import com.example.authentication.services.ordersServices.StatusService;
+import com.example.authentication.services.ordersServices.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +32,13 @@ public class OrdersController {
     @Autowired
     private StatusService statusService;
 
-
+    @Autowired
+    private ReportsService reportsService;
 
 
     @PostMapping(value = "/saveOrder", produces = {"application/json"})
     @ResponseBody
-    public Object addComplaint(@RequestBody AddOrderRequest request ,
+    public Object saveOrder(@RequestBody AddOrderRequest request ,
                            @RequestHeader("Authorization") String token) {
         Map<Object,Object> res = new HashMap<>();
         Map<Object, Object> errorMsg = new HashMap<>();
@@ -76,7 +74,7 @@ public class OrdersController {
 
     @PostMapping(value = "/saveAttachments", produces = {"application/json"})
     @ResponseBody
-    public Object addComplaintMessage(@RequestBody AddOrderAttachmentsRequest request ,
+    public Object saveAttachments(@RequestBody AddOrderAttachmentsRequest request ,
                            @RequestHeader("Authorization") String token) {
         Map<Object,Object> res = new HashMap<>();
         Map<Object, Object> errorMsg = new HashMap<>();
@@ -111,7 +109,7 @@ public class OrdersController {
 
     @PostMapping(value = "/saveServices", produces = {"application/json"})
     @ResponseBody
-    public Object register(@RequestBody AddServicesRequest request ,
+    public Object saveServices(@RequestBody AddServicesRequest request ,
                            @RequestHeader("Authorization") String token) {
         Map<Object,Object> res = new HashMap<>();
         Map<Object, Object> errorMsg = new HashMap<>();
@@ -147,7 +145,7 @@ public class OrdersController {
 
     @PostMapping(value = "/saveStatus", produces = {"application/json"})
     @ResponseBody
-    public Object register(@RequestBody AddStatusRequest request ,
+    public Object saveStatus(@RequestBody AddStatusRequest request ,
                            @RequestHeader("Authorization") String token) {
         Map<Object,Object> res = new HashMap<>();
         Map<Object, Object> errorMsg = new HashMap<>();
@@ -179,6 +177,41 @@ public class OrdersController {
         return res;
     }
 
+
+
+    @PostMapping(value = "/saveReport", produces = {"application/json"})
+    @ResponseBody
+    public Object saveReport(@RequestBody AddReportRequest request ,
+                           @RequestHeader("Authorization") String token) {
+        Map<Object,Object> res = new HashMap<>();
+        Map<Object, Object> errorMsg = new HashMap<>();
+
+        //getting token result with this data from the token front sent
+        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
+
+        //check if token valid
+        if (((boolean)tokenRes.get("isValid")==false)) {
+            //if token not valid make error user not authorized and status with error
+            errorMsg.put("status","error");
+            errorMsg.put("error", "USER NOT Authorized , token not valid");
+
+            return errorMsg;
+        }
+
+        try {
+
+            res = reportsService.save(request);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //if any error happen add status and error reason.
+
+            res.put("status","error");
+        }
+
+        return res;
+    }
 
 
 
@@ -215,6 +248,42 @@ public class OrdersController {
 
         return res;
     }
+
+
+    @PostMapping(value = "/updateReport", produces = {"application/json"})
+    @ResponseBody
+    public Object updateReport(@RequestBody UpdateReportRequest request ,
+                              @RequestHeader("Authorization") String token) {
+        Map<Object,Object> res = new HashMap<>();
+        Map<Object, Object> errorMsg = new HashMap<>();
+
+        //getting token result with this data from the token front sent
+        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
+
+        //check if token valid
+        if (((boolean)tokenRes.get("isValid")==false)) {
+            //if token not valid make error user not authorized and status with error
+            errorMsg.put("status","error");
+            errorMsg.put("error", "USER NOT Authorized , token not valid");
+
+            return errorMsg;
+        }
+
+        try {
+
+            res = reportsService.updateReport(request);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //if any error happen add status and error reason.
+
+            res.put("status","error");
+        }
+
+        return res;
+    }
+
 
 
     @PostMapping(value = "/updateScanDateOfOrder", produces = {"application/json"})
@@ -393,6 +462,11 @@ public class OrdersController {
         return statusService.orderTimeline(id);
     }
 
+
+    @GetMapping(value = "/orderReport/{orderId}")
+    public Object orderReport(@PathVariable("orderId") int id) {
+        return reportsService.findOrderReport(id);
+    }
 
 
 }
