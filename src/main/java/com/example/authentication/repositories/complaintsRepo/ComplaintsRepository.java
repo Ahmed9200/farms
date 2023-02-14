@@ -20,13 +20,13 @@ public interface ComplaintsRepository extends JpaRepository<Complaints, Integer>
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Complaints SET status = 'close' , close_date = current_timestamp WHERE id=?1 ", nativeQuery = true)
+    @Query(value = "UPDATE complaints SET status = 'close' , close_date = current_timestamp WHERE id=?1 ", nativeQuery = true)
     void updateStatusToClose(int complainId);
 
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Complaints SET last_update_date = current_timestamp WHERE id=?1 ", nativeQuery = true)
+    @Query(value = "UPDATE complaints SET last_update_date = current_timestamp WHERE id=?1 ", nativeQuery = true)
     void updateComplainLastUpdateDateByComplainId(int complainId);
 
 
@@ -38,37 +38,37 @@ public interface ComplaintsRepository extends JpaRepository<Complaints, Integer>
 
 
     @Query(value = "SELECT distinct c.*  " +
-            " FROM Complaints c order by c.created_date asc " +
+            " FROM complaints c order by c.created_date asc " +
             " limit ?1 offset ?2  ", nativeQuery = true)
     List<Map<Object,Object>> getAllComplainsByCreatedAsc(int limit,int offset);
 
     @Query(value = "SELECT count(distinct c.id) " +
-            " FROM Complaints c " +
+            " FROM complaints c " +
             " order by c.created_date asc  ", nativeQuery = true)
     long getAllComplainsByCreatedAscAscCount();
 
 
 
     @Query(value = "SELECT distinct c.*  " +
-            " FROM Complaints c order by c.last_update_date asc " +
+            " FROM complaints c order by c.last_update_date asc " +
             " limit ?1 offset ?2  ", nativeQuery = true)
     List<Map<Object,Object>> getAllComplainsByLastUpdateDateAsc(int limit,int offset);
 
     @Query(value = "SELECT count(distinct c.id) " +
-            " FROM Complaints c " +
+            " FROM complaints c " +
             " order by c.last_update_date asc limit ?1 offset ?2  ", nativeQuery = true)
     long getAllComplainsByLastUpdateDateAscCount(int limit,int offset);
 
 
 
     @Query(value = "SELECT distinct c.*  " +
-            " FROM Complaints c  " +
+            " FROM complaints c  " +
             "where c.email like ?3" +
             " order by c.last_update_date asc limit ?1 offset ?2  ", nativeQuery = true)
     List<Map<Object,Object>> getAllComplainsByEmailLike(int limit,int offset , String email);
 
     @Query(value = "SELECT count(distinct c.id) " +
-            " FROM Complaints c " +
+            " FROM complaints c " +
             "where c.email like ?3 " +
             " order by c.last_update_date asc limit ?1 offset ?2  ", nativeQuery = true)
     long getAllComplainsByEmailLikeCount(int limit,int offset , String email);
