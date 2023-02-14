@@ -47,6 +47,7 @@ StatusService statusService;
 
             //add success status to response map
             res.put("status","success");
+            res.put("report",reports);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -70,6 +71,7 @@ StatusService statusService;
 
             //add success status to response map
             res.put("status","success");
+            res.put("report",order);
 
         }catch (Exception e){
             e.printStackTrace();
