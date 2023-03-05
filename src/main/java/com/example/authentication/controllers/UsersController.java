@@ -282,6 +282,11 @@ public class UsersController {
     }
 
 
+    @PostMapping(value = "/changePW")
+    public Object changePW(@RequestBody UpdateUserPasswordRequest request) {
+        return userService.updatePasswordByPhone(request);
+    }
+
 
 
 
