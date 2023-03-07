@@ -6,6 +6,8 @@ import com.example.authentication.models.Users;
 import com.example.authentication.repositories.usersRepo.UsersRepository;
 import com.example.authentication.requests.LimitAndOffsetRequest;
 import com.example.authentication.requests.userRequests.*;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -121,6 +123,58 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
+    public String createRandomPW(){
+
+        try{
+            String ALPHA_NUMERIC_STRING = "0123456789";
+
+            StringBuilder builder = new StringBuilder();
+            int count = 4;
+            while (count-- != 0) {
+                int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+                builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+            }
+            return builder.toString();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Object sendOTP(String phone){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+            String ACCOUNT_SID = "ACd8d26f4dd0be94a2e6daab3906b8f27c";
+            String AUTH_TOKEN = "3fad1ed6d98c187c094632026b40ac6a";
+            //create random number
+            String randomOTP= createRandomPW();
+
+            String msg = "your code is : "+randomOTP;
+            //send an otp by twillio
+            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+            Message message = Message.creator(
+                            new com.twilio.type.PhoneNumber(phone),
+                            "MG8266e3875b087e0ff81fd4dfd50c8f40",
+                            msg)
+                    .create();
+
+            System.out.println(message.getSid());
+
+            //add if sent successfully add update status with true
+            res.put("otp",randomOTP);
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("otp","false");
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
 
 
     private String encryption(String passwordToHash) {
@@ -146,7 +200,6 @@ public class UserService implements UserDetailsService {
         }
         return generatedPassword;
     } // funcation
-
 
     public Map<Object, Object> register(UserRegisterRequest request){
         Map<Object,Object> res = new HashMap<>();
@@ -176,10 +229,6 @@ public class UserService implements UserDetailsService {
         }
         return res;
     }
-
-
-
-
 
     public Object updatePhone(UpdateUserPhoneRequest request){
         Map<Object,Object> res = new HashMap<>();

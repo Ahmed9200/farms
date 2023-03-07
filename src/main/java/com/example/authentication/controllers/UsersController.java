@@ -288,7 +288,10 @@ public class UsersController {
     }
 
 
-
+    @GetMapping(value = "/sendOTP/{phone}")
+    public Object sendOTP(@PathVariable("phone") String phone) {
+        return userService.sendOTP(phone);
+    }
 
 
     @GetMapping(value = "/findUserById/{userId}")
