@@ -469,4 +469,10 @@ public class OrdersController {
     }
 
 
+    @GetMapping(value = "/orderDetails/{orderId}")
+    public Object orderDetails(@PathVariable("orderId") int id) {
+        return ordersService.orderDetails(id);
+    }
+
+
 }

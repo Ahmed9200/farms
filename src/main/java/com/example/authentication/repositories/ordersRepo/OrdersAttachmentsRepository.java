@@ -8,8 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface OrdersAttachmentsRepository extends JpaRepository<OrdersAttachments, Integer> {
+
+    List<OrdersAttachments> findAllByOrderId(int orderId);
 
     @Modifying
     @Transactional
