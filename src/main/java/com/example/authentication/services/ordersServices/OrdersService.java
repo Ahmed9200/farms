@@ -19,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrdersService {
@@ -374,6 +371,110 @@ public class OrdersService {
 
             //if any thing goes well add status to success
             res.put("orderDetails",orderDetails);
+            res.put("status", "success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status", "error");
+            res.put("error", e.getMessage());
+        }
+        return res;
+    }
+
+    public Object filterOrders(FilterOrdersRequest req) {
+        Map<Object, Object> res = new HashMap<>();
+        try {
+
+            List<Map<Object,Object>> result = new ArrayList<>();
+        //check order by
+            if (req.isOrderByCreationDate()){
+                if (req.isAsc()){
+                    result = ordersRepository.filterOrdersOrderByCreationASC(
+                            req.getType().isEmpty()?null :req.getType(),
+                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getOrderId() == 0 ? null : req.getOrderId(),
+                            req.getPhone().isEmpty()?null: req.getPhone(),
+                            req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
+                            req.getCreationDateEnd(),
+                            req.getLimit(),
+                            req.getOffset()
+                    );
+                    System.out.println("order by creation date asc");
+                }else{
+                    result = ordersRepository.filterOrdersOrderByCreationDESC(
+                            req.getType().isEmpty()?null :req.getType(),
+                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getOrderId() == 0 ? null : req.getOrderId(),
+                            req.getPhone().isEmpty()?null: req.getPhone(),
+                            req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
+                            req.getCreationDateEnd(),
+                            req.getLimit(),
+                            req.getOffset()
+                    );
+                    System.out.println("order by creation date desc");
+                }
+            }
+
+
+            if (req.isOrderByScanDate()){
+                if (req.isAsc()){
+                    result = ordersRepository.filterOrdersOrderByScanDateASC(
+                            req.getType().isEmpty()?null :req.getType(),
+                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getOrderId() == 0 ? null : req.getOrderId(),
+                            req.getPhone().isEmpty()?null: req.getPhone(),
+                            req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
+                            req.getCreationDateEnd(),
+                            req.getLimit(),
+                            req.getOffset()
+                    );
+                    System.out.println("order by scan date asc");
+                }else{
+                    result = ordersRepository.filterOrdersOrderByScanDateDESC(
+                            req.getType().isEmpty()?null :req.getType(),
+                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getOrderId() == 0 ? null : req.getOrderId(),
+                            req.getPhone().isEmpty()?null: req.getPhone(),
+                            req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
+                            req.getCreationDateEnd(),
+                            req.getLimit(),
+                            req.getOffset()
+                    );
+                    System.out.println("order by scan date desc");
+                }
+            }
+
+            // if there is no order by call no order by select
+
+            if (!req.isOrderByScanDate()&& !req.isOrderByCreationDate()){
+                result = ordersRepository.filterOrders(
+                        req.getType().isEmpty()?null :req.getType(),
+                        req.getStatus().isEmpty()?null:req.getStatus(),
+                        req.getOrderId() == 0 ? null : req.getOrderId(),
+                        req.getPhone().isEmpty()?null: req.getPhone(),
+                        req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
+                        req.getCreationDateEnd(),
+                        req.getLimit(),
+                        req.getOffset()
+                );
+                System.out.println("filter without order by");
+            }
+
+
+
+            // getting total of result
+            long total = ordersRepository.filterOrdersCount(
+                    req.getType().isEmpty()?null :req.getType(),
+                    req.getStatus().isEmpty()?null:req.getStatus(),
+                    req.getOrderId() == 0 ? null : req.getOrderId(),
+                    req.getPhone().isEmpty()?null: req.getPhone(),
+                    req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
+                    req.getCreationDateEnd()
+            );
+
+            //if any thing goes well add status to success
+            res.put("result", result);
+            res.put("total",total);
             res.put("status", "success");
         } catch (Exception e) {
             e.printStackTrace();

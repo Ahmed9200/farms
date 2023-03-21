@@ -474,5 +474,9 @@ public class OrdersController {
         return ordersService.orderDetails(id);
     }
 
+    @PostMapping(value = "/filterOrders")
+    public Object filterOrders(@RequestBody FilterOrdersRequest req) {
+        return ordersService.filterOrders(req);
+    }
 
 }
