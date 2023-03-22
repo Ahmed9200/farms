@@ -11,11 +11,11 @@ public class FilterOrdersRequest {
     private boolean asc = false;
     private boolean desc = false;
 
-    private String type;
-    private String status;
-    private String phone;
-    private String creationDateStart;
-    private String creationDateEnd;
+    private String type = "";
+    private String status= "";
+    private String phone= "";
+    private String creationDateStart= "";
+    private String creationDateEnd= "";
 
-    private int orderId;
+    private int orderId=0;
 }
