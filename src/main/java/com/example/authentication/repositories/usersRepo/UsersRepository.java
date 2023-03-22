@@ -77,7 +77,10 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
             " WHERE id=?1 ", nativeQuery = true)
     void activeAccount(int userId);
 
-
+    @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
+            ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
+            " FROM users u where id = ?1  " , nativeQuery = true)
+    Users lightUser(int id);
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
             ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +

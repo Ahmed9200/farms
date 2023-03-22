@@ -361,7 +361,7 @@ public class OrdersService {
             Orders order = ordersRepository.findById(id).get();
             List<OrdersServices> service = servicesRepository.findAllByOrderId(id);
             List<OrdersAttachments> attachments = attachmentsRepository.findAllByOrderId(id);
-            Users user = usersRepository.findById(order.getOwnerId());
+            Users user = usersRepository.lightUser(order.getOwnerId());
 
             Map<Object,Object> orderDetails = new HashMap<>();
             orderDetails.put("order",order);
