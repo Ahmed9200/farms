@@ -65,6 +65,7 @@ public class OrdersService {
             Orders order = new Orders(request);
             order = ordersRepository.save(order);
 
+            res.put("orderId",order.getId());
             //adding services for order
             AddServicesRequest servicesRequest = new AddServicesRequest(
                     request.getOrderServices(),
@@ -361,7 +362,7 @@ public class OrdersService {
             Orders order = ordersRepository.findById(id).get();
             List<OrdersServices> service = servicesRepository.findAllByOrderId(id);
             List<OrdersAttachments> attachments = attachmentsRepository.findAllByOrderId(id);
-            Users user = usersRepository.lightUser(order.getOwnerId());
+            Map<Object,Object> user = usersRepository.lightUser(order.getOwnerId());
 
             Map<Object,Object> orderDetails = new HashMap<>();
             orderDetails.put("order",order);

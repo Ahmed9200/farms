@@ -30,13 +30,17 @@ public class OrdersAttachments {
     @Column(name = "order_attachment")
     private String orderAttachment;
 
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "date")
     private Date date;
 
 
-    public OrdersAttachments(String orderAttachment,  int ownerId, int orderId) {
+    public OrdersAttachments(String orderAttachment,String type,  int ownerId, int orderId) {
         this.addedBy = ownerId;
         this.orderAttachment = orderAttachment;
+        this.type = type;
         this.orderId = orderId;
         this.date = new Date();
 

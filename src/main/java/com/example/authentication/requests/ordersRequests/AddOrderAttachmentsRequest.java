@@ -8,9 +8,9 @@ import java.util.List;
 public class AddOrderAttachmentsRequest {
     private int ownerId;
     private int orderId;
-    private List<String> attachments;
+    private List<AttachmentData> attachments;
 
-    public AddOrderAttachmentsRequest(int ownerId, int orderId, List<String> attachments) {
+    public AddOrderAttachmentsRequest(int ownerId, int orderId, List<AttachmentData> attachments) {
         this.ownerId = ownerId;
         this.orderId = orderId;
         this.attachments = attachments;

@@ -29,7 +29,8 @@ OrdersAttachmentsRepository attachmentsRepository;
 
             for (int i=0 ; i<request.getAttachments().size();i++){
                 OrdersAttachments attachments1 = new OrdersAttachments(
-                        request.getAttachments().get(i),
+                        request.getAttachments().get(i).getAttachment(),
+                        request.getAttachments().get(i).getType(),
                         request.getOwnerId(),
                         request.getOrderId()
                 );

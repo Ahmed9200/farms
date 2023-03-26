@@ -17,6 +17,6 @@ public class AddOrderRequest {
     //order services data
     private List<String> orderServices;
     //order attachments data
-    private List<String> orderAttachments;
+    private List<AttachmentData> orderAttachments;
 
 }

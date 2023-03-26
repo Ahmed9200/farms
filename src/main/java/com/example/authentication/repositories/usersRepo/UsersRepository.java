@@ -80,7 +80,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
             ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
             " FROM users u where id = ?1  " , nativeQuery = true)
-    Users lightUser(int id);
+    Map<Object,Object> lightUser(int id);
 
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
             ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
