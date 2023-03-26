@@ -485,4 +485,25 @@ public class OrdersService {
         }
         return res;
     }
+
+    public Object ordersSummary(int id) {
+
+
+        Map<Object, Object> res = new HashMap<>();
+        try {
+
+            //getting total of new orders and working orders and finished orders
+            res.put("new",ordersRepository.totalNew(id));
+            res.put("working",ordersRepository.totalWorking(id));
+            res.put("finished",ordersRepository.totalFinished(id));
+            res.put("status", "success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            //if any error happen add status to error and add error cause
+            res.put("status", "error");
+            res.put("error", e.getMessage());
+        }
+        return res;
+
+    }
 }

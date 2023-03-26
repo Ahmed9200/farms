@@ -65,7 +65,7 @@ public class Orders {
         this.creationDate = new Date();
         this.locationLat = request.getLocationLat();
         this.locationLng = request.getLocationLng();
-        this.orderCurrentStatus = "send-order";
+        this.orderCurrentStatus = "1";
         this.description = request.getDescription();
     }
 

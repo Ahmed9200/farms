@@ -180,4 +180,20 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
 
 
+
+    //------------------------------
+
+    @Query(value = "SELECT count(id)  FROM orders " +
+            " WHERE owner_id = ?1 and order_current_status in (1) ;", nativeQuery = true)
+    long totalNew(int id);
+
+    @Query(value = "SELECT count(id)  FROM orders " +
+            " WHERE owner_id = ?1 and order_current_status not in (1,7) ;", nativeQuery = true)
+    long totalWorking(int id);
+
+    @Query(value = "SELECT count(id)  FROM orders " +
+            " WHERE owner_id = ?1 and order_current_status in (7) ;", nativeQuery = true)
+    long totalFinished(int id);
+
+
 }

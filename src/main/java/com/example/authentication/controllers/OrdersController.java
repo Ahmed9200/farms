@@ -479,4 +479,9 @@ public class OrdersController {
         return ordersService.filterOrders(req);
     }
 
+    @GetMapping(value = "/ordersSummary/{userId}")
+    public Object newOrders(@PathVariable("userId") int id) {
+        return ordersService.ordersSummary(id);
+    }
+
 }
