@@ -391,26 +391,28 @@ public class OrdersService {
             if (req.isOrderByCreationDate()){
                 if (req.isAsc()){
                     result = ordersRepository.filterOrdersOrderByCreationASC(
-                            req.getType().isEmpty()?null :req.getType(),
-                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getType().isEmpty()?null :req.getType().get(0),
+                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
                             req.getCreationDateEnd(),
                             req.getLimit(),
-                            req.getOffset()
+                            req.getOffset(),
+                            req.getUserId() == 0 ? null : req.getUserId()
                     );
                     System.out.println("order by creation date asc");
                 }else{
                     result = ordersRepository.filterOrdersOrderByCreationDESC(
-                            req.getType().isEmpty()?null :req.getType(),
-                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getType().isEmpty()?null :req.getType().get(0),
+                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
                             req.getCreationDateEnd(),
                             req.getLimit(),
-                            req.getOffset()
+                            req.getOffset(),
+                            req.getUserId() == 0 ? null : req.getUserId()
                     );
                     System.out.println("order by creation date desc");
                 }
@@ -420,26 +422,28 @@ public class OrdersService {
             if (req.isOrderByScanDate()){
                 if (req.isAsc()){
                     result = ordersRepository.filterOrdersOrderByScanDateASC(
-                            req.getType().isEmpty()?null :req.getType(),
-                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getType().isEmpty()?null :req.getType().get(0),
+                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
                             req.getCreationDateEnd(),
                             req.getLimit(),
-                            req.getOffset()
+                            req.getOffset(),
+                            req.getUserId() == 0 ? null : req.getUserId()
                     );
                     System.out.println("order by scan date asc");
                 }else{
                     result = ordersRepository.filterOrdersOrderByScanDateDESC(
-                            req.getType().isEmpty()?null :req.getType(),
-                            req.getStatus().isEmpty()?null:req.getStatus(),
+                            req.getType().isEmpty()?null :req.getType().get(0),
+                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
                             req.getCreationDateEnd(),
                             req.getLimit(),
-                            req.getOffset()
+                            req.getOffset(),
+                            req.getUserId() == 0 ? null : req.getUserId()
                     );
                     System.out.println("order by scan date desc");
                 }
@@ -449,14 +453,15 @@ public class OrdersService {
 
             if (!req.isOrderByScanDate()&& !req.isOrderByCreationDate()){
                 result = ordersRepository.filterOrders(
-                        req.getType().isEmpty()?null :req.getType(),
-                        req.getStatus().isEmpty()?null:req.getStatus(),
+                        req.getType().isEmpty()?null :req.getType().get(0),
+                        req.getStatus().isEmpty()?null:req.getStatus().get(0),
                         req.getOrderId() == 0 ? null : req.getOrderId(),
                         req.getPhone().isEmpty()?null: req.getPhone(),
                         req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
                         req.getCreationDateEnd(),
                         req.getLimit(),
-                        req.getOffset()
+                        req.getOffset(),
+                        req.getUserId() == 0 ? null : req.getUserId()
                 );
                 System.out.println("filter without order by");
             }
@@ -465,12 +470,13 @@ public class OrdersService {
 
             // getting total of result
             long total = ordersRepository.filterOrdersCount(
-                    req.getType().isEmpty()?null :req.getType(),
-                    req.getStatus().isEmpty()?null:req.getStatus(),
+                    req.getType().isEmpty()?null :req.getType().get(0),
+                    req.getStatus().isEmpty()?null:req.getStatus().get(0),
                     req.getOrderId() == 0 ? null : req.getOrderId(),
                     req.getPhone().isEmpty()?null: req.getPhone(),
                     req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
-                    req.getCreationDateEnd()
+                    req.getCreationDateEnd(),
+                    req.getUserId() == 0 ? null : req.getUserId()
             );
 
             //if any thing goes well add status to success

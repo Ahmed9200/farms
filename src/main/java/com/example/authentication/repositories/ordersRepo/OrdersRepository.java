@@ -80,19 +80,20 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
     @Query(value = "select u.phone as 'userPhone' , o.id as 'orderId' , " +
             "o.creation_date as 'creationDate' ," +
-            "       o.order_type as 'orderType' ," +
+            "       o.order_type as 'orderType' , o.owner_id as 'userId' ," +
             " o.order_current_status as 'orderCurrentStatus' ," +
             "       o.scan_date as 'scanDate' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
-            "    (?1 is null or o.order_type like ?1) and " +
-            "    (?2 is null or o.order_current_status like ?2) and " +
+            "    (?1 is null or o.order_type in (?1)) and " +
+            "    (?2 is null or o.order_current_status in (?2)) and " +
             "    (?3 is null or o.id = ?3) and " +
+            "    (?9 is null or o.owner_id = ?9) and " +
             "    (?4 is null or u.phone like ?4) and " +
             "    (?5 is null or o.creation_date  between  ?5 and ?6) limit ?7 offset ?8", nativeQuery = true)
-    List<Map<Object,Object>> filterOrders(String orderType , String currentStatus , Object id ,
+    List<Map<Object,Object>> filterOrders(Object orderType , Object currentStatus , Object id ,
                               String phone , String date , String de ,
-                              int limit , int offset);
+                              int limit , int offset,Object userId);
 
 
     @Query(value = "select u.phone as 'userPhone' , o.id as 'orderId' , " +
@@ -102,15 +103,16 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "       o.scan_date as 'scanDate' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
-            "    (?1 is null or o.order_type like ?1) and " +
-            "    (?2 is null or o.order_current_status like ?2) and " +
+            "    (?1 is null or o.order_type in (?1)) and " +
+            "    (?2 is null or o.order_current_status in (?2)) and " +
+            "    (?9 is null or o.owner_id = ?9) and " +
             "    (?3 is null or o.id = ?3) and " +
             "    (?4 is null or u.phone like ?4) and " +
             "    (?5 is null or o.creation_date  between  ?5 and ?6)" +
             " order by o.creation_date asc limit ?7 offset ?8", nativeQuery = true)
-    List<Map<Object,Object>> filterOrdersOrderByCreationASC(String orderType , String currentStatus , Object id ,
+    List<Map<Object,Object>> filterOrdersOrderByCreationASC(Object orderType , Object currentStatus , Object id ,
                               String phone , String date , String de ,
-                              int limit , int offset);
+                              int limit , int offset , Object ownerId);
 
 
     @Query(value = "select u.phone as 'userPhone' , o.id as 'orderId' , " +
@@ -120,15 +122,16 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "       o.scan_date as 'scanDate' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
-            "    (?1 is null or o.order_type like ?1) and " +
-            "    (?2 is null or o.order_current_status like ?2) and " +
+            "    (?1 is null or o.order_type in (?1)) and " +
+            "    (?2 is null or o.order_current_status in (?2)) and " +
             "    (?3 is null or o.id = ?3) and " +
+            "    (?9 is null or o.owner_id = ?9) and " +
             "    (?4 is null or u.phone like ?4) and " +
             "    (?5 is null or o.creation_date  between  ?5 and ?6) " +
             "order by o.creation_date desc limit ?7 offset ?8", nativeQuery = true)
-    List<Map<Object,Object>> filterOrdersOrderByCreationDESC(String orderType , String currentStatus , Object id ,
+    List<Map<Object,Object>> filterOrdersOrderByCreationDESC(Object orderType , Object currentStatus , Object id ,
                               String phone , String date, String de ,
-                              int limit , int offset);
+                              int limit , int offset , Object userId);
 
 
     @Query(value = "select u.phone as 'userPhone' , o.id as 'orderId' , " +
@@ -138,15 +141,16 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "       o.scan_date as 'scanDate' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
-            "    (?1 is null or o.order_type like ?1) and " +
-            "    (?2 is null or o.order_current_status like ?2) and " +
+            "    (?1 is null or o.order_type in (?1)) and " +
+            "    (?2 is null or o.order_current_status in (?2)) and " +
             "    (?3 is null or o.id = ?3) and " +
+            "    (?9 is null or o.owner_id = ?9) and " +
             "    (?4 is null or u.phone like ?4) and " +
             "    (?5 is null or o.creation_date  between  ?5 and ?6) " +
             "order by o.scan_date asc limit ?7 offset ?8", nativeQuery = true)
-    List<Map<Object,Object>> filterOrdersOrderByScanDateASC(String orderType , String currentStatus , Object id ,
+    List<Map<Object,Object>> filterOrdersOrderByScanDateASC(Object orderType , Object currentStatus , Object id ,
                               String phone , String date , String de ,
-                              int limit , int offset);
+                              int limit , int offset,Object userId);
 
 
     @Query(value = "select u.phone as 'userPhone' , o.id as 'orderId' , " +
@@ -156,27 +160,29 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "       o.scan_date as 'scanDate' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
-            "    (?1 is null or o.order_type like ?1) and " +
-            "    (?2 is null or o.order_current_status like ?2) and " +
+            "    (?1 is null or o.order_type in (?1)) and " +
+            "    (?2 is null or o.order_current_status in (?2)) and " +
             "    (?3 is null or o.id = ?3) and " +
+            "    (?9 is null or o.owner_id = ?9) and " +
             "    (?4 is null or u.phone like ?4) and " +
             "    (?5 is null or o.creation_date  between  ?5 and ?6) " +
             "order by o.scan_date desc limit ?7 offset ?8", nativeQuery = true)
-    List<Map<Object,Object>> filterOrdersOrderByScanDateDESC(String orderType , String currentStatus , Object id ,
+    List<Map<Object,Object>> filterOrdersOrderByScanDateDESC(Object orderType , Object currentStatus , Object id ,
                               String phone , String date, String de ,
-                              int limit , int offset);
+                              int limit , int offset,Object userId);
 
 
     @Query(value = "select count(o.id) " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
-            "    (?1 is null or o.order_type like ?1) and " +
-            "    (?2 is null or o.order_current_status like ?2) and " +
+            "    (?1 is null or o.order_type like (?1)) and " +
+            "    (?2 is null or o.order_current_status like (?2)) and " +
             "    (?3 is null or o.id = ?3) and " +
+            "    (?7 is null or o.owner_id = ?7) and " +
             "    (?4 is null or u.phone like ?4) and " +
             "    (?5 is null or o.creation_date  between ?5 and ?6)", nativeQuery = true)
-    long filterOrdersCount(String orderType , String currentStatus , Object id ,
-                           String phone , String date, String de);
+    long filterOrdersCount(Object orderType , Object currentStatus , Object id ,
+                           String phone , String date, String de , Object userId);
 
 
 
