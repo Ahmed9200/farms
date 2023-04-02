@@ -391,8 +391,8 @@ public class OrdersService {
             if (req.isOrderByCreationDate()){
                 if (req.isAsc()){
                     result = ordersRepository.filterOrdersOrderByCreationASC(
-                            req.getType().isEmpty()?null :req.getType().get(0),
-                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
+                            req.getType()==null?null :req.getType().get(0),
+                            req.getStatus()==null?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
@@ -404,8 +404,8 @@ public class OrdersService {
                     System.out.println("order by creation date asc");
                 }else{
                     result = ordersRepository.filterOrdersOrderByCreationDESC(
-                            req.getType().isEmpty()?null :req.getType().get(0),
-                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
+                            req.getType()==null?null :req.getType().get(0),
+                            req.getStatus()==null?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
@@ -422,8 +422,8 @@ public class OrdersService {
             if (req.isOrderByScanDate()){
                 if (req.isAsc()){
                     result = ordersRepository.filterOrdersOrderByScanDateASC(
-                            req.getType().isEmpty()?null :req.getType().get(0),
-                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
+                            req.getType()==null?null :req.getType().get(0),
+                            req.getStatus()==null?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
@@ -435,8 +435,8 @@ public class OrdersService {
                     System.out.println("order by scan date asc");
                 }else{
                     result = ordersRepository.filterOrdersOrderByScanDateDESC(
-                            req.getType().isEmpty()?null :req.getType().get(0),
-                            req.getStatus().isEmpty()?null:req.getStatus().get(0),
+                            req.getType()==null?null :req.getType().get(0),
+                            req.getStatus()==null?null:req.getStatus().get(0),
                             req.getOrderId() == 0 ? null : req.getOrderId(),
                             req.getPhone().isEmpty()?null: req.getPhone(),
                             req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
@@ -453,8 +453,8 @@ public class OrdersService {
 
             if (!req.isOrderByScanDate()&& !req.isOrderByCreationDate()){
                 result = ordersRepository.filterOrders(
-                        req.getType().isEmpty()?null :req.getType().get(0),
-                        req.getStatus().isEmpty()?null:req.getStatus().get(0),
+                        req.getType()==null?null :req.getType().get(0),
+                        req.getStatus()==null?null:req.getStatus().get(0),
                         req.getOrderId() == 0 ? null : req.getOrderId(),
                         req.getPhone().isEmpty()?null: req.getPhone(),
                         req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),
@@ -470,8 +470,8 @@ public class OrdersService {
 
             // getting total of result
             long total = ordersRepository.filterOrdersCount(
-                    req.getType().isEmpty()?null :req.getType().get(0),
-                    req.getStatus().isEmpty()?null:req.getStatus().get(0),
+                    req.getType()==null?null :req.getType().get(0),
+                    req.getStatus()==null?null:req.getStatus().get(0),
                     req.getOrderId() == 0 ? null : req.getOrderId(),
                     req.getPhone().isEmpty()?null: req.getPhone(),
                     req.getCreationDateStart().isEmpty()?null: req.getCreationDateStart(),

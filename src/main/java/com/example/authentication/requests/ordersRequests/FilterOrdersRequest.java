@@ -14,8 +14,8 @@ public class FilterOrdersRequest {
     private boolean asc = false;
     private boolean desc = false;
 
-    private List<String> type;
-    private List<String> status;
+    private List<String> type=null;
+    private List<String> status=null;
     private String phone= "";
     private String creationDateStart= "";
     private String creationDateEnd= "";
