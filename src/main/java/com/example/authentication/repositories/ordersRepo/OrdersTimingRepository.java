@@ -11,11 +11,6 @@ import java.util.List;
 @Repository
 public interface OrdersTimingRepository extends JpaRepository<OrdersTiming, Integer> {
 
-
-    @Query(value = "SELECT * " +
-            " FROM orders_timing " +
-            " WHERE order_id = ?1 order by date asc ", nativeQuery = true)
-    List<OrdersStatus> orderTimeLine(int orderId);
-
+    List<OrdersTiming> findAllByDayLike(String day);
 
 }

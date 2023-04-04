@@ -524,4 +524,9 @@ public class OrdersController {
     }
 
 
+    @GetMapping(value = "/dayTiming/{day}")
+    public Object dayTiming(@PathVariable("day") String day) {
+        return timingService.getByDay(day);
+    }
+
 }

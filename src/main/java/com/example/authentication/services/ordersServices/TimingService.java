@@ -42,4 +42,19 @@ OrdersStatusRepository statusRepository;
         return res;
     }
 
+    public Map<Object, Object> getByDay(String day){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            res.put("result",repository.findAllByDayLike(day));
+
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            res.put("status","error");
+        }
+        return res;
+    }
+
 }
