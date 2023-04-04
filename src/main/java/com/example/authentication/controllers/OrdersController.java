@@ -11,6 +11,7 @@ import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,6 +35,9 @@ public class OrdersController {
 
     @Autowired
     private ReportsService reportsService;
+
+    @Autowired
+    private TimingService timingService;
 
 
     @PostMapping(value = "/saveOrder", produces = {"application/json"})
@@ -483,5 +487,41 @@ public class OrdersController {
     public Object newOrders(@PathVariable("userId") int id) {
         return ordersService.ordersSummary(id);
     }
+
+
+
+    @PostMapping(value = "/saveTiming", produces = {"application/json"})
+    @ResponseBody
+    public Object saveTiming(@RequestBody List<AddOrderTimingRequest> request) {
+        Map<Object,Object> res = new HashMap<>();
+        Map<Object, Object> errorMsg = new HashMap<>();
+
+//        //getting token result with this data from the token front sent
+//        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
+//
+//        //check if token valid
+//        if (((boolean)tokenRes.get("isValid")==false)) {
+//            //if token not valid make error user not authorized and status with error
+//            errorMsg.put("status","error");
+//            errorMsg.put("error", "USER NOT Authorized , token not valid");
+//
+//            return errorMsg;
+//        }
+
+        try {
+
+            res = timingService.save(request);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //if any error happen add status and error reason.
+
+            res.put("status","error");
+        }
+
+        return res;
+    }
+
 
 }

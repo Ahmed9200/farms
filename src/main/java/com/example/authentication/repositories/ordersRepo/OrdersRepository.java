@@ -74,9 +74,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             " WHERE order_type like ?3  limit ?1 offset ?2  ", nativeQuery = true)
     long filterOrdersByTypeCount(int limit,int offset , String type );
 
-
     //----------------------------------------
-
 
     @Query(value = "select u.phone as 'userPhone' , o.id as 'orderId' , " +
             "o.creation_date as 'creationDate' ," +
@@ -94,7 +92,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
     List<Map<Object,Object>> filterOrders(Object orderType , Object currentStatus , Object id ,
                               String phone , String date , String de ,
                               int limit , int offset,Object userId);
-
 
     @Query(value = "select u.phone as 'userPhone' , o.id as 'orderId' , " +
             "o.creation_date as 'creationDate' ," +
@@ -184,9 +181,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
     long filterOrdersCount(Object orderType , Object currentStatus , Object id ,
                            String phone , String date, String de , Object userId);
 
-
-
-
     //------------------------------
 
     @Query(value = "SELECT count(id)  FROM orders " +
@@ -200,6 +194,5 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
     @Query(value = "SELECT count(id)  FROM orders " +
             " WHERE owner_id = ?1 and order_current_status in (7) ;", nativeQuery = true)
     long totalFinished(int id);
-
 
 }
