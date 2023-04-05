@@ -57,4 +57,45 @@ OrdersStatusRepository statusRepository;
         return res;
     }
 
+    public Map<Object, Object> deleteById(int id){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+            repository.deleteById(id);
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            res.put("status","error");
+        }
+        return res;
+    }
+
+
+    public Map<Object, Object> deleteByDay(String day){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+            repository.deleteAllByDayLike(day);
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            res.put("status","error");
+        }
+        return res;
+    }
+
+    public Map<Object, Object> deleteAll(){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+            repository.deleteAll();
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            res.put("status","error");
+        }
+        return res;
+    }
+
+
 }

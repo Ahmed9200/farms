@@ -529,4 +529,20 @@ public class OrdersController {
         return timingService.getByDay(day);
     }
 
+    @GetMapping(value = "/deleteTimeById/{id}")
+    public Object deleteTimeById(@PathVariable("id") int id) {
+        return timingService.deleteById(id);
+    }
+
+    @GetMapping(value = "/deleteTimeByDay/{day}")
+    public Object deleteTimeByDay(@PathVariable("day") String day) {
+        return timingService.deleteByDay(day);
+    }
+
+    @GetMapping(value = "/deleteAllTimes")
+    public Object deleteTimeByDay() {
+        return timingService.deleteAll();
+    }
+
+
 }

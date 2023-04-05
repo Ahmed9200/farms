@@ -13,4 +13,5 @@ public interface OrdersTimingRepository extends JpaRepository<OrdersTiming, Inte
 
     List<OrdersTiming> findAllByDayLike(String day);
 
+    void deleteAllByDayLike(String day);
 }
