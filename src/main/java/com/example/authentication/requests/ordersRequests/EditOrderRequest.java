@@ -13,6 +13,7 @@ public class EditOrderRequest {
     private String locationLat;
     private String locationLng;
     private String description;
+    private String executionTime;
 
 
 }

@@ -80,7 +80,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "o.creation_date as 'creationDate' ," +
             "       o.order_type as 'orderType' , o.owner_id as 'userId' ," +
             " o.order_current_status as 'orderCurrentStatus' ," +
-            "       o.scan_date as 'scanDate' " +
+            "       o.scan_date as 'scanDate', o.execution_time as 'executionTime' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
             "    (?1 is null or o.order_type in (?1)) and " +
@@ -97,7 +97,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "o.creation_date as 'creationDate' ," +
             "       o.order_type as 'orderType' ," +
             " o.order_current_status as 'orderCurrentStatus' ," +
-            "       o.scan_date as 'scanDate' " +
+            "       o.scan_date as 'scanDate', o.execution_time as 'executionTime' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
             "    (?1 is null or o.order_type in (?1)) and " +
@@ -116,7 +116,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "o.creation_date as 'creationDate' ," +
             "       o.order_type as 'orderType' ," +
             " o.order_current_status as 'orderCurrentStatus' ," +
-            "       o.scan_date as 'scanDate' " +
+            "       o.scan_date as 'scanDate' , o.execution_time as 'executionTime' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
             "    (?1 is null or o.order_type in (?1)) and " +
@@ -135,7 +135,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "o.creation_date as 'creationDate' ," +
             "       o.order_type as 'orderType' ," +
             " o.order_current_status as 'orderCurrentStatus' ," +
-            "       o.scan_date as 'scanDate' " +
+            "       o.scan_date as 'scanDate', o.execution_time as 'executionTime' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
             "    (?1 is null or o.order_type in (?1)) and " +
@@ -154,7 +154,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "o.creation_date as 'creationDate' ," +
             "       o.order_type as 'orderType' ," +
             " o.order_current_status as 'orderCurrentStatus' ," +
-            "       o.scan_date as 'scanDate' " +
+            "       o.scan_date as 'scanDate', o.execution_time as 'executionTime' " +
             "from users u join orders o on o.owner_id=u.id " +
             "where " +
             "    (?1 is null or o.order_type in (?1)) and " +

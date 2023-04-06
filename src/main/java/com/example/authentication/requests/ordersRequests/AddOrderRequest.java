@@ -14,6 +14,7 @@ public class AddOrderRequest {
     private String locationLat;
     private String locationLng;
     private String description;
+    private String executionTime;
     //order services data
     private List<String> orderServices;
     //order attachments data

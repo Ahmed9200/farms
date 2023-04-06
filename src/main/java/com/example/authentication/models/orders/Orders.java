@@ -52,6 +52,9 @@ public class Orders {
     @Column(name = "scan_date")
     private Date scanDate;
 
+    @Column(name = "execution_time")
+    private String executionTime;
+
     @Lob
     @Column(name = "description")
     private String description;
@@ -63,6 +66,7 @@ public class Orders {
         this.orderType = request.getOrderType();
         this.ownerId = request.getOwnerId();
         this.creationDate = new Date();
+        this.executionTime = request.getExecutionTime();
         this.locationLat = request.getLocationLat();
         this.locationLng = request.getLocationLng();
         this.orderCurrentStatus = "1";
@@ -79,6 +83,7 @@ public class Orders {
         this.orderCurrentStatus = order.getOrderCurrentStatus();
         this.creationDate = order.getCreationDate();
         this.scanDate=order.getScanDate();
+        this.executionTime = request.getExecutionTime();
 
     }
 }
