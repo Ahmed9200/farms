@@ -74,7 +74,7 @@ OrdersStatusRepository statusRepository;
     public Map<Object, Object> deleteByDay(String day){
         Map<Object,Object> res = new HashMap<>();
         try{
-            repository.deleteAllByDayLike(day);
+            repository.deleteByDay(day);
             res.put("status","success");
 
         }catch (Exception e){
