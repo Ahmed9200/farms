@@ -26,7 +26,10 @@ public class OrdersServices {
     private int orderId;
 
     @Column(name = "added_by")
-    private int addedBy; // owner id , or da3ma admin
+    private String addedBy; // user , or admin
+
+    @Column(name = "status")
+    private String status; // active , or deleted
 
     @Column(name = "order_service")
     private String orderService;
@@ -38,14 +41,12 @@ public class OrdersServices {
     private Date date;
 
 
-    public OrdersServices(String orderService ,String orderServicePrice, int orderId , int ownerId) {
+    public OrdersServices(String orderService ,String orderServicePrice, int orderId , String addedBy,String status) {
         this.orderId = orderId;
-        this.addedBy = ownerId;
+        this.addedBy = addedBy;
+        this.status = status;
         this.date = new Date();
         this.orderService = orderService;
         this.orderServicePrice = orderServicePrice;
-
-
-
     }
 }
