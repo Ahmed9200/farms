@@ -83,10 +83,6 @@ public class UsersController {
 
 
 
-
-
-
-
     @PostMapping(value = "/deleteAccount")
     public Object deleteAcc(@RequestHeader("Authorization") String token) {
 
@@ -123,6 +119,19 @@ public class UsersController {
             return errorMsg;
         }
         return userService.stopAccount(Integer.parseInt(tokenRes.get("userId").toString()));
+    }
+
+
+
+
+    @PostMapping(value = "/deleteAccount/{id}")
+    public Object deleteAcc(@PathVariable("id") int id) {
+        return userService.deleteAccount(id);
+    }
+
+    @PostMapping(value = "/stopAccount/{id}")
+    public Object stopAcc(@PathVariable("id") int id) {
+        return userService.stopAccount(id);
     }
 
     @GetMapping(value = "/activeAccount/{userId}")
