@@ -58,7 +58,7 @@ OrdersServicesRepository servicesRepository;
 
                 if (request.get(i).getServiceId()==0){
                     service = new OrdersServices(
-                            request.get(i).getService(),
+                            request.get(i).getName(),
                             request.get(i).getPrice(),
                             request.get(i).getOrderId(),
                             request.get(i).getAddedBy(),

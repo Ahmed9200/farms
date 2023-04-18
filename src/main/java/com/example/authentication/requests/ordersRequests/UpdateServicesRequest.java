@@ -9,16 +9,16 @@ public class UpdateServicesRequest {
     private int serviceId;
     private int orderId;
     private String price;
+    private String name;
     private String addedBy;
     private String status;
-    private String service;
 
-    public UpdateServicesRequest(int serviceId,int orderId, String price,String addedBy,String status,String service) {
+    public UpdateServicesRequest(int serviceId,int orderId, String price,String addedBy,String status,String name) {
         this.orderId=orderId;
         this.serviceId = serviceId;
         this.price = price;
         this.addedBy = addedBy;
         this.status = status;
-        this.service = service;
+        this.name=name;
     }
 }
