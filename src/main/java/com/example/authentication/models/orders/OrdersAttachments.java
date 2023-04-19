@@ -27,6 +27,7 @@ public class OrdersAttachments {
     @Column(name = "added_by")
     private int addedBy; // owner id , or da3ma admin
 
+    @Lob
     @Column(name = "order_attachment")
     private String orderAttachment;
 
