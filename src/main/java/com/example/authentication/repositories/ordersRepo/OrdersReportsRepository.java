@@ -12,6 +12,6 @@ import java.util.List;
 public interface OrdersReportsRepository extends JpaRepository<OrdersReports, Integer> {
 
 
-    OrdersReports findByOrderId(int orderId);
+    List<OrdersReports> findByOrderId(int orderId);
 
 }

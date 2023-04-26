@@ -85,7 +85,7 @@ StatusService statusService;
         Map<Object,Object> res = new HashMap<>();
         try{
 
-            OrdersReports reports = reportsRepository.findByOrderId(orderId);
+            OrdersReports reports = reportsRepository.findByOrderId(orderId).get(0);
 
             //add success status to response map
             res.put("status","success");
