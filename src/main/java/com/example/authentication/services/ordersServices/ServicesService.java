@@ -54,24 +54,25 @@ OrdersServicesRepository servicesRepository;
 
             for (int i=0 ; i<request.size();i++){
 
-                OrdersServices service = null;
-
                 if (request.get(i).getServiceId()==0){
-                    service = new OrdersServices(
+                    OrdersServices service = new OrdersServices(
                             request.get(i).getName(),
                             request.get(i).getPrice(),
                             request.get(i).getOrderId(),
                             request.get(i).getAddedBy(),
                             request.get(i).getStatus()
                     );
+                    servicesRepository.save(service);
                 }else{
-                    service = servicesRepository.findById(request.get(i).getServiceId()).get();
+                    OrdersServices service = servicesRepository.findById(request.get(i).getServiceId()).get();
                     service.setAddedBy(request.get(i).getAddedBy());
                     service.setStatus(request.get(i).getStatus());
+                    service.setOrderService(request.get(i).getName());
                     service.setOrderServicePrice(request.get(i).getPrice());
+                    servicesRepository.save(service);
                 }
 
-                servicesRepository.save(service);
+
             }
 
             //add success status to response map

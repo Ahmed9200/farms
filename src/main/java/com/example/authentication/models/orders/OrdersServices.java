@@ -41,12 +41,12 @@ public class OrdersServices {
     private Date date;
 
 
-    public OrdersServices(String orderService ,String orderServicePrice, int orderId , String addedBy,String status) {
+    public OrdersServices(String name ,String orderServicePrice, int orderId , String addedBy,String status) {
         this.orderId = orderId;
         this.addedBy = addedBy;
         this.status = status;
         this.date = new Date();
-        this.orderService = orderService;
+        this.orderService = name;
         this.orderServicePrice = orderServicePrice;
     }
 }
