@@ -150,7 +150,7 @@ public class UserService implements UserDetailsService {
             //create random number
             String randomOTP= createRandomPW();
 
-            String msg = "D-"+randomOTP+" is your verification code.";
+            String msg = "your verification code is "+randomOTP+" .";
             //send an otp by twillio
             Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
             Message message = Message.creator(
