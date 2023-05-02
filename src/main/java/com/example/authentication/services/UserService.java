@@ -150,12 +150,12 @@ public class UserService implements UserDetailsService {
             //create random number
             String randomOTP= createRandomPW();
 
-            String msg = "your code is : "+randomOTP;
+            String msg = "D-"+randomOTP+" is your verification code.";
             //send an otp by twillio
             Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
             Message message = Message.creator(
                             new com.twilio.type.PhoneNumber(phone),
-                            "MG8266e3875b087e0ff81fd4dfd50c8f40",
+                            "MG512d5bf5fb2c9cf972ffad0611612f64",
                             msg)
                     .create();
 
