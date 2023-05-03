@@ -206,6 +206,26 @@ public class UsersController {
         return userService.updateAdditionalPhone(request);
     }
 
+    @PostMapping(value = "/updateNotificationToken")
+    public Object updateNotificationToken(@RequestBody UpdateUserNotificationTokenRequest request,
+                                        @RequestHeader("Authorization") String token) {
+
+        Map<Object, Object> errorMsg = new HashMap<>();
+
+        //getting token result with this data from the token front sent
+        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
+
+        //check if token valid
+        if (((boolean)tokenRes.get("isValid")==false)) {
+            //if token not valid make error user not authorized and status with error
+            errorMsg.put("status","error");
+            errorMsg.put("error", "USER NOT Authorized , token not valid");
+
+            return errorMsg;
+        }
+        return userService.updateNotificationToken(request);
+    }
+
 
     @PostMapping(value = "/updatePhoto")
     public Object updatePhoto(@RequestBody UpdateUserPhotoRequest request,

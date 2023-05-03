@@ -210,7 +210,7 @@ public class UserService implements UserDetailsService {
             password = encryption(password);
 
             //create user object to add data to it
-            Users user = new Users(request.getPhone(), password);
+            Users user = new Users(request.getPhone(), password,request.getToken());
 
             //save user data in database
             user = usersRepository.save(user);
@@ -273,6 +273,29 @@ public class UserService implements UserDetailsService {
         }
         return res;
     }
+
+    public Object updateNotificationToken(UpdateUserNotificationTokenRequest request){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //update additional phone by new one with the new phone
+            usersRepository.updateNotificationToken(request.getToken(), request.getUserId());
+
+            //add if updated successfully add update status with true
+            res.put("updateStatus",true);
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("updateStatus",false);
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
 
     public Object updatePhoto(UpdateUserPhotoRequest request){
         Map<Object,Object> res = new HashMap<>();

@@ -56,11 +56,16 @@ public class Users {
     private String accountStatus = "active";
 
 
-    public Users (String phone , String password){
+    @Column(name = "notification_token", length = 450, nullable = true)
+    private String notificationToken; // new
+
+
+    public Users (String phone , String password , String notificationToken){
         this.username=phone;
         this.phone=phone;
         this.name= phone;
         this.password=password;
+        this.notificationToken = notificationToken;
         this.dateOfJoin=new Date();
         this.accountStatus="active";
     }

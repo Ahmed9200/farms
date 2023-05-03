@@ -1,12 +1,16 @@
 package com.example.authentication.services.ordersServices;
 
+import com.example.authentication.models.Users;
+import com.example.authentication.models.orders.Orders;
 import com.example.authentication.models.orders.OrdersServices;
 import com.example.authentication.models.orders.OrdersStatus;
 import com.example.authentication.repositories.ordersRepo.OrdersRepository;
 import com.example.authentication.repositories.ordersRepo.OrdersStatusRepository;
+import com.example.authentication.repositories.usersRepo.UsersRepository;
 import com.example.authentication.requests.ordersRequests.AddOrderRequest;
 import com.example.authentication.requests.ordersRequests.AddStatusRequest;
 import com.example.authentication.requests.userRequests.UserRegisterRequest;
+import com.example.authentication.services.notificationServices.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,10 @@ OrdersStatusRepository statusRepository;
 
 @Autowired
 OrdersRepository ordersRepository;
+@Autowired
+NotificationService notificationService;
+@Autowired
+UsersRepository usersRepository;
 
 
 
@@ -33,9 +41,18 @@ OrdersRepository ordersRepository;
                 OrdersStatus status = new OrdersStatus(request.getStatus(), request.getOrderId());
                 statusRepository.save(status);
                 // update current status of order
-
             ordersRepository.updateCurrentStatus(request.getOrderId(), request.getStatus());
 
+            //sending notification
+            Orders order = ordersRepository.findById(request.getOrderId()).get();
+            Users user = usersRepository.findById(order.getOwnerId());
+
+            notificationService.sendNotification(
+                    user.getId(),
+                    user.getNotificationToken(),
+                    Integer.parseInt(status.getOrderStatus()),
+                    request.getOrderId()
+            );
             //add success status to response map
             res.put("status","success");
 

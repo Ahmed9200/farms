@@ -8,5 +8,6 @@ import java.util.Date;
 public class UserRegisterRequest {
     private String phone;
     private String password;
+    private String token;
 
 }

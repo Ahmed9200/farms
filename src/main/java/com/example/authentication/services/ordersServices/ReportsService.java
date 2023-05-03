@@ -1,15 +1,18 @@
 package com.example.authentication.services.ordersServices;
 
+import com.example.authentication.models.Users;
 import com.example.authentication.models.orders.Orders;
 import com.example.authentication.models.orders.OrdersReports;
 import com.example.authentication.models.orders.OrdersStatus;
 import com.example.authentication.repositories.ordersRepo.OrdersReportsRepository;
 import com.example.authentication.repositories.ordersRepo.OrdersRepository;
 import com.example.authentication.repositories.ordersRepo.OrdersStatusRepository;
+import com.example.authentication.repositories.usersRepo.UsersRepository;
 import com.example.authentication.requests.ordersRequests.AddReportRequest;
 import com.example.authentication.requests.ordersRequests.AddStatusRequest;
 import com.example.authentication.requests.ordersRequests.EditOrderRequest;
 import com.example.authentication.requests.ordersRequests.UpdateReportRequest;
+import com.example.authentication.services.notificationServices.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +32,10 @@ OrdersRepository ordersRepository;
 @Autowired
 StatusService statusService;
 
+    @Autowired
+    NotificationService notificationService;
+    @Autowired
+    UsersRepository usersRepository;
 
 
 
@@ -40,10 +47,10 @@ StatusService statusService;
                 reportsRepository.save(reports);
 
                 //add new status to status table
-            statusService.save(new AddStatusRequest("report", reports.getOrderId()));
+            statusService.save(new AddStatusRequest("3", reports.getOrderId()));//report upload status = 3
 
                 // update current status of order
-            ordersRepository.updateCurrentStatus(request.getOrderId(),"report");
+            ordersRepository.updateCurrentStatus(request.getOrderId(),"3");
 
             //add success status to response map
             res.put("status","success");
@@ -68,6 +75,18 @@ StatusService statusService;
             order.setOrderReport(request.getReport());
 
             order = reportsRepository.save(order);
+
+
+            //sending notification
+            Orders o = ordersRepository.findById(order.getOrderId()).get();
+            Users user = usersRepository.findById(o.getOwnerId());
+
+            notificationService.sendNotification(
+                    user.getId(),
+                    user.getNotificationToken(),
+                    3,
+                    o.getId()
+            );
 
             //add success status to response map
             res.put("status","success");

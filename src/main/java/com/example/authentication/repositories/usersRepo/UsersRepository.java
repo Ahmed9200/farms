@@ -51,6 +51,11 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
     @Modifying
     @Transactional
+    @Query(value = "UPDATE users SET notification_token = ?1 WHERE id=?2 ", nativeQuery = true)
+    void updateNotificationToken(String token, int userId);
+
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE users SET email = ?1 WHERE id=?2 ", nativeQuery = true)
     void updateEmail(String email, int userId);
 
