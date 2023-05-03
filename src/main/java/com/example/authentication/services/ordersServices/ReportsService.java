@@ -76,9 +76,11 @@ StatusService statusService;
 
             order = reportsRepository.save(order);
 
+            Orders o = ordersRepository.findById(order.getOrderId()).get();
+            ordersRepository.updateCurrentStatus(o.getId(),"3");
 
             //sending notification
-            Orders o = ordersRepository.findById(order.getOrderId()).get();
+
             Users user = usersRepository.findById(o.getOwnerId());
 
             notificationService.sendNotification(
