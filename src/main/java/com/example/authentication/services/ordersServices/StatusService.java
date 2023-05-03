@@ -51,7 +51,8 @@ UsersRepository usersRepository;
                     user.getId(),
                     user.getNotificationToken(),
                     Integer.parseInt(status.getOrderStatus()),
-                    request.getOrderId()
+                    request.getOrderId(),
+                    Integer.parseInt(order.getOrderType())
             );
             //add success status to response map
             res.put("status","success");

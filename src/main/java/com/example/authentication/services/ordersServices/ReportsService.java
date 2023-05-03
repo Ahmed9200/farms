@@ -87,7 +87,8 @@ StatusService statusService;
                     user.getId(),
                     user.getNotificationToken(),
                     3,
-                    o.getId()
+                    o.getId(),
+                    Integer.parseInt(o.getOrderType())
             );
 
             //add success status to response map

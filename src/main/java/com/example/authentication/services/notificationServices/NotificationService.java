@@ -40,13 +40,13 @@ public class NotificationService {
         }
     }
 
-    public Map<Object, Object> sendNotification(int receiverId , String token , int status , int orderId) {
+    public Map<Object, Object> sendNotification(int receiverId , String token , int status , int orderId, int orderType) {
 
         Map<Object, Object> res = new HashMap<>();
         try {
             NotificationData notificationData = new NotificationData();
             String statusName = getStatusNameFromCode(status);
-            String orderName = getOrderNameFromCode(orderId);
+            String orderName = getOrderNameFromCode(orderType);
 
             notificationData.setContent("تم تحديث حاله طلب "+orderName+" رقم "+orderId+" الي");
             notificationData.setSubject(statusName);
@@ -74,9 +74,9 @@ public class NotificationService {
 
     }
 
-    public String getOrderNameFromCode(int orderId){
+    public String getOrderNameFromCode(int orderType){
        String orderName;
-        switch (orderId){
+        switch (orderType){
             case 1 :orderName="صيانه سريعه"; break;
             case 2 :orderName="حوادث المركبات"; break;
             case 3 :orderName="تقدير مركبه"; break;
