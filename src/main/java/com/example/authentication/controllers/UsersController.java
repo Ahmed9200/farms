@@ -32,9 +32,7 @@ public class UsersController {
     private AuthenticationManager authenticationManager;
 
 
-    public final String OTP_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-            "eyJzdWIiOiJzYWVkMTIzIiwibmFtZSI6Im90cCIsImlhdCI6MTUxNjIzOTAyMn0." +
-            "pvD7ChWSmL3UUetm17-WB9_VxkDgvzIke3FHAf2ucaE";
+    public final String OTP_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWVkMTIzIiwibmFtZSI6Im90cCIsImlhdCI6MTUxNjIzOTAyMn0.pvD7ChWSmL3UUetm17-WB9_VxkDgvzIke3FHAf2ucaE";
 
 
     @PostMapping(value = "/register", produces = {"application/json"})
@@ -327,7 +325,8 @@ public class UsersController {
 
         //getting token result with this data from the token front sent
         //check if token valid
-        if (token.equals(OTP_TOKEN)) {
+        System.err.println(token);
+        if (!token.equals(OTP_TOKEN)) {
             //if token not valid make error user not authorized and status with error
             errorMsg.put("status","error");
             errorMsg.put("error", "token not valid");
