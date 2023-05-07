@@ -75,8 +75,7 @@ public class UsersController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            res.put("error","authentication faild !! username or password is wrong");
-
+            return userService.getDeletedUserData(signInRequest.getPhone());
         }
         return res;
     }
@@ -84,7 +83,7 @@ public class UsersController {
 
 
 
-    @PostMapping(value = "/deleteAccount")
+    @PostMapping(value = "/deleteAccount") // from user
     public Object deleteAcc(@RequestHeader("Authorization") String token) {
 
         Map<Object, Object> errorMsg = new HashMap<>();
@@ -100,10 +99,10 @@ public class UsersController {
 
             return errorMsg;
         }
-        return userService.deleteAccount(Integer.parseInt(tokenRes.get("userId").toString()));
+        return userService.deleteAccountUser(Integer.parseInt(tokenRes.get("userId").toString()));
     }
 
-    @PostMapping(value = "/stopAccount")
+    @PostMapping(value = "/stopAccount") // from user
     public Object stopAcc(@RequestHeader("Authorization") String token) {
 
         Map<Object, Object> errorMsg = new HashMap<>();
@@ -119,23 +118,23 @@ public class UsersController {
 
             return errorMsg;
         }
-        return userService.stopAccount(Integer.parseInt(tokenRes.get("userId").toString()));
+        return userService.stopAccountUser(Integer.parseInt(tokenRes.get("userId").toString()));
     }
 
 
 
 
-    @PostMapping(value = "/deleteAccount/{id}")
+    @PostMapping(value = "/deleteAccount/{id}") // from admin
     public Object deleteAcc(@PathVariable("id") int id) {
-        return userService.deleteAccount(id);
+        return userService.deleteAccountAdmin(id);
     }
 
-    @PostMapping(value = "/stopAccount/{id}")
+    @PostMapping(value = "/stopAccount/{id}") // from admin
     public Object stopAcc(@PathVariable("id") int id) {
-        return userService.stopAccount(id);
+        return userService.stopAccountAdmin(id);
     }
 
-    @GetMapping(value = "/activeAccount/{userId}")
+    @GetMapping(value = "/activeAccount/{userId}") //from admin
     public Object activeAcc(@PathVariable("userId") int userId) {
         return userService.activeAccount(userId);
     }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -68,7 +69,7 @@ public class UserService implements UserDetailsService {
         try {
 
             //getting user data and transfer it for light user and return it to response map
-            Users u = usersRepository.findByPhone(phone);
+            Users u = usersRepository.findByPhoneLike(phone);
             res.put("user",u.lightUser(u));
 
             // adding status success if every thing goes well
@@ -297,6 +298,40 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public Object getDeletedUserData(String phone){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //check if user exist or not
+            Users u = usersRepository.findByPhoneLike("%"+phone);
+            if (u==null){
+                res.put("error","E-REP001");//user not exist
+            }else if (u.getAccountStatus().equalsIgnoreCase("active")){
+                res.put("error","E-REP002");//pw wrong
+            }else if (u.getAccountStatus().contains("stop")){
+                res.put("error","E-REP003");//account stop from admin
+            }else if (u.getAccountStatus().contains("delete") && u.getDeleteBy().contains("admin")){
+                res.put("error","E-REP004");//account deleted from admin
+            }else if (u.getAccountStatus().contains("delete") && u.getDeleteBy().contains("user")){
+                long diffInMillies = Math.abs(u.getDateOfDelete().getTime() - new Date().getTime());
+                long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                if (diff<30){
+                    res.put("error","E-REP005");//account deleted from user and still can active it
+                }else{
+                    res.put("error","E-REP006");//account deleted from user and can not active it
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("status","error : "+e.getMessage());
+        }
+        return res;
+    }
+
+
+
     public Object updatePhoto(UpdateUserPhotoRequest request){
         Map<Object,Object> res = new HashMap<>();
         try{
@@ -420,12 +455,12 @@ public class UserService implements UserDetailsService {
 
 
 
-    public Object deleteAccount(int userId){
+    public Object deleteAccountUser(int userId){
         Map<Object,Object> res = new HashMap<>();
         try{
 
             //delete account by adding for his phone affix 001_ before the number
-            usersRepository.deleteAccount(userId);
+            usersRepository.deleteAccountFromUser(userId);
 
             //add if deleted successfully add delete status with true
             res.put("deleteStatus",true);
@@ -442,13 +477,13 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public Object stopAccount(int userId){
+    public Object stopAccountUser(int userId){
         Map<Object,Object> res = new HashMap<>();
         try{
 
             System.err.println( userId);
             //delete account by adding for his phone affix 002_ before the number
-            usersRepository.stopAccount(userId);
+            usersRepository.stopAccountFromUser(userId);
 
             //add if stopped successfully add stop status with true
             res.put("stopStatus",true);
@@ -464,6 +499,56 @@ public class UserService implements UserDetailsService {
         }
         return res;
     }
+
+
+
+    public Object deleteAccountAdmin(int userId){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //delete account by adding for his phone affix 001_ before the number
+            usersRepository.deleteAccountFromAdmin(userId);
+
+            //add if deleted successfully add delete status with true
+            res.put("deleteStatus",true);
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("deleteStatus",false);
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+    public Object stopAccountAdmin(int userId){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            System.err.println( userId);
+            //delete account by adding for his phone affix 002_ before the number
+            usersRepository.stopAccountFromAdmin(userId);
+
+            //add if stopped successfully add stop status with true
+            res.put("stopStatus",true);
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("stopStatus",false);
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
+
+
+
 
     public Object activeAccount(int userId){
         Map<Object,Object> res = new HashMap<>();

@@ -15,7 +15,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
 
     Users findByPhoneAndAccountStatus(String phone,String accountStatus);
-    Users findByPhone(String phone);
+    Users findByPhoneLike(String phone);
     Users findByUsernameAndAccountStatus(String username,String accountStatus);
     Users findById(int id);
 
@@ -66,15 +66,27 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE users SET account_status = 'delete' " +
+    @Query(value = "UPDATE users SET account_status = 'delete' , delete_by = 'user' , date_of_delete = current_timestamp " +
             " WHERE id=?1 ", nativeQuery = true)
-    void deleteAccount(int userId);
+    void deleteAccountFromUser(int userId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE users SET account_status = 'stop' " +
+    @Query(value = "UPDATE users SET account_status = 'delete' , delete_by = 'admin' , date_of_delete = current_timestamp  " +
             " WHERE id=?1 ", nativeQuery = true)
-    void stopAccount(int userId);
+    void deleteAccountFromAdmin(int userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE users SET account_status = 'stop' , delete_by = 'user' , date_of_delete = current_timestamp " +
+            " WHERE id=?1 ", nativeQuery = true)
+    void stopAccountFromUser(int userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE users SET account_status = 'stop' , delete_by = 'admin' , date_of_delete = current_timestamp " +
+            " WHERE id=?1 ", nativeQuery = true)
+    void stopAccountFromAdmin(int userId);
 
     @Modifying
     @Transactional

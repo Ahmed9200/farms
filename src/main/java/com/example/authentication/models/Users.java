@@ -59,6 +59,12 @@ public class Users {
     @Column(name = "notification_token", length = 450, nullable = true)
     private String notificationToken; // new
 
+    @Column(name = "date_of_delete" )
+    private Date dateOfDelete;
+
+    @Column(name = "delete_by")
+    private String deleteBy;
+
 
     public Users (String phone , String password , String notificationToken){
         this.username=phone;
