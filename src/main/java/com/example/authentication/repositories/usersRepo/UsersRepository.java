@@ -94,6 +94,13 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
             " WHERE id=?1 ", nativeQuery = true)
     void activeAccount(int userId);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE users SET account_status = 'active' " +
+            " WHERE username=?1 ", nativeQuery = true)
+    void activeAccount(String userPhone);
+
+
     @Query(value = "SELECT distinct u.id , u.name , u.phone , u.additional_phone as 'additionalPhone' " +
             ", u.email , u.account_status as 'accountStatus' ,u.date_of_join as 'dateOfJoin'  " +
             " FROM users u where id = ?1  " , nativeQuery = true)

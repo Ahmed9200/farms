@@ -140,6 +140,10 @@ public class UsersController {
     }
 
 
+    @GetMapping(value = "/activeAccount/{username}") //from user
+    public Object activeAcc(@PathVariable("username") String username) {
+        return userService.activeAccount(username);
+    }
 
 
 

@@ -325,7 +325,7 @@ public class UserService implements UserDetailsService {
         }catch (Exception e){
             e.printStackTrace();
             //if error occur because  any reason add error status and error reason
-            res.put("status","error : "+e.getMessage());
+            res.put("error","error : "+e.getMessage());
         }
         return res;
     }
@@ -572,6 +572,29 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
+
+
+    public Object activeAccount(String userPhone){
+        Map<Object,Object> res = new HashMap<>();
+        try{
+
+            //delete account by removing for his phone affix 002_ before the number
+            usersRepository.activeAccount(userPhone);
+
+            //add if active successfully add active status with true
+            res.put("activeStatus",true);
+            //add success status to response map
+            res.put("status","success");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            //if error occur because  any reason add error status and error reason
+            res.put("activeStatus",false);
+            res.put("status","error");
+            res.put("error",e.getMessage());
+        }
+        return res;
+    }
 
 
 
