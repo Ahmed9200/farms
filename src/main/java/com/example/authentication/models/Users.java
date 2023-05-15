@@ -51,29 +51,12 @@ public class Users {
     @Column(name = "photo")
     private String photo;
 
-
-    @Column(name = "account_status", length = 50, nullable = true)
-    private String accountStatus = "active";
-
-
-    @Column(name = "notification_token", length = 450, nullable = true)
-    private String notificationToken; // new
-
-    @Column(name = "date_of_delete" )
-    private Date dateOfDelete;
-
-    @Column(name = "delete_by")
-    private String deleteBy;
-
-
-    public Users (String phone , String password , String notificationToken){
+    public Users (String phone , String password){
         this.username=phone;
         this.phone=phone;
         this.name= phone;
         this.password=password;
-        this.notificationToken = notificationToken;
         this.dateOfJoin=new Date();
-        this.accountStatus="active";
     }
 
     public Map<Object,Object> lightUser(Users u){
@@ -81,7 +64,6 @@ public class Users {
         res.put("id" , u.getId());
         res.put("name",u.getName());
         res.put("email",u.getEmail());
-        res.put("accountStatus",u.getAccountStatus());
         res.put("phone",u.getPhone());
         res.put("additionalPhone",u.getAdditionalPhone());
         res.put("photo",u.getPhoto());

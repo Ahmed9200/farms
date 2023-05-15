@@ -1,13 +1,10 @@
 package com.example.authentication.services;
 
-import com.example.authentication.controllers.AdminUsersController;
 import com.example.authentication.models.AppUser;
 import com.example.authentication.models.Users;
 import com.example.authentication.repositories.usersRepo.UsersRepository;
 import com.example.authentication.requests.LimitAndOffsetRequest;
 import com.example.authentication.requests.userRequests.*;
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -28,16 +24,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     UsersRepository usersRepository;
 
-    @Autowired AdminUserService adminUserService;
-
     @Override
     public UserDetails loadUserByUsername(String username) {
-        if (AdminUsersController.ADMIN_USER.equals("admin")){
-            return adminUserService.loadUserByUsername(username);
-        }else{
             return findByUsername(username);
-        }
-
     }
 
     private AppUser findByUsername(String username){
@@ -61,8 +50,6 @@ public class UserService implements UserDetailsService {
     public Users findUserByPhone(String phone){
         return usersRepository.findByPhoneAndAccountStatus(phone,"active");
     }
-
-
 
     public Object findByPhone(String phone){
         Map<Object,Object> res = new HashMap<>();
@@ -124,60 +111,6 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public String createRandomPW(){
-
-        try{
-            String ALPHA_NUMERIC_STRING = "0123456789";
-
-            StringBuilder builder = new StringBuilder();
-            int count = 4;
-            while (count-- != 0) {
-                int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-                builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-            }
-            return builder.toString();
-
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Object sendOTP(String phone){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-            String ACCOUNT_SID = "ACd8d26f4dd0be94a2e6daab3906b8f27c";
-            String AUTH_TOKEN = "3fad1ed6d98c187c094632026b40ac6a";
-            //create random number
-            String randomOTP= createRandomPW();
-
-            String msg = "your verification code is "+randomOTP+" .";
-            //send an otp by twillio
-            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-            Message message = Message.creator(
-                            new com.twilio.type.PhoneNumber(phone),
-                            "MG512d5bf5fb2c9cf972ffad0611612f64",
-                            msg)
-                    .create();
-
-            System.out.println(message.getSid());
-
-            //add if sent successfully add update status with true
-            res.put("otp",randomOTP);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("otp","false");
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-
     private String encryption(String passwordToHash) {
         //String passwordToHash = "password";
         String generatedPassword = null;
@@ -211,7 +144,7 @@ public class UserService implements UserDetailsService {
             password = encryption(password);
 
             //create user object to add data to it
-            Users user = new Users(request.getPhone(), password,request.getToken());
+            Users user = new Users(request.getPhone(), password);
 
             //save user data in database
             user = usersRepository.save(user);
@@ -274,63 +207,6 @@ public class UserService implements UserDetailsService {
         }
         return res;
     }
-
-    public Object updateNotificationToken(UpdateUserNotificationTokenRequest request){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //update additional phone by new one with the new phone
-            usersRepository.updateNotificationToken(request.getToken(), request.getUserId());
-
-            //add if updated successfully add update status with true
-            res.put("updateStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("updateStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-
-    public Object getDeletedUserData(String phone){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //check if user exist or not
-            Users u = usersRepository.findByPhoneLike("%"+phone);
-            if (u==null){
-                res.put("error","E-REP001");//user not exist
-            }else if (u.getAccountStatus().equalsIgnoreCase("active")){
-                res.put("error","E-REP002");//pw wrong
-            }else if (u.getAccountStatus().contains("stop")){
-                res.put("error","E-REP003");//account stop from admin
-            }else if (u.getAccountStatus().contains("delete") && u.getDeleteBy().contains("admin")){
-                res.put("error","E-REP004");//account deleted from admin
-            }else if (u.getAccountStatus().contains("delete") && u.getDeleteBy().contains("user")){
-                long diffInMillies = Math.abs(u.getDateOfDelete().getTime() - new Date().getTime());
-                long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                if (diff<30){
-                    res.put("error","E-REP005");//account deleted from user and still can active it
-                }else{
-                    res.put("error","E-REP006");//account deleted from user and can not active it
-                }
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("error","error : "+e.getMessage());
-        }
-        return res;
-    }
-
-
 
     public Object updatePhoto(UpdateUserPhotoRequest request){
         Map<Object,Object> res = new HashMap<>();
@@ -449,156 +325,6 @@ public class UserService implements UserDetailsService {
         }
         return res;
     }
-
-
-
-
-
-
-    public Object deleteAccountUser(int userId){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //delete account by adding for his phone affix 001_ before the number
-            usersRepository.deleteAccountFromUser(userId);
-
-            //add if deleted successfully add delete status with true
-            res.put("deleteStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("deleteStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-    public Object stopAccountUser(int userId){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            System.err.println( userId);
-            //delete account by adding for his phone affix 002_ before the number
-            usersRepository.stopAccountFromUser(userId);
-
-            //add if stopped successfully add stop status with true
-            res.put("stopStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("stopStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-
-
-    public Object deleteAccountAdmin(int userId){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //delete account by adding for his phone affix 001_ before the number
-            usersRepository.deleteAccountFromAdmin(userId);
-
-            //add if deleted successfully add delete status with true
-            res.put("deleteStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("deleteStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-    public Object stopAccountAdmin(int userId){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            System.err.println( userId);
-            //delete account by adding for his phone affix 002_ before the number
-            usersRepository.stopAccountFromAdmin(userId);
-
-            //add if stopped successfully add stop status with true
-            res.put("stopStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("stopStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-
-
-
-    public Object activeAccount(int userId){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //delete account by removing for his phone affix 002_ before the number
-            usersRepository.activeAccount(userId);
-
-            //add if active successfully add active status with true
-            res.put("activeStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("activeStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-
-
-    public Object activeAccount(String userPhone){
-        Map<Object,Object> res = new HashMap<>();
-        try{
-
-            //delete account by removing for his phone affix 002_ before the number
-            usersRepository.activeAccount(userPhone);
-
-            //add if active successfully add active status with true
-            res.put("activeStatus",true);
-            //add success status to response map
-            res.put("status","success");
-
-        }catch (Exception e){
-            e.printStackTrace();
-            //if error occur because  any reason add error status and error reason
-            res.put("activeStatus",false);
-            res.put("status","error");
-            res.put("error",e.getMessage());
-        }
-        return res;
-    }
-
-
-
-
 
     public Object getLatestJoiningUsersCount(){
         Map<Object,Object> res = new HashMap<>();

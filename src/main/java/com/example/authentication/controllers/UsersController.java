@@ -60,7 +60,7 @@ public class UsersController {
     public Object login(@RequestBody UserSignInDto signInRequest) {
         Map<Object,Object> res = new HashMap<>();
         try {
-            AdminUsersController.ADMIN_USER="user";
+
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInRequest.getPhone(),
                         (signInRequest.getPassword()))
@@ -75,77 +75,9 @@ public class UsersController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return userService.getDeletedUserData(signInRequest.getPhone());
         }
         return res;
     }
-
-
-
-
-    @PostMapping(value = "/deleteAccount") // from user
-    public Object deleteAcc(@RequestHeader("Authorization") String token) {
-
-        Map<Object, Object> errorMsg = new HashMap<>();
-
-        //getting token result with this data from the token front sent
-        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
-
-        //check if token valid
-        if (((boolean)tokenRes.get("isValid")==false)) {
-            //if token not valid make error user not authorized and status with error
-            errorMsg.put("status","error");
-            errorMsg.put("error", "USER NOT Authorized , token not valid");
-
-            return errorMsg;
-        }
-        return userService.deleteAccountUser(Integer.parseInt(tokenRes.get("userId").toString()));
-    }
-
-    @PostMapping(value = "/stopAccount") // from user
-    public Object stopAcc(@RequestHeader("Authorization") String token) {
-
-        Map<Object, Object> errorMsg = new HashMap<>();
-
-        //getting token result with this data from the token front sent
-        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
-
-        //check if token valid
-        if (((boolean)tokenRes.get("isValid")==false)) {
-            //if token not valid make error user not authorized and status with error
-            errorMsg.put("status","error");
-            errorMsg.put("error", "USER NOT Authorized , token not valid");
-
-            return errorMsg;
-        }
-        return userService.stopAccountUser(Integer.parseInt(tokenRes.get("userId").toString()));
-    }
-
-
-
-
-    @PostMapping(value = "/deleteAccount/{id}") // from admin
-    public Object deleteAcc(@PathVariable("id") int id) {
-        return userService.deleteAccountAdmin(id);
-    }
-
-    @PostMapping(value = "/stopAccount/{id}") // from admin
-    public Object stopAcc(@PathVariable("id") int id) {
-        return userService.stopAccountAdmin(id);
-    }
-
-    @GetMapping(value = "/activeAccount/{userId}") //from admin
-    public Object activeAcc(@PathVariable("userId") int userId) {
-        return userService.activeAccount(userId);
-    }
-
-
-    @GetMapping(value = "/activeAccount/{username}") //from user
-    public Object activeAcc(@PathVariable("username") String username) {
-        return userService.activeAccount(username);
-    }
-
-
 
 
     @PostMapping(value = "/updateName")
@@ -209,27 +141,6 @@ public class UsersController {
         }
         return userService.updateAdditionalPhone(request);
     }
-
-    @PostMapping(value = "/updateNotificationToken")
-    public Object updateNotificationToken(@RequestBody UpdateUserNotificationTokenRequest request,
-                                        @RequestHeader("Authorization") String token) {
-
-        Map<Object, Object> errorMsg = new HashMap<>();
-
-        //getting token result with this data from the token front sent
-        Map<Object,Object> tokenRes = tokenService.isTokenValid(token);
-
-        //check if token valid
-        if (((boolean)tokenRes.get("isValid")==false)) {
-            //if token not valid make error user not authorized and status with error
-            errorMsg.put("status","error");
-            errorMsg.put("error", "USER NOT Authorized , token not valid");
-
-            return errorMsg;
-        }
-        return userService.updateNotificationToken(request);
-    }
-
 
     @PostMapping(value = "/updatePhoto")
     public Object updatePhoto(@RequestBody UpdateUserPhotoRequest request,
@@ -321,25 +232,6 @@ public class UsersController {
     }
 
 
-    @GetMapping(value = "/sendOTP/{phone}")
-    public Object sendOTP(@PathVariable("phone") String phone,
-                          @RequestHeader("Authorization") String token) {
-        Map<Object, Object> errorMsg = new HashMap<>();
-
-        //getting token result with this data from the token front sent
-        //check if token valid
-        System.err.println(token);
-        if (!token.equals(OTP_TOKEN)) {
-            //if token not valid make error user not authorized and status with error
-            errorMsg.put("status","error");
-            errorMsg.put("error", "token not valid");
-
-            return errorMsg;
-        }
-        return userService.sendOTP(phone);
-    }
-
-
     @GetMapping(value = "/findUserById/{userId}")
     public Object findUserById(@PathVariable("userId") int userId) {
         return userService.findUserById(userId);
@@ -355,7 +247,6 @@ public class UsersController {
     public Object userPhoto(@PathVariable("userId") int userId) {
         return userService.getUserPhoto(userId);
     }
-
 
 
 

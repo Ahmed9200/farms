@@ -1,6 +1,5 @@
 package com.example.authentication.services;
 
-import com.example.authentication.DamhaApplication;
 import com.example.authentication.models.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
