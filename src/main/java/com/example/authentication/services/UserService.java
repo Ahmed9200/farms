@@ -2,7 +2,7 @@ package com.example.authentication.services;
 
 import com.example.authentication.models.AppUser;
 import com.example.authentication.models.Users;
-import com.example.authentication.repositories.usersRepo.UsersRepository;
+import com.example.authentication.repositories.UsersRepository;
 import com.example.authentication.requests.LimitAndOffsetRequest;
 import com.example.authentication.requests.userRequests.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
     private AppUser findByUsername(String username){
         AppUser appUser = new AppUser();
         try{
-            Users  users =  usersRepository.findByUsernameAndAccountStatus(username,"active");
+            Users  users =  usersRepository.findByUsername(username);
 
             appUser.setUsername(users.getUsername());
             appUser.setPassword(users.getPassword());
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Users findUserByPhone(String phone){
-        return usersRepository.findByPhoneAndAccountStatus(phone,"active");
+        return usersRepository.findByPhone(phone);
     }
 
     public Object findByPhone(String phone){

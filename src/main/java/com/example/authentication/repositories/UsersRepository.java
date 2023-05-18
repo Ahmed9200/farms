@@ -1,4 +1,4 @@
-package com.example.authentication.repositories.usersRepo;
+package com.example.authentication.repositories;
 
 import com.example.authentication.models.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,9 +14,9 @@ import java.util.Map;
 public interface UsersRepository extends JpaRepository<Users, Integer> {
 
 
-    Users findByPhoneAndAccountStatus(String phone,String accountStatus);
+    Users findByPhone(String phone);
     Users findByPhoneLike(String phone);
-    Users findByUsernameAndAccountStatus(String username,String accountStatus);
+    Users findByUsername(String username);
     Users findById(int id);
 
 

@@ -1,5 +1,7 @@
 package com.example.authentication.models;
 
+import com.example.authentication.requests.AddCategoryRequest;
+import com.example.authentication.requests.UpdateCategoryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,4 +36,16 @@ public class Categories {
     @Column(name = "photo")
     private String photo;
 
+    public Categories(AddCategoryRequest request) {
+        this.description = request.getDescription();
+        this.name = request.getName();
+        this.photo = request.getPhoto();
+    }
+
+    public Categories(UpdateCategoryRequest request) {
+        this.id = request.getCategoryId();
+        this.description = request.getDescription();
+        this.name = request.getName();
+        this.photo = request.getPhoto();
+    }
 }

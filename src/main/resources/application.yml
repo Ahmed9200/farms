@@ -1,5 +1,5 @@
 server:
-  port: 5555
+  port: 5000
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
