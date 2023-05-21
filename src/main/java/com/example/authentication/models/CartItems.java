@@ -15,20 +15,16 @@ import java.util.Date;
 @Entity
 @Table(name = "cart")
 public class CartItems {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "quantity",nullable = false)
     private int quantity=0;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Items item;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     private Invoices invoice;
 

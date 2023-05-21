@@ -2,8 +2,12 @@ package com.example.authentication.controllers;
 
 import com.example.authentication.models.AppUser;
 import com.example.authentication.models.Users;
-import com.example.authentication.requests.LimitAndOffsetRequest;
-import com.example.authentication.requests.userRequests.*;
+import com.example.authentication.requests.Add.UserRegisterRequest;
+import com.example.authentication.requests.Get.FilterUsersByDateRequest;
+import com.example.authentication.requests.Get.FilterUsersByNameLikeRequest;
+import com.example.authentication.requests.Get.LimitAndOffsetRequest;
+import com.example.authentication.requests.Get.UserSignInDto;
+import com.example.authentication.requests.Update.*;
 import com.example.authentication.responses.JwtResponse;
 import com.example.authentication.services.TokenService;
 import com.example.authentication.services.UserService;
@@ -14,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,15 +27,10 @@ public class UsersController {
 
     @Autowired
     private TokenService tokenService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private AuthenticationManager authenticationManager;
-
-
-    public final String OTP_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWVkMTIzIiwibmFtZSI6Im90cCIsImlhdCI6MTUxNjIzOTAyMn0.pvD7ChWSmL3UUetm17-WB9_VxkDgvzIke3FHAf2ucaE";
 
 
     @PostMapping(value = "/register", produces = {"application/json"})

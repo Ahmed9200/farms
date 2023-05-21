@@ -1,15 +1,17 @@
-package com.example.authentication.requests.userRequests;
+package com.example.authentication.requests.Get;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class FilterUsersByNameLikeRequest {
+public class FilterUsersByDateRequest {
     private int limit = Integer.MAX_VALUE;
     private int offset =0;
 
-    private String name;
+    private String startDate;
+    private String endDate;
 
     private String status = "all";
+
 }

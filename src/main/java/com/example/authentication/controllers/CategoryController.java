@@ -1,25 +1,10 @@
 package com.example.authentication.controllers;
 
-import com.example.authentication.models.AppUser;
-import com.example.authentication.models.Users;
-import com.example.authentication.requests.AddCategoryRequest;
-import com.example.authentication.requests.LimitAndOffsetRequest;
-import com.example.authentication.requests.UpdateCategoryRequest;
-import com.example.authentication.requests.userRequests.*;
-import com.example.authentication.responses.JwtResponse;
+import com.example.authentication.requests.Add.AddCategoryRequest;
+import com.example.authentication.requests.Update.UpdateCategoryRequest;
 import com.example.authentication.services.CategoryService;
-import com.example.authentication.services.PartnersService;
-import com.example.authentication.services.TokenService;
-import com.example.authentication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/category")

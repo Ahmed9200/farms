@@ -1,5 +1,7 @@
 package com.example.authentication.models;
 
+import com.example.authentication.requests.Add.AddContactUsRequest;
+import com.example.authentication.requests.Update.UpdateContactUsRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,26 +17,35 @@ import java.util.Date;
 @Entity
 @Table(name = "contact_us")
 public class ContactUs {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "username")
     private String username;
-
     @Column(name = "user_phone")
     private String userPhone;
-
     @Column(name = "user_email")
     private String userEmail;
-
     @Lob
     @Column(name = "message")
     private String message;
-
     @Column(name = "date")
     private Date date= new Date();
 
+    public ContactUs(AddContactUsRequest request) {
+        this.userEmail = getUserEmail();
+        this.message = request.getMessage();
+        this.username = request.getUsername();
+        this.userPhone = request.getUserPhone();
+        this.date = new Date();
+    }
+
+    public ContactUs(UpdateContactUsRequest request) {
+        this.id = request.getContactId();
+        this.userEmail = getUserEmail();
+        this.message = request.getMessage();
+        this.username = request.getUsername();
+        this.userPhone = request.getUserPhone();
+    }
 }

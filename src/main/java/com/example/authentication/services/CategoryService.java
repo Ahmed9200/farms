@@ -1,22 +1,12 @@
 package com.example.authentication.services;
 
-import com.example.authentication.models.AppUser;
 import com.example.authentication.models.Categories;
-import com.example.authentication.models.Users;
 import com.example.authentication.repositories.CategoriesRepository;
-import com.example.authentication.repositories.UsersRepository;
-import com.example.authentication.requests.AddCategoryRequest;
-import com.example.authentication.requests.LimitAndOffsetRequest;
-import com.example.authentication.requests.UpdateCategoryRequest;
-import com.example.authentication.requests.userRequests.*;
+import com.example.authentication.requests.Add.AddCategoryRequest;
+import com.example.authentication.requests.Update.UpdateCategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service

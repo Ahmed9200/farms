@@ -1,4 +1,4 @@
-package com.example.authentication.requests;
+package com.example.authentication.requests.Add;
 
 import lombok.Data;
 

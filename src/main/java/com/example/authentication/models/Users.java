@@ -19,34 +19,24 @@ import java.util.Map;
 @Entity
 @Table(name = "users")
 public class Users {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "name", length = 50, nullable = true, unique = true)
     private String name;
-
     @Column(name = "email", length = 350, unique = true , nullable = true)
     private String email;
-
     @Column(name = "username", length = 50, nullable = false, unique = true)
     private String username;
-
     @Column(name = "password", length = 50, nullable = false)
     private String password;
-
     @Column(name = "date_of_join" , nullable = false)
     private Date dateOfJoin;
-
-
     @Column(name = "phone", length = 50 , unique = true , nullable = false)
     private String phone;
-
     @Column(name = "additional_phone", length = 45, nullable = true)
     private String additionalPhone; // new
-
     @Lob
     @Column(name = "photo")
     private String photo;
