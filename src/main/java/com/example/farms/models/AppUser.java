@@ -2,6 +2,7 @@ package com.example.farms.models;
 
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -20,7 +21,7 @@ public class AppUser implements UserDetails{
     private int id;
     private String username;
     private String phone;
-    private String email;
+    private UserRole role;
     private String password;
 
     public AppUser() {}
@@ -44,7 +45,7 @@ public class AppUser implements UserDetails{
 
     public String getPhone(){return phone;}
 
-    public String getEmail(){return email;}
+    public UserRole getRole(){return role;}
 
     @Override
     public boolean isAccountNonExpired() {

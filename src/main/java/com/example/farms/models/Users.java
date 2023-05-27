@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,39 +22,37 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "name", length = 50, nullable = true, unique = true)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
-    @Column(name = "email", length = 350, unique = true , nullable = true)
-    private String email;
     @Column(name = "username", length = 50, nullable = false, unique = true)
     private String username;
     @Column(name = "password", length = 50, nullable = false)
     private String password;
     @Column(name = "date_of_join" , nullable = false)
+    @CreationTimestamp
     private Date dateOfJoin;
-    @Column(name = "phone", length = 50 , unique = true , nullable = false)
+    @Column(name = "phone", length = 50 , unique = true)
     private String phone;
-    @Column(name = "additional_phone", length = 45, nullable = true)
-    private String additionalPhone; // new
     @Lob
     @Column(name = "photo")
     private String photo;
+    @Column(name = "role",nullable = false)
+    private UserRole role = UserRole.USER;
 
-    public Users (String phone , String password){
-        this.username=phone;
+    public Users (String name ,String username , String password , String phone , UserRole role){
+        this.username=username;
         this.phone=phone;
-        this.name= phone;
+        this.name= name;
         this.password=password;
-        this.dateOfJoin=new Date();
+        this.role=role;
     }
 
     public Map<Object,Object> lightUser(Users u){
         Map<Object,Object> res = new HashMap<>();
         res.put("id" , u.getId());
         res.put("name",u.getName());
-        res.put("email",u.getEmail());
+        res.put("username",u.getUsername());
         res.put("phone",u.getPhone());
-        res.put("additionalPhone",u.getAdditionalPhone());
         res.put("photo",u.getPhoto());
         res.put("dateOfJoin",u.getDateOfJoin());
         return res;
