@@ -1,7 +1,7 @@
 package com.example.farms.controllers;
 
-import com.example.farms.models.AppUser;
-import com.example.farms.models.Users;
+import com.example.farms.models.entities.AppUser;
+import com.example.farms.models.entities.Users;
 import com.example.farms.DTO.Add.UserRegisterDTO;
 import com.example.farms.DTO.Get.UserSignInDto;
 import com.example.farms.DTO.Update.*;
@@ -86,6 +86,11 @@ public class UsersController {
     @GetMapping(value = "/findUserById/{userId}")
     public Object findUserById(@PathVariable("userId") int userId) {
         return userService.findUserById(userId);
+    }
+
+    @GetMapping(value = "/user")
+    public Object findUserById(@RequestHeader("Authorization") String token) {
+        return tokenService.getUser(token);
     }
 
     @GetMapping(value = "/allUsers")

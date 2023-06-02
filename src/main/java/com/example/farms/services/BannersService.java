@@ -1,6 +1,6 @@
 package com.example.farms.services;
 
-import com.example.farms.models.Banners;
+import com.example.farms.models.entities.Banners;
 import com.example.farms.repositories.BannersRepository;
 import com.example.farms.DTO.Add.AddBannerDTO;
 import com.example.farms.DTO.Update.UpdateBannerRequest;

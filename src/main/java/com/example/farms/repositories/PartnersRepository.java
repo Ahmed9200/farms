@@ -1,6 +1,6 @@
 package com.example.farms.repositories;
 
-import com.example.farms.models.Partners;
+import com.example.farms.models.entities.Partners;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

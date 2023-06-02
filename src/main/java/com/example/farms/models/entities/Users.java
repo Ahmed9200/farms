@@ -1,5 +1,6 @@
-package com.example.farms.models;
+package com.example.farms.models.entities;
 
+import com.example.farms.models.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,8 @@ public class Users {
     @Lob
     @Column(name = "photo")
     private String photo;
+    @Column(name = "content_type")
+    private String contentType;
     @Column(name = "role",nullable = false)
     private UserRole role = UserRole.USER;
 
@@ -54,6 +57,7 @@ public class Users {
         res.put("username",u.getUsername());
         res.put("phone",u.getPhone());
         res.put("photo",u.getPhoto());
+        res.put("contentType",u.getContentType());
         res.put("dateOfJoin",u.getDateOfJoin());
         return res;
     }

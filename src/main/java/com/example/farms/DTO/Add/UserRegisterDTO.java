@@ -1,6 +1,6 @@
 package com.example.farms.DTO.Add;
 
-import com.example.farms.models.UserRole;
+import com.example.farms.models.enums.UserRole;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

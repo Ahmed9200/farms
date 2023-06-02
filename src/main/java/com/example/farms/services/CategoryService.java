@@ -1,6 +1,6 @@
 package com.example.farms.services;
 
-import com.example.farms.models.Categories;
+import com.example.farms.models.entities.Categories;
 import com.example.farms.repositories.CategoriesRepository;
 import com.example.farms.DTO.Add.AddCategoryDTO;
 import com.example.farms.DTO.Update.UpdateCategoryRequest;

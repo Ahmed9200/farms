@@ -1,4 +1,4 @@
-package com.example.farms.models;
+package com.example.farms.models.entities;
 
 import com.example.farms.DTO.Add.AddCategoryDTO;
 import com.example.farms.DTO.Update.UpdateCategoryRequest;
@@ -28,11 +28,14 @@ public class Categories {
     @Lob
     @Column(name = "photo")
     private String photo;
+    @Column(name = "content_type")
+    private String contentType;
 
     public Categories(AddCategoryDTO request) {
         this.description = request.getDescription();
         this.name = request.getName();
         this.photo = request.getPhoto();
+        this.contentType= request.getContentType();
     }
 
     public Categories(UpdateCategoryRequest request) {
@@ -40,6 +43,7 @@ public class Categories {
         this.description = request.getDescription();
         this.name = request.getName();
         this.photo = request.getPhoto();
+        this.contentType= request.getContentType();
     }
 
     public Categories(int categoryId) {

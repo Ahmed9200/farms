@@ -1,4 +1,4 @@
-package com.example.farms.models;
+package com.example.farms.models.entities;
 
 import com.example.farms.DTO.Add.AddPartnerDTO;
 import com.example.farms.DTO.Update.UpdatePartnerRequest;
@@ -26,6 +26,8 @@ public class Partners {
     @Lob
     @Column(name = "photo")
     private String photo;
+    @Column(name = "content_type")
+    private String contentType;
     @Lob
     @Column(name = "description")
     private String description;
@@ -37,12 +39,14 @@ public class Partners {
         this.description = request.getDescription();
         this.name = request.getName();
         this.photo = request.getPhoto();
+        this.contentType=request.getContentType();
     }
     public Partners(UpdatePartnerRequest request) {
         this.name = request.getName();
         this.description = request.getDescription();
         this.photo = request.getPhoto();
         this.id = request.getPartnerId();
+        this.contentType= request.getContentType();
     }
 
 }

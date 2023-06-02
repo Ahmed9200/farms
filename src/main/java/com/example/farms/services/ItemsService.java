@@ -2,10 +2,10 @@ package com.example.farms.services;
 
 import com.example.farms.DTO.Add.AddItemDTO;
 import com.example.farms.DTO.Update.UpdateItemDTO;
-import com.example.farms.models.Items;
-import com.example.farms.models.Partners;
+import com.example.farms.models.entities.Items;
 import com.example.farms.repositories.ItemsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -85,28 +85,48 @@ public class ItemsService {
     }
 
     public Object getItemByNameLike(String name , int page,int size) {
+        Map<Object,Object> res = new HashMap<>();
         Pageable pageable = PageRequest.of(page, size);
-        return itemsRepository.findAllByNameLike("%"+name+"%",pageable);
+        Page<Items> items= itemsRepository.findAllByNameLike("%"+name+"%",pageable);
+        res.put("total",items.getTotalElements());
+        res.put("items",items.get());
+        return res;
     }
 
     public Object getItemByCategory(int catId,int page,int size,String sortBy) {
+        Map<Object,Object> res = new HashMap<>();
         Pageable pageable = PageRequest.of(page, size,Sort.by(sortBy));
-        return itemsRepository.findAllByCategoryId(catId,pageable);
+        Page<Items> items= itemsRepository.findAllByCategoryId(catId,pageable);
+        res.put("total",items.getTotalElements());
+        res.put("items",items.get());
+        return res;
     }
 
     public Object allSaleItems(int page,int size,String sortBy) {
+        Map<Object,Object> res = new HashMap<>();
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return itemsRepository.findAllBySaleGreaterThan(0,pageable);
+        Page<Items> items= itemsRepository.findAllBySaleGreaterThan(0,pageable);
+        res.put("total",items.getTotalElements());
+        res.put("items",items.get());
+        return res;
     }
 
 
     public Object allNewItems(int page,int size,String sortBy) {
+        Map<Object,Object> res = new HashMap<>();
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return itemsRepository.findAllByNewItemsIsTrue(pageable);
+        Page<Items> items= itemsRepository.findAllByNewItemsIsTrue(pageable);
+        res.put("total",items.getTotalElements());
+        res.put("items",items.get());
+        return res;
     }
 
     public Object allItems(int page, int size,String sortBy) {
+        Map<Object,Object> res = new HashMap<>();
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return itemsRepository.findAll(pageable);
+        Page<Items> items= itemsRepository.findAll(pageable);
+        res.put("total",items.getTotalElements());
+        res.put("items",items.get());
+        return res;
     }
 }

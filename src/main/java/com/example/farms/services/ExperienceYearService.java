@@ -1,6 +1,6 @@
 package com.example.farms.services;
 
-import com.example.farms.models.ExperiencesYears;
+import com.example.farms.models.entities.ExperiencesYears;
 import com.example.farms.repositories.ExperiencesYearsRepository;
 import com.example.farms.DTO.Add.AddExpYearDTO;
 import com.example.farms.DTO.Update.UpdateExpYearRequest;

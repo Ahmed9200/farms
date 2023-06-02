@@ -1,4 +1,4 @@
-package com.example.farms.models;
+package com.example.farms.models.entities;
 
 import com.example.farms.DTO.Add.AddExpYearDTO;
 import com.example.farms.DTO.Update.UpdateExpYearRequest;

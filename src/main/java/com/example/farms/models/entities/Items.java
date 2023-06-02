@@ -1,4 +1,4 @@
-package com.example.farms.models;
+package com.example.farms.models.entities;
 
 import com.example.farms.DTO.Add.AddItemDTO;
 import com.example.farms.DTO.Update.UpdateItemDTO;
@@ -40,6 +40,8 @@ public class Items {
     @Lob
     @Column(name = "photo")
     private String photo;
+    @Column(name = "content_type")
+    private String contentType;
 
     public Items(AddItemDTO request) {
         this.name= request.getName();
@@ -48,6 +50,7 @@ public class Items {
         this.quantity= request.getQuantity();
         this.sale= request.getSale();
         this.photo= request.getPhoto();
+        this.contentType= request.getContentType();
         this.categoryId = request.getCategoryId();
     }
 
@@ -59,6 +62,7 @@ public class Items {
         this.quantity= request.getQuantity();
         this.sale= request.getSale();
         this.photo= request.getPhoto();
+        this.contentType= request.getContentType();
         this.categoryId = request.getCategoryId();
     }
 }

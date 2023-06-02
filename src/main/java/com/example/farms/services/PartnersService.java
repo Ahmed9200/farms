@@ -1,6 +1,6 @@
 package com.example.farms.services;
 
-import com.example.farms.models.Partners;
+import com.example.farms.models.entities.Partners;
 import com.example.farms.repositories.PartnersRepository;
 import com.example.farms.DTO.Add.AddPartnerDTO;
 import com.example.farms.DTO.Update.UpdatePartnerRequest;

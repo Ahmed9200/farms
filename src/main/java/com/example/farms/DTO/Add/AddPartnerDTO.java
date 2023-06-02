@@ -7,4 +7,5 @@ public class AddPartnerDTO {
     private String name;
     private String description;
     private String photo;
+    private String contentType;
 }

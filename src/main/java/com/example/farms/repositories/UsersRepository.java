@@ -1,14 +1,11 @@
 package com.example.farms.repositories;
 
-import com.example.farms.models.Users;
+import com.example.farms.models.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Integer> {
@@ -24,8 +21,8 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE users SET photo = ?1 WHERE id=?2 ", nativeQuery = true)
-    void updatePhoto(String photo, int userId);
+    @Query(value = "UPDATE users SET photo = ?1 ,content_type=?2 WHERE id=?3 ", nativeQuery = true)
+    void updatePhoto(String photo,String contentType, int userId);
 
     @Modifying
     @Transactional

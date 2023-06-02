@@ -8,5 +8,6 @@ public class UpdateCategoryRequest {
     private String name;
     private String description;
     private String photo;
+    private String contentType;
 
 }

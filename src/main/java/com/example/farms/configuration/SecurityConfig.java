@@ -17,7 +17,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC_ENDPOINTS = {
             "/users/register",
             "/users/login",
-            "/**"
+            "/users/forgetPassword/{username}",
+            "/banner/viewAllBanners",
+            "/banner/getBannerById/{bannerId}",
+            "/category/viewAllCategories",
+            "/contact/*",
+            "/exp_years/viewAllExpYear",
+            "/exp_years/getExpYearById/{expYearId}",
+            "/exp_years/getExpYearByYear/{year}",
+            "/invoice/saveInvoice",
+            "/invoice/deleteInvoice/{id}",
+            "/invoice/cartItems/{invoiceId}",
+            "/items/getItemById/{itemId}",
+            "/items/getItemByNameLike/{name}",
+            "/items/getItemByCategory/{categoryId}",
+            "/items/allSaleItems",
+            "/items/allNewItems",
+            "/items/allItems",
+            "/partners/viewAllPartner",
+            "/invoice/getVat",
+            "/invoice/getDelivery"
     };
 
     @Bean

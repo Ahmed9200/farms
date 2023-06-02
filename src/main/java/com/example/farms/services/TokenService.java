@@ -1,6 +1,7 @@
 package com.example.farms.services;
 
-import com.example.farms.models.AppUser;
+import com.example.farms.models.entities.AppUser;
+import com.example.farms.models.entities.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,12 +41,17 @@ public class TokenService {
     public String getUserNameFromToken(String token) {
         try {
             Claims claims = getClaims(token);
-
             return claims.getSubject();
         }catch (Exception ex) {
             return null;
         }
     }
+
+    public Object getUser(String token){
+        String username = getUserNameFromToken(token);
+        return new Users().lightUser(userService.findUserByUsername(username));
+    }
+
     public Date generateExpirationDate() {
         return new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000);
     }

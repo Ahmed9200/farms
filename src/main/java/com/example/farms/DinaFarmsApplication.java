@@ -1,6 +1,10 @@
 package com.example.farms;
 
 
+import com.example.farms.models.enums.Constants;
+import com.example.farms.services.ConfigService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +18,10 @@ import java.util.List;
 
 @EnableScheduling
 @SpringBootApplication
-public class DinaFarmsApplication {
+public class DinaFarmsApplication implements CommandLineRunner {
 
+    @Autowired
+    ConfigService service;
 
     public static void main(String[] args) {
         SpringApplication.run(DinaFarmsApplication.class, args);
@@ -42,5 +48,11 @@ public class DinaFarmsApplication {
                 registry.addMapping("/**");
             }
         };
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        Constants.DELIVERY = Integer.parseInt(service.getValueByName("delivery"));
+        Constants.VAT = Integer.parseInt(service.getValueByName("vat"));
     }
 }

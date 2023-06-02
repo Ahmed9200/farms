@@ -6,5 +6,6 @@ import lombok.Data;
 public class UpdateUserPhotoRequest {
 
     private String photo;
+    private String contentType;
     private int userId;
 }

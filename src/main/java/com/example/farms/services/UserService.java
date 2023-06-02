@@ -1,24 +1,17 @@
 package com.example.farms.services;
 
-import com.example.farms.models.AppUser;
-import com.example.farms.models.Users;
+import com.example.farms.models.entities.AppUser;
+import com.example.farms.models.entities.Users;
 import com.example.farms.repositories.UsersRepository;
 import com.example.farms.DTO.Add.UserRegisterDTO;
-import com.example.farms.DTO.Get.FilterUsersByDateRequest;
-import com.example.farms.DTO.Get.FilterUsersByNameLikeRequest;
-import com.example.farms.DTO.Get.LimitAndOffsetRequest;
 import com.example.farms.DTO.Update.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +20,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UsersRepository usersRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -100,7 +94,7 @@ public class UserService implements UserDetailsService {
 
     public Object updatePhoto(UpdateUserPhotoRequest request){
         Map<Object,Object> res = new HashMap<>();
-        usersRepository.updatePhoto(request.getPhoto(), request.getUserId());
+        usersRepository.updatePhoto(request.getPhoto(),request.getContentType(), request.getUserId());
         res.put("status","success");
         return res;
     }

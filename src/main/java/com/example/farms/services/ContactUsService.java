@@ -1,6 +1,6 @@
 package com.example.farms.services;
 
-import com.example.farms.models.ContactUs;
+import com.example.farms.models.entities.ContactUs;
 import com.example.farms.repositories.ContactUsRepository;
 import com.example.farms.DTO.Add.AddContactUsDTO;
 import com.example.farms.DTO.Update.UpdateContactUsRequest;

@@ -20,4 +20,5 @@ public class UpdateItemDTO {
     @NotNull
     private int categoryId;
     private String photo;
+    private String contentType;
 }

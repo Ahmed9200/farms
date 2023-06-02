@@ -1,8 +1,8 @@
-package com.example.farms.models;
+package com.example.farms.models.entities;
 
+import com.example.farms.models.enums.UserRole;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;

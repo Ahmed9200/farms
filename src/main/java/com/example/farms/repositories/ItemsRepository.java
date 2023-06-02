@@ -1,13 +1,10 @@
 package com.example.farms.repositories;
 
-import com.example.farms.models.Items;
-import org.apache.catalina.LifecycleState;
+import com.example.farms.models.entities.Items;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface ItemsRepository extends JpaRepository<Items, Integer> {
