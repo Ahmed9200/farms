@@ -22,13 +22,13 @@ public class BannersController {
         return bannersService.saveBanner(request);
     }
 
-    @PutMapping(value = "/updateBanner", produces = {"application/json"})
+    @PostMapping(value = "/updateBanner", produces = {"application/json"})
     @ResponseBody
     public Object updateBanner(@Valid@RequestBody UpdateBannerRequest request) {
         return bannersService.updateBanner(request);
     }
 
-    @DeleteMapping(value = "/deleteBanner/{bannerId}", produces = {"application/json"})
+    @PostMapping(value = "/deleteBanner/{bannerId}", produces = {"application/json"})
     @ResponseBody
     public Object deleteBanner(@Valid@PathVariable("bannerId") int categoryId) {
         return bannersService.deleteBanner(categoryId);

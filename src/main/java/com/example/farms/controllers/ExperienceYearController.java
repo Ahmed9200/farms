@@ -22,13 +22,13 @@ public class ExperienceYearController {
         return service.saveExpYear(request);
     }
 
-    @PutMapping(value = "/updateExpYear", produces = {"application/json"})
+    @PostMapping(value = "/updateExpYear", produces = {"application/json"})
     @ResponseBody
     public Object updateExpYear(@Valid@RequestBody UpdateExpYearRequest request) {
         return service.updateExpYear(request);
     }
 
-    @DeleteMapping(value = "/deleteExpYear/{expYearId}", produces = {"application/json"})
+    @PostMapping(value = "/deleteExpYear/{expYearId}", produces = {"application/json"})
     @ResponseBody
     public Object deleteExpYear(@PathVariable("expYearId") int expYearId) {
         return service.deleteExpYear(expYearId);

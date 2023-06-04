@@ -30,34 +30,34 @@ public class InvoicesController {
         return invoiceService.saveInvoice(request);
     }
 
-    @DeleteMapping(value = "/deleteInvoice/{id}", produces = {"application/json"})
+    @PostMapping(value = "/deleteInvoice/{id}", produces = {"application/json"})
     @ResponseBody
     public Object deleteInvoice(@PathVariable("id") int id) {
         return invoiceService.deleteInvoice(id);
     }
 
 
-    @PutMapping(value = "/waitingStatus/{id}", produces = {"application/json"})
+    @PostMapping(value = "/waitingStatus/{id}", produces = {"application/json"})
     @ResponseBody
     public Object waitingStatus(@PathVariable("id") int id) {
         return invoiceService.makeInvoiceStatusWaiting(id);
     }
 
 
-    @PutMapping(value = "/inProgressStatus/{id}", produces = {"application/json"})
+    @PostMapping(value = "/inProgressStatus/{id}", produces = {"application/json"})
     @ResponseBody
     public Object inProgressStatus(@PathVariable("id") int id) {
         return invoiceService.makeInvoiceStatusInProgress(id);
     }
 
 
-    @PutMapping(value = "/doneStatus/{id}", produces = {"application/json"})
+    @PostMapping(value = "/doneStatus/{id}", produces = {"application/json"})
     @ResponseBody
     public Object doneStatus(@PathVariable("id") int id) {
         return invoiceService.makeInvoiceStatusDone(id);
     }
 
-    @PutMapping(value = "/canceledStatus/{id}", produces = {"application/json"})
+    @PostMapping(value = "/canceledStatus/{id}", produces = {"application/json"})
     @ResponseBody
     public Object canceledStatus(@PathVariable("id") int id) {
         return invoiceService.makeInvoiceStatusCanceled(id);
@@ -112,7 +112,7 @@ public class InvoicesController {
         return invoiceService.totalInvoicesPrice();
     }
 
-    @GetMapping(value = "/invoice/id",
+    @GetMapping(value = "/invoice/{id}",
             produces = {"application/json"})
     @ResponseBody
     public Object invoice(@PathVariable("id") int id) {

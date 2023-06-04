@@ -136,6 +136,10 @@ public class InvoiceService {
     public Object allInvoicesByDate(int page, int size, Date start, Date end) {
         Map<Object,Object> res = new HashMap<>();
         Pageable pageable = PageRequest.of(page, size, Sort.by("date"));
+        Calendar c = Calendar.getInstance();
+        c.setTime(end);
+        c.add(Calendar.DATE, 1);
+        end = c.getTime();
         Page<Invoices> invoices=invoicesRepository.findAllByDateBetween(start,end,pageable);
         res.put("invoices",invoices.get());
         res.put("total",invoices.getTotalElements());

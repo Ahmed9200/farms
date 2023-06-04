@@ -25,6 +25,8 @@ public interface InvoicesRepository extends JpaRepository<Invoices, Integer> {
     void updateStatus(int status, int itemId);
 
 
+    @Query(value = "select * from invoices where date between ?1 and DATE_ADD(?2,INTERVAL 1 DAY)", nativeQuery = true)
+    Page<Invoices> dateBetween(Date s , Date e , Pageable p);
 
     @Query(value = "select sum(total) as 'total' from invoices", nativeQuery = true)
     Map<Object,Object> getSumOfInvoices();

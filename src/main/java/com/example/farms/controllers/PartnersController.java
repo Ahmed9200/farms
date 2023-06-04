@@ -22,13 +22,13 @@ public class PartnersController {
         return partnersService.savePartner(request);
     }
 
-    @PutMapping(value = "/updatePartner", produces = {"application/json"})
+    @PostMapping(value = "/updatePartner", produces = {"application/json"})
     @ResponseBody
     public Object updatePartner(@Valid@RequestBody UpdatePartnerRequest request) {
         return partnersService.updatePartner(request);
     }
 
-    @DeleteMapping(value = "/deletePartner/{partnerId}", produces = {"application/json"})
+    @PostMapping(value = "/deletePartner/{partnerId}", produces = {"application/json"})
     @ResponseBody
     public Object deletePartner(@PathVariable("partnerId") int partnerId) {
         return partnersService.deletePartner(partnerId);

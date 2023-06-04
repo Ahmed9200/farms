@@ -22,13 +22,13 @@ public class ItemsController {
         return itemsService.saveItem(request);
     }
 
-    @PutMapping(value = "/updateItem", produces = {"application/json"})
+    @PostMapping(value = "/updateItem", produces = {"application/json"})
     @ResponseBody
     public Object updateItem(@Valid@RequestBody UpdateItemDTO request) {
         return itemsService.updateItem(request);
     }
 
-    @DeleteMapping(value = "/deleteItem/{itemId}", produces = {"application/json"})
+    @PostMapping(value = "/deleteItem/{itemId}", produces = {"application/json"})
     @ResponseBody
     public Object deleteItem(@Valid@PathVariable("itemId") int itemId) {
         return itemsService.deleteItem(itemId);

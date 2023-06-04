@@ -51,29 +51,29 @@ public class UsersController {
         return res;
     }
 
-    @DeleteMapping(value = "/deleteUser/{userId}", produces = {"application/json"})
+    @PostMapping(value = "/deleteUser/{userId}", produces = {"application/json"})
     @ResponseBody
     public Object deleteItem(@Valid @PathVariable("userId") int userId) {
         return userService.deleteUser(userId);
     }
 
 
-    @PutMapping(value = "/updateName")
+    @PostMapping(value = "/updateName")
     public Object updateName(@RequestBody UpdateUserNameRequest request) {
         return userService.updateName(request);
     }
 
-    @PutMapping(value = "/updatePhone")
+    @PostMapping(value = "/updatePhone")
     public Object updatePhone(@RequestBody UpdateUserPhoneRequest request) {
         return userService.updatePhone(request);
     }
 
-    @PutMapping(value = "/updatePasswordById")
+    @PostMapping(value = "/updatePasswordById")
     public Object updatePasswordById(@RequestBody UpdateUserPasswordRequest request) {
         return userService.updatePasswordById(request);
     }
 
-    @PutMapping(value = "/forgetPassword/{username}")
+    @PostMapping(value = "/forgetPassword/{username}")
     public Object changePW(@PathVariable("username") String username) {
         return userService.updatePassword(username);
     }

@@ -23,13 +23,13 @@ public class ContactUsController {
         return service.saveContactUs(request);
     }
 
-    @PutMapping(value = "/updateContactUs", produces = {"application/json"})
+    @PostMapping(value = "/updateContactUs", produces = {"application/json"})
     @ResponseBody
     public Object updateContactUs(@Valid@RequestBody UpdateContactUsRequest request) {
         return service.updateContactUs(request);
     }
 
-    @DeleteMapping(value = "/deleteContact/{contactId}", produces = {"application/json"})
+    @PostMapping(value = "/deleteContact/{contactId}", produces = {"application/json"})
     @ResponseBody
     public Object deleteContact(@PathVariable("contactId") int id) {
         return service.deleteContactUs(id);

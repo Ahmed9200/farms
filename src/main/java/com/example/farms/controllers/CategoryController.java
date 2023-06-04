@@ -22,13 +22,13 @@ public class CategoryController {
         return categoryService.saveCategory(request);
     }
 
-    @PutMapping(value = "/updateCategory", produces = {"application/json"})
+    @PostMapping(value = "/updateCategory", produces = {"application/json"})
     @ResponseBody
     public Object updateCategory(@Valid@RequestBody UpdateCategoryRequest request) {
         return categoryService.updateCategory(request);
     }
 
-    @DeleteMapping(value = "/deleteCategory/{categoryId}", produces = {"application/json"})
+    @PostMapping(value = "/deleteCategory/{categoryId}", produces = {"application/json"})
     @ResponseBody
     public Object deleteCategory(@PathVariable("categoryId") int categoryId) {
         return categoryService.deleteCategory(categoryId);
