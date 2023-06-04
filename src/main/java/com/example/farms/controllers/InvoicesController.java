@@ -136,14 +136,14 @@ public class InvoicesController {
     }
 
 
-    @PutMapping(value = "/updateVat/{value}", produces = {"application/json"})
+    @PostMapping(value = "/updateVat/{value}", produces = {"application/json"})
     @ResponseBody
     public Object updateVat(@PathVariable("value") int value) {
         return configService.saveVat(value);
     }
 
 
-    @PutMapping(value = "/updateDelivery/{value}", produces = {"application/json"})
+    @PostMapping(value = "/updateDelivery/{value}", produces = {"application/json"})
     @ResponseBody
     public Object updateDelivery(@PathVariable("value") int value) {
         return configService.saveDelivery(value);
