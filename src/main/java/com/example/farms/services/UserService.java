@@ -92,13 +92,6 @@ public class UserService implements UserDetailsService {
         return res;
     }
 
-    public Object updatePhoto(UpdateUserPhotoRequest request){
-        Map<Object,Object> res = new HashMap<>();
-        usersRepository.updatePhoto(request.getPhoto(),request.getContentType(), request.getUserId());
-        res.put("status","success");
-        return res;
-    }
-
     public Object updateName(UpdateUserNameRequest request){
         Map<Object,Object> res = new HashMap<>();
         usersRepository.updateName(request.getName(), request.getUserId());

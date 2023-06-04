@@ -19,4 +19,10 @@ public class AddInvoiceDto {
     private String address;
     @NotNull
     private double total;
+
+    @NotNull
+    private double vat;
+
+    @NotNull
+    private double itemsPrice;
 }

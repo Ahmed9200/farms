@@ -8,5 +8,5 @@ public class UpdatePartnerRequest {
     private String name;
     private String description;
     private String photo;
-    private String contentType;
+    private String photoContentType;
 }

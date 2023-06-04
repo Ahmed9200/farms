@@ -35,9 +35,11 @@ public class Invoices {
     @Column(name = "total", nullable = false)
     private double total;
     @Column(name = "vat", nullable = false)
-    private int vat=14;
+    private double vat=14;
     @Column(name = "delivery", nullable = false)
     private int delivery=0;
+    @Column(name = "items_price", nullable = false)
+    private double itemsPrice=0;
     @Column(name = "status")
     private InvoiceStatus status = InvoiceStatus.WAITING;
     @Column(name = "date")
@@ -45,7 +47,8 @@ public class Invoices {
     private Date date;
 
     public Invoices(AddInvoiceDto request) {
-     vat= Constants.VAT;
+     vat= request.getVat();
+     itemsPrice= request.getItemsPrice();
      delivery=Constants.DELIVERY;
      userAddress=request.getAddress();
      userPhone=request.getPhone1();

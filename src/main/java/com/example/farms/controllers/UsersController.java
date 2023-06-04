@@ -68,11 +68,6 @@ public class UsersController {
         return userService.updatePhone(request);
     }
 
-    @PutMapping(value = "/updatePhoto")
-    public Object updatePhoto(@RequestBody UpdateUserPhotoRequest request) {
-        return userService.updatePhoto(request);
-    }
-
     @PutMapping(value = "/updatePasswordById")
     public Object updatePasswordById(@RequestBody UpdateUserPasswordRequest request) {
         return userService.updatePasswordById(request);

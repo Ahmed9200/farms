@@ -9,6 +9,6 @@ public class UpdateBannerRequest {
     private String description2;
     private int priority;
     private String photo;
-    private String contentType;
+    private String photoContentType;
 
 }

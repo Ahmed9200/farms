@@ -63,7 +63,7 @@ public class BannersService {
 
     public Object viewAllBanners() {
         Map<Object,Object> res = new HashMap<>();
-        List<Banners> list = repository.findAll();
+        List<Banners> list = repository.findAllByOrderByPriorityDesc();
         if (list.size() == 0){
             res.put("status","error");
             res.put("error","BAN-REP-002");//empty list

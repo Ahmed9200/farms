@@ -3,6 +3,7 @@ package com.example.farms.services;
 import com.example.farms.DTO.Add.AddCartDto;
 import com.example.farms.DTO.Add.AddInvoiceDto;
 import com.example.farms.models.entities.CartItems;
+import com.example.farms.models.entities.Categories;
 import com.example.farms.models.entities.Invoices;
 import com.example.farms.models.enums.InvoiceStatus;
 import com.example.farms.repositories.CartItemsRepository;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class InvoiceService {
@@ -103,6 +101,18 @@ public class InvoiceService {
         }
         return res;
     }
+    public Object makeInvoiceStatusCanceled(int id) {
+
+        Map<Object,Object> res = new HashMap<>();
+        try{
+            invoicesRepository.updateStatus(3,id);
+            res.put("status","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            res.put("status","error");
+        }
+        return res;
+    }
 
     public Object allInvoices(int page, int size) {
         Map<Object,Object> res = new HashMap<>();
@@ -141,4 +151,18 @@ public class InvoiceService {
         return invoicesRepository.getSumOfInvoices();
     }
 
+    public Object invoiceById(int id) {
+        Map<Object,Object> res = new HashMap<>();
+
+        Optional<Invoices> invoices = invoicesRepository.findById(id);
+        if (invoices.isPresent()){
+            res.put("status","success");//invoices not found
+            res.put("invoice",invoices.get());
+        }else {
+            res.put("status", "error");
+            res.put("error", "INVOICE-REP-001");//category not found
+        }
+        return res;
+
+    }
 }

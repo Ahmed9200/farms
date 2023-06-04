@@ -40,8 +40,8 @@ public class Items {
     @Lob
     @Column(name = "photo")
     private String photo;
-    @Column(name = "content_type")
-    private String contentType;
+    @Column(name = "photo_content_type")
+    private String photoContentType;
 
     public Items(AddItemDTO request) {
         this.name= request.getName();
@@ -50,7 +50,7 @@ public class Items {
         this.quantity= request.getQuantity();
         this.sale= request.getSale();
         this.photo= request.getPhoto();
-        this.contentType= request.getContentType();
+        this.photoContentType = request.getPhotoContentType();
         this.categoryId = request.getCategoryId();
     }
 
@@ -62,7 +62,7 @@ public class Items {
         this.quantity= request.getQuantity();
         this.sale= request.getSale();
         this.photo= request.getPhoto();
-        this.contentType= request.getContentType();
+        this.photoContentType = request.getPhotoContentType();
         this.categoryId = request.getCategoryId();
     }
 }

@@ -12,5 +12,6 @@ public interface ContactUsRepository extends JpaRepository<ContactUs, Integer> {
     List<ContactUs> findAllByUsernameLike(String username);
     long countAllByUsernameLike(String username);
     long countAllByUserPhoneLike(String phone);
+    List<ContactUs> findAllByOrderByDateDesc();
 
 }

@@ -70,7 +70,7 @@ public class ContactUsService {
 
     public Object viewAllContactUs() {
         Map<Object,Object> res = new HashMap<>();
-        List<ContactUs> list = contactUsRepository.findAll();
+        List<ContactUs> list = contactUsRepository.findAllByOrderByDateDesc();
         if (list.size() == 0){
             res.put("status","error");
             res.put("error","BAN-REP-002");//empty list

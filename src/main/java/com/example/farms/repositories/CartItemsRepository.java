@@ -25,7 +25,7 @@ public interface CartItemsRepository extends JpaRepository<CartItems, Integer> {
 
 
     @Query(value = "select i.name , i.photo , c.quantity , c.id" +
-            " from items i join cart c on c.item_id = i.id WHERE c.invoice_id=?2 ", nativeQuery = true)
+            " from items i join cart c on c.item_id = i.id WHERE c.invoice_id=?1 ", nativeQuery = true)
     List<Map<Object,Object>> getInvoiceItems(int invoiceId);
 
 

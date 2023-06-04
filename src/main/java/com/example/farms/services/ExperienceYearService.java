@@ -65,7 +65,7 @@ public class ExperienceYearService {
 
     public Object viewAllExpYear() {
         Map<Object,Object> res = new HashMap<>();
-        List<ExperiencesYears> list = repository.findAll();
+        List<ExperiencesYears> list = repository.findAllByOrderByYearDesc();
         if (list.size() == 0){
             res.put("status","error");
             res.put("error","EXP-REP-002");//empty list

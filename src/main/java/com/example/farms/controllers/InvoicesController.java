@@ -56,6 +56,12 @@ public class InvoicesController {
         return invoiceService.makeInvoiceStatusDone(id);
     }
 
+    @PutMapping(value = "/canceledStatus/{id}", produces = {"application/json"})
+    @ResponseBody
+    public Object canceledStatus(@PathVariable("id") int id) {
+        return invoiceService.makeInvoiceStatusCanceled(id);
+    }
+
 
     @GetMapping(params = { "page", "size"},
             value = "/allInvoices",
@@ -104,6 +110,14 @@ public class InvoicesController {
     public Object totalInvoicesPrice() {
         return invoiceService.totalInvoicesPrice();
     }
+
+    @GetMapping(value = "/invoice/id",
+            produces = {"application/json"})
+    @ResponseBody
+    public Object invoice(@PathVariable("id") int id) {
+        return invoiceService.invoiceById(id);
+    }
+
 
 
     @GetMapping(value = "/getVat",

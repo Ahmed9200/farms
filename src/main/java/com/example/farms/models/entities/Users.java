@@ -34,11 +34,6 @@ public class Users {
     private Date dateOfJoin;
     @Column(name = "phone", length = 50 , unique = true)
     private String phone;
-    @Lob
-    @Column(name = "photo")
-    private String photo;
-    @Column(name = "content_type")
-    private String contentType;
     @Column(name = "role",nullable = false)
     private UserRole role = UserRole.USER;
 
@@ -56,8 +51,7 @@ public class Users {
         res.put("name",u.getName());
         res.put("username",u.getUsername());
         res.put("phone",u.getPhone());
-        res.put("photo",u.getPhoto());
-        res.put("contentType",u.getContentType());
+        res.put("role",u.getRole());
         res.put("dateOfJoin",u.getDateOfJoin());
         return res;
     }

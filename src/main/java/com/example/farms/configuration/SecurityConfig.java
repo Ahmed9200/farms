@@ -15,18 +15,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] PUBLIC_ENDPOINTS = {
-            "/users/register",
             "/users/login",
             "/users/forgetPassword/{username}",
             "/banner/viewAllBanners",
             "/banner/getBannerById/{bannerId}",
             "/category/viewAllCategories",
-            "/contact/*",
+            "/contact/saveContactUs",
             "/exp_years/viewAllExpYear",
             "/exp_years/getExpYearById/{expYearId}",
             "/exp_years/getExpYearByYear/{year}",
             "/invoice/saveInvoice",
-            "/invoice/deleteInvoice/{id}",
             "/invoice/cartItems/{invoiceId}",
             "/items/getItemById/{itemId}",
             "/items/getItemByNameLike/{name}",

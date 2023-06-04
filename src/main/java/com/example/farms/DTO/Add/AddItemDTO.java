@@ -18,5 +18,5 @@ public class AddItemDTO {
     @NotNull
     private int categoryId;
     private String photo;
-    private String contentType;
+    private String photoContentType;
 }

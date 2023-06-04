@@ -28,14 +28,14 @@ public class Categories {
     @Lob
     @Column(name = "photo")
     private String photo;
-    @Column(name = "content_type")
-    private String contentType;
+    @Column(name = "photo_content_type")
+    private String photoContentType;
 
     public Categories(AddCategoryDTO request) {
         this.description = request.getDescription();
         this.name = request.getName();
         this.photo = request.getPhoto();
-        this.contentType= request.getContentType();
+        this.photoContentType = request.getPhotoContentType();
     }
 
     public Categories(UpdateCategoryRequest request) {
@@ -43,7 +43,7 @@ public class Categories {
         this.description = request.getDescription();
         this.name = request.getName();
         this.photo = request.getPhoto();
-        this.contentType= request.getContentType();
+        this.photoContentType = request.getPhotoContentType();
     }
 
     public Categories(int categoryId) {

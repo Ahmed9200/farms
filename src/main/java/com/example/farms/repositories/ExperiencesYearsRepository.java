@@ -10,5 +10,5 @@ import java.util.List;
 public interface ExperiencesYearsRepository extends JpaRepository<ExperiencesYears, Integer> {
 
     List<ExperiencesYears> findAllByYearLike(String year);
-
+    List<ExperiencesYears> findAllByOrderByYearDesc();
 }

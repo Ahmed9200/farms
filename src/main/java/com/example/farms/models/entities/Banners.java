@@ -29,8 +29,8 @@ public class Banners {
     @Lob
     @Column(name = "photo")
     private String photo;
-    @Column(name = "content_type")
-    private String contentType;
+    @Column(name = "photo_content_type")
+    private String photoContentType;
     @Column(name = "priority" , nullable = false)
     private int priority = 1;
 
@@ -38,14 +38,14 @@ public class Banners {
         this.description1 = request.getDescription1();
         this.description2 = request.getDescription2();
         this.photo = request.getPhoto();
-        this.contentType= request.getContentType();
+        this.photoContentType = request.getPhotoContentType();
         this.priority = request.getPriority();
     }
     public Banners(UpdateBannerRequest request) {
         this.description1 = request.getDescription1();
         this.description2 = request.getDescription2();
         this.photo = request.getPhoto();
-        this.contentType= request.getContentType();
+        this.photoContentType = request.getPhotoContentType();
         this.priority = request.getPriority();
         this.id = request.getBannerId();
     }

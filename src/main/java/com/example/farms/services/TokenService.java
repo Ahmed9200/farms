@@ -48,6 +48,9 @@ public class TokenService {
     }
 
     public Object getUser(String token){
+        token = token.replace("beerer","");
+        token=token.replace("Beerer","");
+        token=token.trim();
         String username = getUserNameFromToken(token);
         return new Users().lightUser(userService.findUserByUsername(username));
     }
