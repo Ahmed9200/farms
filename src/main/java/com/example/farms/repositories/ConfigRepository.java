@@ -18,7 +18,7 @@ public interface ConfigRepository extends JpaRepository<Configs, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE config SET value = ?2 WHERE name=?1 ", nativeQuery = true)
+    @Query(value = "UPDATE configs SET value = ?2 WHERE name=?1 ", nativeQuery = true)
     void updateValue(String name, int value);
 
 }

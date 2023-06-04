@@ -34,7 +34,7 @@ public class ContactUs {
     private Date date= new Date();
 
     public ContactUs(AddContactUsDTO request) {
-        this.userEmail = getUserEmail();
+        this.userEmail = request.getUserEmail();
         this.message = request.getMessage();
         this.username = request.getUsername();
         this.userPhone = request.getUserPhone();
@@ -43,7 +43,7 @@ public class ContactUs {
 
     public ContactUs(UpdateContactUsRequest request) {
         this.id = request.getContactId();
-        this.userEmail = getUserEmail();
+        this.userEmail = request.getUserEmail();
         this.message = request.getMessage();
         this.username = request.getUsername();
         this.userPhone = request.getUserPhone();
