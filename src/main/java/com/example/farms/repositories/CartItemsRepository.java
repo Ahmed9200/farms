@@ -24,7 +24,7 @@ public interface CartItemsRepository extends JpaRepository<CartItems, Integer> {
     void updateQuantity(int quantity, int itemId);
 
 
-    @Query(value = "select i.name , i.photo , c.quantity , c.id" +
+    @Query(value = "select i.name , i.price ,i.sale , c.quantity , c.id" +
             " from items i join cart c on c.item_id = i.id WHERE c.invoice_id=?1 ", nativeQuery = true)
     List<Map<Object,Object>> getInvoiceItems(int invoiceId);
 

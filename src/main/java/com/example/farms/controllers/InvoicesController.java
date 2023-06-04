@@ -14,6 +14,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/invoice")
+@CrossOrigin("/localhost:9000")
 public class InvoicesController {
 
     @Autowired
