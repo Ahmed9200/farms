@@ -4,6 +4,7 @@ import com.example.farms.DTO.Add.AddCategoryDTO;
 import com.example.farms.DTO.Update.UpdateCategoryRequest;
 import com.example.farms.models.entities.Categories;
 import com.example.farms.models.entities.Configs;
+import com.example.farms.models.enums.Constants;
 import com.example.farms.repositories.CategoriesRepository;
 import com.example.farms.repositories.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class ConfigService {
     public Object saveVat(int value){
         Map<Object,Object> res = new HashMap<>();
         repository.updateValue("vat",value);
+        reloadConfigs();
         res.put("status","success");
         return res;
     }
@@ -39,7 +41,13 @@ public class ConfigService {
     public Object saveDelivery(int value){
         Map<Object,Object> res = new HashMap<>();
         repository.updateValue("delivery",value);
+        reloadConfigs();
         res.put("status","success");
         return res;
+    }
+
+    public void reloadConfigs(){
+        Constants.DELIVERY = Integer.parseInt(getValueByName("delivery"));
+        Constants.VAT = Integer.parseInt(getValueByName("vat"));
     }
 }
