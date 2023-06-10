@@ -10,5 +10,8 @@ public class AddCartDto {
     private int itemId;
     @NotNull
     private int quantity;
-
+    @NotNull
+    private double price;
+    @NotNull
+    private int sale;
 }
