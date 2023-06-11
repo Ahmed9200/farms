@@ -43,7 +43,7 @@ public class InvoiceService {
         for (AddCartDto r : request){
             CartItems cartItems = new CartItems(r,invoiceId);
             cartItems=cartItemsRepository.save(cartItems);
-            cartItemsRepository.updateQuantity(r.getQuantity(),r.getItemId());
+//            cartItemsRepository.updateQuantity(r.getQuantity(),r.getItemId());
         }
     }
 
