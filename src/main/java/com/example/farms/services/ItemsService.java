@@ -86,7 +86,7 @@ public class ItemsService {
 
     public Object getItemByNameLike(String name , int page,int size) {
         Map<Object,Object> res = new HashMap<>();
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"addedDate"));
         Page<Items> items= itemsRepository.findAllByNameLike("%"+name+"%",pageable);
         res.put("total",items.getTotalElements());
         res.put("items",items.get());
@@ -95,7 +95,7 @@ public class ItemsService {
 
     public Object getItemByCategory(int catId,int page,int size,String sortBy) {
         Map<Object,Object> res = new HashMap<>();
-        Pageable pageable = PageRequest.of(page, size,Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,sortBy));
         Page<Items> items= itemsRepository.findAllByCategoryId(catId,pageable);
         res.put("total",items.getTotalElements());
         res.put("items",items.get());
@@ -104,7 +104,7 @@ public class ItemsService {
 
     public Object allSaleItems(int page,int size,String sortBy) {
         Map<Object,Object> res = new HashMap<>();
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,sortBy));
         Page<Items> items= itemsRepository.findAllBySaleGreaterThan(0,pageable);
         res.put("total",items.getTotalElements());
         res.put("items",items.get());
@@ -114,7 +114,7 @@ public class ItemsService {
 
     public Object allNewItems(int page,int size,String sortBy) {
         Map<Object,Object> res = new HashMap<>();
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,sortBy));
         Page<Items> items= itemsRepository.findAllByNewItemsIsTrue(pageable);
         res.put("total",items.getTotalElements());
         res.put("items",items.get());
@@ -123,7 +123,7 @@ public class ItemsService {
 
     public Object allItems(int page, int size,String sortBy) {
         Map<Object,Object> res = new HashMap<>();
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,sortBy));
         Page<Items> items= itemsRepository.findAll(pageable);
         res.put("total",items.getTotalElements());
         res.put("items",items.get());
