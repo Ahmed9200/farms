@@ -17,7 +17,7 @@ import java.util.Map;
 public interface InvoicesRepository extends JpaRepository<Invoices, Integer> {
 
     Page<Invoices> findAllByUsernameLike(String username, Pageable pageable);
-    Page<Invoices> findAllByDateBetween(Date s , Date e , Pageable p);
+    Page<Invoices> findAllByDateBetweenOrderByDateDateDesc(Date s , Date e , Pageable p);
 
     @Modifying
     @Transactional

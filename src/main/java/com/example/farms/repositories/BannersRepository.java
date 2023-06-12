@@ -10,6 +10,6 @@ import java.util.List;
 public interface BannersRepository extends JpaRepository<Banners, Integer> {
 
 
-    List<Banners> findAllByOrderByPriorityDesc();
+    List<Banners> findAllByOrderByPriorityAsc();
 
 }
